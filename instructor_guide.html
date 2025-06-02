@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instructor Guide | Herely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Navigation bar -->
+  <div class="w-full bg-white shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="block">
+        <img src="/assets/logo_herely_hand_left_curve.png"
+             alt="Herely logo"
+             class="h-10 sm:h-20 w-auto" />
+      </a>
+        <div class="flex gap-4">
+        <button onclick="window.location.href='/admin.html'"
+          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex min-h-screen">
+<!-- Table of contents -->
+<aside class="w-64 bg-white shadow-md p-4 pt-8 hidden md:flex flex-col">
+    <h2 class="text-lg font-semibold mb-4 text-primary">Contents</h2>
+    <nav class="flex flex-col space-y-2 text-sm">
+      <a href="#setup" class="text-gray-700 hover:underline">1. Set Up a Course</a>
+      <a href="#attendance" class="text-gray-700 hover:underline">2. Take Attendance</a>
+      <a href="#review" class="text-gray-700 hover:underline">3. Review Attendance</a>
+      <a href="#faq" class="text-gray-700 hover:underline">4. FAQ</a>
+    </nav>
+  </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-8">
+      <h1 class="text-3xl  text-primary mb-6">Instructor Guide</h1>
+
+      <div class="bg-primary/5 border-l-4 border-primary p-4 rounded-md mb-8">
+  <h3 class="font-semibold text-primary mb-2">Quick-Start Checklist</h3>
+  <ol class="list-decimal list-inside space-y-1 text-sm text-gray-700">
+    <li>➕  <strong>Create course</strong> from Dashboard.</li>
+    <li>📥  <strong>Upload roster CSV</strong> by managing course from Dashboard.</li>
+    <li>🔗 <strong>Share course link/QR code</strong> with course participants.</li>
+    <li>✅  <strong>Click “Start Meeting”</strong> on your phone in class.</li>
+  </ol>
+</div>
+
+
+
+      <p class="text-gray-700 mb-8 max-w-3xl">
+        This guide walks you through how to use the Herely system to manage your course, take attendance, and review records. 
+      </p>
+
+      <div id="setup" class="border rounded-md overflow-hidden mb-4">
+        <button class="flex justify-between w-full px-4 py-3 bg-white hover:bg-gray-50"
+                onclick="toggleAccordion(this)">
+          <span class="font-semibold text-primary">1 · Set Up a Course</span>
+        </button>
+        <div class="px-4 py-3 bg-white hidden">
+          <p class="text-gray-700">To create a new course, simply click on the "+ Add New Course" button from the Dashboard. You'll be asked for basic course info, like title and semester of the course.</p>
+          <p class="text-gray-700 mt-2">After submitting, you'll see a new course in your dashboard. Before taking attendance, you will need to add students/participants to your course roster. To manage the roster, click "Manage Course" in the course card. Navigate to "Manage Roster" to:</p>
+          <ul class="list-disc list-inside text-gray-700 mt-2">
+            <li>Add class participants manually by name and email</li>
+            <li>Upload a CSV file for bulk roster creation</li>
+            <li>Edit or remove class participants at any time</li>
+          </ul>
+          <p class="text-gray-700 mt-2">Usage recommendation: use CSV upload to create your class participant roster. You can download a CSV roster from Canvas ("New Analytics -> "Reports").</p>
+          </div>
+      </div>
+
+      <div id="attendance" class="border rounded-md overflow-hidden mb-4">
+        <button class="flex justify-between w-full px-4 py-3 bg-white hover:bg-gray-50"
+                onclick="toggleAccordion(this)">
+          <span class="font-semibold text-primary">2. Take Attendance</span>
+        </button>
+        <div class="px-4 py-3 bg-white hidden">
+          <p class="text-gray-700">Student/participant attendance is linked to meetings that you create. A meeting specifies the date, start time, and duration of an attendance call. If you click "Start Meeting," a meeting will start immediately and use defaults for sign-in duration. If you click "Schedule Meeting," you will be able to schedule future meetings &mdash; use recurring meetings to schedule the entire course in one go.</p>
+          <p class="text-gray-700 mt-2">Once you start a meeting, participants will be able to sign in at the course sign-in page &mdash; you will need to share the course link or QR code with the students. The link and QR code are in the course card located in the Dashboard.</p> 
+          <p class="text-gray-700 mt-2">False attendance is managed by limited sign-in times and the written record of their sign-in. We believe that participants should be trusted &mdash; but you also have a record to inspect and can follow up with participants as necessary.</p> 
+          <p class="text-gray-700 mt-2">Usage recommendation: in a pinch, just click "Start Meeting" using your phone at the time you want to actually take attendance. It will default to the current time and ten minute attendance duration.</p>
+          </div>
+      </div>
+
+
+      <div id="review" class="border rounded-md overflow-hidden mb-4">
+        <button class="flex justify-between w-full px-4 py-3 bg-white hover:bg-gray-50"
+                onclick="toggleAccordion(this)">
+          <span class="font-semibold text-primary">3. Review Attendance</span>
+        </button>
+        <div class="px-4 py-3 bg-white hidden">
+          <p class="text-gray-700">From the dashboard, click "View Attendance Records" for any course. You can:</p>
+          <ul class="list-disc list-inside text-gray-700 mt-2">
+            <li>See which students/participants signed in for each meeting</li>
+            <li>Examine attendance rates</li>
+            <li>Zoom in on a sign-in to see their written sign-in</li>
+            <li>Export attendance records to CSV</li>
+            <li>Manually mark students/participants present/absent/excused if needed</li>
+            <li>Edit or delete meetings</li>
+          </ul>
+          <p class="text-gray-700 mt-2">Usage recommendation: regularly review attendance and sort the table by percent absence &mdash; students/participants who miss many classes may be in distress.</p>
+            </div>
+      </div>
+
+      <button class="flex justify-between w-full px-4 py-3 bg-white hover:bg-gray-50"
+      onclick="toggleAccordion(this)">
+<span class="font-semibold text-primary">4. FAQ</span>
+</button>
+<div id="faq" class="px-4 py-3 bg-white hidden">
+  <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>Do I need to download an app for this?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Nope. Just login to the webpage. You can login from your phone or computer.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>Do students or participants need to sign up?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Nope. They just follow the link or QR code you provide &mdash; they don't need an account.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>What if I forget to prepare a meeting before class?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Don't worry! Just use your phone to launch the meeting from class at the time you want to take attendance. The meeting parameters default to your current time, last meeting place, and five minute attendance call. This is actually our recommended usage. You can also pre-set meeting times &mdash; but it's easier to just launch from class when you want to take attendance.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>How should I share the QR code or link with students/participants?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              You can share the link or QR code in your syllabus, in an email, or on a slide. The QR code and link remain stable throughout your course.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>Does this work with remote or hybrid classes?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Yes. It works with any sychronous course.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>How long should the attendance call be?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              We default attendance calls to 10 minutes. If the call is too short, students/participants may miss it as they navigate to the wepage, return from the restroom, or settle into class. If the call is too long, it increases the chances that someone may game attendance.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>What if a student or paricipant tries to sign in after the attendance call expires?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              The student/participant will be blocked from signing in to class. If you feel they attended class, you can manually confirm their attendance in the attendance records page.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>What do you do with the initials?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              We use initials to record and log attendance &mdash; that's it. You can review the recorded log-ins by clicking on the "View Attendance Recrods" button in the course card.
+            </div>
+          </div>
+            
+
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>What do you do with the data you collect after a course is over?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              We have a zero data retetion (ZDR) policy by default: courses deactivate after 6 months, and all course data is hard deleted; if you delete a course manually, all course data will be hard deleted.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>How do you secure your data?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Data is encrypted at rest and in transit, similar to other education software.
+            </div>
+          </div>
+      
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>Do you share your data with third parties?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              We will never share our course data with third parties, except as required by law, as part of an institutional license, or with subcontractors who agree to the same privacy policy as Herely.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+        function toggleAccordion(button) {
+          const content = button.nextElementSibling;
+          const icon = button.querySelector('svg');
+          content.classList.toggle("hidden");
+          icon.classList.toggle("rotate-180");
+        }
+      </script>      
+
+    </main>
+  </div>
+  <!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ | Herely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Navigation -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="block">
+        <img src="/assets/logo_herely_hand_left_curve.png"
+             alt="Herely logo"
+             class="h-10 sm:h-20 w-auto" 
+        />
+      </a>      <div class="flex gap-2 sm:gap-4">
+        <button onclick="history.back()" class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          ← Back
+        </button>
+        <button onclick="window.location.href='/login.html'" class="px-4 py-2 border border-primary text-primary bg-white rounded hover:bg-gray-100">
+          Login
+        </button>
+        <button onclick="window.location.href='/signup.html'" class="px-4 py-2 bg-primary text-white rounded hover:bg-red-800">
+          Create Free Account
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="bg-gray-50 py-16">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-semibold text-center text-primary mb-10">How It Works</h2>
+        <div class="space-y-8 max-w-3xl mx-auto text-gray-800">
+          <div class="flex gap-4 items-start">
+            <div class="text-primary font-bold text-2xl">1.</div>
+            <div>
+              <p class="font-semibold mb-1">Start a check-in from your dashboard</p>
+              <p>Just click “Start” to launch a meeting. No setup needed in advance.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="text-primary font-bold text-2xl">2.</div>
+            <div>
+              <p class="font-semibold mb-1">Participants sign their name</p>
+              <p>They type their initials to sign-in.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="text-primary font-bold text-2xl">3.</div>
+            <div>
+              <p class="font-semibold mb-1">You track and export results</p>
+              <p>See who checked in, flag suspicious records, and download a clean CSV anytime.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- FAQ SECTION -->
+    <section class="bg-white py-16">
+      <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-semibold text-center text-primary mb-6">Frequently Asked Questions</h2>
+        <p class="text-gray-700 text-center max-w-2xl mx-auto mb-10">
+          These are some of the most common questions instructors ask before getting started with Herely.
+        </p>
+  
+        <div class="max-w-3xl mx-auto space-y-2" id="faq">
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>Wait, so how does this work?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              You launch a meeting when you want to take attendance. Participants then sign in to the meeting by typing their initials on a stable website. That's it! Like an old-fashioned sign-in sheet.
+            </div>
+          </div>
+    
+          <div class="space-y-2" id="faq">
+            <div class="border rounded">
+              <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+                <span>Does this work with remote or hybrid courses?</span>
+                <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="px-4 py-2 text-gray-700 hidden">
+                Yes! It works with any snycronous course.
+              </div>
+            </div>
+      
+    
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
+              <span>Do I need to download an app for this?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Nope. Just log in to the webpage — from your phone, laptop, or any browser.
+            </div>
+          </div>
+    
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
+              <span>Do students or participants need to sign up?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              No. Students and participants never need accounts. They just scan the QR code or visit the link you provide.
+            </div>
+          </div>
+    
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
+              <span>What happens if I forget to schedule a meeting?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Just launch one from your phone. It will auto-fill with your current time, location, and a default 10-minute window.
+            </div>
+          </div>
+    
+    
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
+              <span>Do you store student or participant data?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Only to track attendance &mdash; and only during the course. No cookies or tracking outside check-in windows. 
+            </div>
+          </div>
+    
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
+              <span>What’s your data retention policy?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Courses auto-expire after 6 months. All associated course data is then hard deleted. You can also delete data manually at any time.
+            </div>
+          </div>
+    
+          <div class="border rounded">
+            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
+              <span>How do you secure data?</span>
+              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="px-4 py-2 text-gray-700 hidden">
+              Data is encrpyted at rest and in transit, similar to other education software. 
+            </div>
+          </div>
+            </div>
+      </div>
+    </section>
+  
+  </main>
+
+
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+  <script>
+    function toggleAccordion(button) {
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('svg');
+      content.classList.toggle("hidden");
+      icon.classList.toggle("rotate-180");
+    }
+  </script>
+</body>
+</html>

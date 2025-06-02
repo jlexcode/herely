@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Course | Herely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#B31B1B',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    #content-wrapper {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Navigation bar -->
+  <div class="w-full bg-white shadow-sm mb-6">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="block">
+        <img src="/assets/logo_herely_hand_left_curve.png"
+             alt="Herely logo"
+             class="h-10 sm:h-20 w-auto" />
+      </a>
+        <button onclick="window.location.href='/admin.html'" class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+        Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Shimmer Placeholder -->
+  <div id="shimmer" class="animate-pulse space-y-4 max-w-2xl mx-auto bg-white p-6 rounded shadow">
+    <div class="h-6 bg-gray-300 rounded w-2/3"></div>
+    <div class="h-4 bg-gray-300 rounded w-full"></div>
+    <div class="h-4 bg-gray-300 rounded w-5/6"></div>
+    <div class="h-4 bg-gray-300 rounded w-full"></div>
+    <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="content-wrapper" class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+    <!-- Roster Management -->
+    <div class="bg-gray-50 border border-gray-200 p-4 rounded mb-6">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-xl font-semibold text-primary">Roster Management</h2>
+        <button id="roster-button" class="px-3 py-1 text-sm bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          Manage Roster →
+        </button>
+      </div>
+      <p id="rosterDescription" class="text-sm text-gray-600">Update, add, or remove students from the roster.</p>
+    </div>
+
+    <!-- Edit Section -->
+    <div class="bg-gray-50 border border-gray-200 p-4 rounded mb-6">
+      <h2 id="edit-heading" class="text-xl font-semibold text-primary mb-4">Edit Course Details</h2>
+      <form id="edit-form" class="space-y-4">
+        <div>
+          <label for="title" id="title-label" class="block text-sm font-medium text-gray-700">Course Title</label>
+          <input type="text" id="title" class="mt-1 block w-full border border-gray-300 rounded p-2" required />
+        </div>
+        <div>
+          <label for="section" id="section-label" class="block text-sm font-medium text-gray-700">Section</label>
+          <input type="text" id="section" class="mt-1 block w-full border border-gray-300 rounded p-2" />
+        </div>
+        <div class="flex justify-end">
+          <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-red-700">Save Changes</button>
+        </div>
+      </form>
+    </div>
+
+    <hr class="my-6" />
+
+    <!-- Danger Zone -->
+    <div class="border border-red-300 p-4 rounded bg-red-50">
+      <h3 class="text-lg font-semibold text-red-700 mb-2">Danger Zone</h3>
+      <p class="text-sm text-red-600 mb-2">This will permanently delete the course and all associated data.</p>
+      <label for="confirm-delete" id="confirm-label" class="block text-sm text-gray-700 mb-1">
+        To confirm, type: <code>sudo I want to delete my course</code>
+      </label>
+      <input type="text" id="confirm-delete" placeholder="Type confirmation exactly" class="w-full p-2 border border-gray-300 rounded mb-4" />
+      <button id="delete-btn" disabled class="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 disabled:opacity-50">
+        Delete Course
+      </button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+      'https://hmnpqnzmtanepowfoodn.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+    );
+
+    const params = new URLSearchParams(window.location.search);
+    const courseId = params.get('course_id');
+    if (!courseId) {
+      alert("Missing course_id in URL");
+      window.location.href = '/admin.html';
+    }
+
+    const form = document.getElementById('edit-form');
+    const titleInput = document.getElementById('title');
+    const sectionInput = document.getElementById('section');
+    const deleteBtn = document.getElementById('delete-btn');
+    const confirmInput = document.getElementById('confirm-delete');
+    const rosterBtn = document.getElementById('roster-button');
+    const heading = document.getElementById('edit-heading');
+    const titleLabel = document.getElementById('title-label');
+    const sectionLabel = document.getElementById('section-label');
+    const confirmLabel = document.getElementById('confirm-label');
+
+    rosterBtn.addEventListener("click", () => {
+      window.location.href = `/manage_roster.html?course_id=${courseId}`;
+    });
+
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    const userId = userData?.user?.id;
+
+    const { data: userDetails } = await supabase
+      .from('users')
+      .select('audience_type')
+      .eq('id', userId)
+      .single();
+
+    let audienceType = userDetails?.audience_type || 'academic';
+
+    const { data: course, error: courseError } = await supabase
+      .from('courses')
+      .select('*')
+      .eq('id', courseId)
+      .single();
+
+    if (courseError || !course) {
+      alert("Error loading course");
+      window.location.href = '/admin.html';
+    }
+
+    titleInput.value = course.title;
+    sectionInput.value = course.section || '';
+
+    if (audienceType === 'org') {
+      titleLabel.innerText = "Program Title";
+      sectionLabel.innerText = "Group (optional)";
+      heading.innerText = "Edit Program Details";
+      confirmLabel.innerHTML = `To confirm, type: <code>sudo I want to delete my program</code>`;
+      confirmInput.placeholder = "Type confirmation exactly";
+      rosterDescription.innerText = "Update, add, or remove participants from the roster.";
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const updated = {
+        title: titleInput.value.trim(),
+        section: sectionInput.value.trim() || null
+      };
+      const { error: updateError } = await supabase
+        .from('courses')
+        .update(updated)
+        .eq('id', courseId);
+
+      if (updateError) {
+        alert("Failed to update course");
+      } else {
+        alert("Course updated");
+      }
+    });
+
+    confirmInput.addEventListener('input', () => {
+      const required = audienceType === 'org'
+        ? "sudo I want to delete my program"
+        : "sudo I want to delete my course";
+      deleteBtn.disabled = confirmInput.value !== required;
+    });
+
+    deleteBtn.addEventListener('click', async () => {
+      const confirmed = confirm("Are you absolutely sure? This will delete all data.");
+      if (!confirmed) return;
+
+      const { error: deleteError } = await supabase
+        .from('courses')
+        .delete()
+        .eq('id', courseId);
+
+      if (deleteError) {
+        alert("Failed to delete course");
+      } else {
+        alert("Course deleted");
+        window.location.href = '/admin.html';
+      }
+    });
+
+    // Swap shimmer out for main content
+    document.getElementById('shimmer').remove();
+    document.getElementById('content-wrapper').style.display = 'block';
+  </script>
+
+  <!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+</body>
+</html>

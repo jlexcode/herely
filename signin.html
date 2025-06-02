@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signature Attendance | Herely</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#B31B1B' } } } };
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+<!-- ───── Header ───── -->
+<header class="bg-white shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 py-4">
+    <a href="/" class="block">
+      <img src="/assets/logo_herely_hand_left_curve.png"
+           alt="Herely logo"
+           class="h-10 sm:h-20 w-auto" />
+    </a>
+  </div>
+</header>
+
+<!-- ───── Main card ───── -->
+<main class="flex justify-center items-center py-12 px-4">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+
+    <h1 id="course-title"
+        class="text-2xl font-bold text-center mb-4 text-primary">
+      Loading Course…
+    </h1>
+
+    <!-- Attendance form -->
+    <form id="attendance-form" class="space-y-6 hidden">
+      <!-- email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">
+          Your Email
+        </label>
+        <input type="email" id="email" name="email" required
+               placeholder="e.g., you@example.org"
+               class="mt-1 block w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <!-- sign in -->
+      <div>
+        <label id="attestation-label"
+               class="block text-sm font-medium text-gray-700 mb-1">
+          Initial below to attest that you attended today’s class
+        </label>
+        <input type="text" id="initials" name="initials" maxlength="5" required
+       class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="e.g. JRR" />
+
+        <p id="integrity-policy" class="text-xs text-gray-500 mt-1">
+          Misreporting may violate integrity rules.
+        </p>
+      </div>
+
+      <!-- submit -->
+      <button type="submit"
+              class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700
+                     disabled:opacity-50 disabled:cursor-not-allowed">
+        Submit
+      </button>
+
+      <p id="status"
+         class="text-center mt-4 text-sm text-gray-600"></p>
+    </form>
+
+    <!-- error placeholder -->
+    <div id="error"
+         class="hidden text-center text-red-600 font-medium mt-4">
+      🚫 Could not identify a valid meeting at this time.
+    </div>
+  </div>
+</main>
+
+<!-- ───── Script ───── -->
+<script type="module">
+import { createClient } from
+  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+/* ───────── Config ───────── */
+const anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI"
+
+const supabase = createClient(
+  'https://hmnpqnzmtanepowfoodn.supabase.co',
+  anonKey
+);
+
+/* ───────── Elements ───────── */
+const form           = document.getElementById('attendance-form');
+const status         = document.getElementById('status');
+const errorDiv       = document.getElementById('error');
+const courseTitleEl  = document.getElementById('course-title');
+const submitBtn      = form.querySelector('button[type="submit"]');
+
+
+/* ───────── Course lookup ───────── */
+const params   = new URLSearchParams(location.search);
+const courseId = params.get('course_id');
+if (!courseId) {
+  courseTitleEl.textContent = 'Missing course ID in URL';
+  throw new Error('course_id missing');
+}
+
+const { data: course, error: courseErr } = await supabase
+  .from('courses')
+  .select('title, audience_type')
+  .eq('id', courseId)
+  .single();
+
+if (courseErr || !course) {
+  courseTitleEl.textContent = 'Course not found';
+  throw new Error('course not found');
+}
+courseTitleEl.textContent = `Sign in for ${course.title}`;
+form.classList.remove('hidden');   // finally show form
+
+/* ───────── Submit handler ───────── */
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  status.textContent = '';
+  errorDiv.classList.add('hidden');
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
+
+  const payload = {
+    course_id      : courseId,
+    email          : document.getElementById('email').value.trim().toLowerCase(),
+    initials : document.getElementById("initials").value.trim()
+  };
+
+  const res = await fetch(
+    'https://hmnpqnzmtanepowfoodn.supabase.co/functions/v1/submit_attendance',
+    {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json',
+                 apikey: anonKey ,
+                 "Authorization": `Bearer ${anonKey}`},
+      body : JSON.stringify(payload)
+    }
+  );
+
+  if (res.ok) {
+    location.href = '/thank_you.html';
+  } else {
+    status.textContent = await res.text();
+    status.className   = 'text-center mt-4 text-sm text-red-600';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
+  }
+};
+</script>
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing | Herely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800 scroll-smooth">
+
+  <!-- Navigation -->
+  <header class="bg-white mb-2 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="block">
+        <img src="/assets/logo_herely_hand_left_curve.png"
+             alt="Herely logo"
+             class="h-10 sm:h-20 w-auto" 
+        />
+      </a>
+      <div class="flex gap-2 sm:gap-4">
+        <button onclick="history.back()" class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          ← Back
+        </button>
+        <button onclick="window.location.href='/signup.html'" class="px-4 py-2 bg-primary text-white rounded hover:bg-red-800">
+          Create Free Account
+        </button>
+      </div>
+    </div>
+  </header>
+
+
+<!-- Pricing Section -->
+<section class="bg-white py-16">
+  <div class="max-w-6xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold text-primary mb-4">Simple, Fair Pricing</h2>
+    <p class="text-lg text-gray-600 mb-10">No hidden fees. No participant charges.</p>
+
+    <div class="max-w-xl mx-auto bg-primary/5 border-l-4 border-primary p-6 rounded shadow text-left">
+      <h3 class="text-xl font-semibold text-primary mb-2">Beta Access is Free</h3>
+      <p class="text-gray-700 mb-4">
+        Server costs are low now &mdash; so we can keep this free in Beta. Every organization account starts with <strong>3 free course credits</strong>.
+      </p>
+      <p class="text-gray-700 mb-4">
+        Use starter credits anytime. We'll notify you if we need to introduce paid plans.
+      </p>
+      <a href="/signup.html" class="inline-block mt-4 bg-primary text-white px-6 py-2 rounded hover:bg-red-800 font-semibold">
+        Create Free Account
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+
+</body>
+</html>

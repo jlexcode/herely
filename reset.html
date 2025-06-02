@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Password | Attendance System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen pt-20">
+
+  <!-- Fixed Navigation -->
+  <header class="bg-white shadow-sm fixed top-0 w-full z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold tracking-wide text-primary">Adsum!</h1>
+    </div>
+  </header>
+
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
+      <h1 class="text-2xl font-bold text-center text-primary mb-6">Reset Your Password</h1>
+
+      <form id="reset-form" class="space-y-6">
+        <div>
+          <label for="new-password" class="block text-sm font-medium text-gray-700">New Password</label>
+          <input type="password" id="new-password" required class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="Enter new password">
+        </div>
+
+        <div>
+            <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input type="password" id="confirm-password" required class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="Confirm password">
+          </div>
+
+        <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700">
+          Update Password
+        </button>
+
+        <p id="status" class="text-center mt-4 text-sm text-gray-600"></p>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+  
+    const supabaseUrl = 'https://hmnpqnzmtanepowfoodn.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'; 
+    const supabase = createClient(supabaseUrl, supabaseKey);
+  
+    await supabase.auth.getSession();
+
+    const form = document.getElementById('reset-form');
+    const status = document.getElementById('status');
+  
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const newPassword = document.getElementById('new-password').value.trim();
+      const confirmPassword = document.getElementById('confirm-password').value.trim();
+  
+      if (newPassword !== confirmPassword) {
+        status.textContent = 'Passwords do not match.';
+        status.classList.remove('text-gray-600');
+        status.classList.add('text-red-600');
+        return;
+      }
+  
+      const { data: userSession } = await supabase.auth.getSession();
+      if (!userSession?.session) {
+        status.textContent = "Session invalid or expired. Please try the reset link again.";
+        return;
+      }
+  
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+  
+      if (error) {
+        console.error('Password update error:', error);
+        status.textContent = 'Failed to update password. Try again.';
+        status.classList.add('text-red-600');
+      } else {
+        status.textContent = 'Password updated! Redirecting...';
+        status.classList.remove('text-red-600');
+        status.classList.add('text-gray-600');
+        setTimeout(() => window.location.href = '/admin.html', 2000);
+      }
+    });
+  </script>
+
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+</body>
+</html>

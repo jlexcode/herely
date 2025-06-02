@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step 3: Agreement | Herely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="max-w-md mx-auto mt-20 bg-white p-8 rounded shadow">
+    <h1 class="text-2xl font-bold text-primary mb-6 text-center">Terms & Privacy</h1>
+
+    <form id="consent-form" class="space-y-6">
+      <div class="text-sm text-gray-700">
+        <p class="mb-4">
+          By using Herely, you agree to our 
+          <a href="/terms.html" class="underline text-primary" target="_blank">Terms of Service</a> and 
+          <a href="/privacy.html" class="underline text-primary" target="_blank">Privacy Policy</a>.
+        </p>
+        <label class="inline-flex items-start">
+          <input type="checkbox" id="agree" required class="form-checkbox mt-1 text-primary" />
+          <span class="ml-2">I have read and agree to the Terms of Service and Privacy Policy</span>
+        </label>
+      </div>
+
+      <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700">
+        Complete Signup
+      </button>
+
+      <p id="status" class="text-center mt-4 text-sm text-gray-600"></p>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+    
+    const supabase = createClient(
+      'https://hmnpqnzmtanepowfoodn.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+    );
+    
+    const form = document.getElementById('consent-form');
+    const status = document.getElementById('status');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+    
+      const agree = document.getElementById('agree').checked;
+      if (!agree) return;
+    
+      // Get current user
+      const {
+        data: { user },
+        error: authError
+      } = await supabase.auth.getUser();
+    
+      if (authError || !user) {
+        status.textContent = 'Unable to retrieve user session.';
+        status.classList.add('text-red-600');
+        return;
+      }
+    
+      const userId = user.id;
+    
+      // Fetch user's audience_type
+      const { data: userRow, error: userFetchError } = await supabase
+        .from('users')
+        .select('audience_type')
+        .eq('id', userId)
+        .single();
+    
+      if (userFetchError || !userRow) {
+        status.textContent = 'Error retrieving user type.';
+        status.classList.add('text-red-600');
+        return;
+      }
+    
+      const isAcademic = userRow.audience_type === 'academic';
+      const delta = isAcademic ? 10 : 3;
+    
+      // Update consent timestamp
+      const { error: consentError } = await supabase
+        .from('users')
+        .update({ consented_at: new Date().toISOString() })
+        .eq('id', userId);
+    
+      if (consentError) {
+        status.textContent = 'Error saving consent.';
+        status.classList.add('text-red-600');
+        return;
+      }
+    
+      // Grant starter credits via RPC
+      const { error: rpcError } = await supabase.rpc('starter_course_credits', { delta });
+    
+      if (rpcError) {
+        status.textContent = 'Error granting starter credits.';
+        status.classList.add('text-red-600');
+        return;
+      }
+    
+      status.textContent = 'Signup complete! Redirecting...';
+      setTimeout(() => {
+        window.location.href = '/admin.html';
+      }, 3000);
+    });
+    </script>
+    
+</body>
+</html>

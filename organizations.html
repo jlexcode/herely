@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herely for Organizations | Attendance System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#B31B1B',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<header class="bg-white shadow mb-2">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+
+    <a href="/" class="block">
+        <img src="/assets/logo_herely_hand_left_curve.png"
+             alt="Herely logo"
+             class="h-10 sm:h-20 w-auto" 
+        />
+      </a>
+  
+
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button onclick="window.location.href='/login.html'"
+        class="px-4 py-2 border border-primary text-primary bg-white rounded hover:bg-gray-100">
+        Login
+      </button>
+      <button onclick="window.location.href='/signup_step1.html?audience=org'"
+        class="px-4 py-2 bg-primary text-white rounded hover:bg-red-800">
+        Create Free Account
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="bg-white py-16 shadow-inner">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+  
+      <!-- Text Section -->
+<!-- Text Section -->
+<div class="md:w-1/2 text-center md:text-left">
+    <h2 class="text-4xl font-bold text-primary mb-4">Effortless Attendance for Programs of Any Size</h2>
+    <p class="text-lg text-gray-600 mb-6">
+      No intrusive apps. No participant accounts. No clunky online spreadsheets. Just simple, secure check-ins for your participants.
+    </p>
+  
+<!-- Principles and FAQ Links with arrows -->
+<div class="flex flex-wrap justify-center md:justify-start gap-6 mb-6">
+    <a href="/principles.html" class="text-lg text-primary font-medium hover:underline inline-flex items-center gap-1">
+      Our Principles
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </a>
+  
+    <a href="/faq.html" class="text-lg text-primary font-medium hover:underline inline-flex items-center gap-1">
+      FAQ
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </a>
+  </div>
+
+    <!-- CTA Buttons with extra space above -->
+    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4 mt-0">
+      <a href="/signup.html?audience=org" class="px-6 py-3 bg-primary text-white rounded text-lg font-semibold hover:bg-red-800">
+        Get Started Free
+      </a>
+      <a href="#features" class="px-6 py-3 border border-primary text-primary rounded text-lg font-semibold hover:bg-gray-100">
+        See Features
+      </a>
+    </div>
+  </div>
+
+      <!-- Image Section -->
+      <div class="md:w-1/2">
+        <img src="assets/hero_image_org.png" alt="Simple, privacy-focused attendance illustration" class="w-full max-w-md mx-auto" />
+      </div>
+  
+    </div>
+  </section>
+
+
+<!-- Features Section -->
+<section id="features" class="py-16 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <h3 class="text-3xl font-semibold text-center mb-10 text-primary">What You Can Do with Herely</h3>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="bg-white p-6 rounded shadow">
+        <h4 class="text-xl font-semibold mb-2">Check-In</h4>
+        <p class="text-gray-600">Participants sign in on a time-limited digital canvas with their initials. Like an old-fashioned sign-in sheet.</p>
+      </div>
+      <div class="bg-white p-6 rounded shadow">
+        <h4 class="text-xl font-semibold mb-2">Attendance Integrity</h4>
+        <p class="text-gray-600">We trust people not to falsify their names — but time limits also deter proxy sign-ins without intrusive surveillance. </p>
+      </div>
+
+      <div class="bg-white p-6 rounded shadow">
+        <h4 class="text-xl font-semibold mb-2">Track Attendance Trends</h4>
+        <p class="text-gray-600">Monitor participant attendance over time to flag drop-off or reward engagement.</p>
+      </div>
+      <div class="bg-white p-6 rounded shadow">
+        <h4 class="text-xl font-semibold mb-2">Export Reports</h4>
+        <p class="text-gray-600">Download clean, ready-to-share CSVs for funders, grant reports, or internal tracking.</p>
+      </div>
+      <div class="bg-white p-6 rounded shadow">
+        <h4 class="text-xl font-semibold mb-2">Audit-Ready Logs</h4>
+        <p class="text-gray-600">
+          Every check-in is timestamped, verified, and exportable — perfect for compliance reviews or grant audits.</p>
+      </div>
+      <div class="bg-white p-6 rounded shadow">
+        <h4 class="text-xl font-semibold mb-2">Organization Dashboard</h4>
+        <p class="text-gray-600">Admins can manage multiple instructors and review attendance across all programs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Teaser -->
+<section class="bg-white py-16">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h3 class="text-2xl font-bold mb-4 text-primary">Simple, Transparent Pricing</h3>
+    <p class="text-gray-600 mb-6">
+      Herely uses a simple credit system. Accounts start with <strong>3 free program credits</strong>.
+    </p>
+    <a href="/pricing.html" class="px-6 py-3 bg-primary text-white border rounded font-semibold hover:bg-red-800">
+      View Pricing
+    </a>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="bg-gray-50 text-primary py-16 text-center">
+  <h3 class="text-3xl font-semibold mb-4">Start Today</h3>
+  <p class="text-lg mb-6">Sign up in under 60 seconds. No credit card required.</p>
+  <a href="/signup.html?audience=org" class="px-6 py-3 bg-white border text-primary font-semibold rounded hover:bg-gray-100">Create Free Account</a>
+</section>
+
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+  
+</body>
+</html>

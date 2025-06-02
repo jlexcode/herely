@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adsum! | Effortless Attendance Tracking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col font-sans">
+
+    <main class="flex-grow">
+  
+<!-- =========  HEADER  ========= -->
+<header class="bg-white shadow mb-2">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="block">
+      <img src="/assets/logo_herely_hand_left_curve.png" alt="Herely logo"
+           class="h-10 sm:h-20 w-auto"/>
+    </a>
+
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button onclick="window.location.href='/login.html'"
+              class="px-4 py-2 border border-primary text-primary bg-white rounded hover:bg-gray-100">
+        Login
+      </button>
+    </div>
+  </div>
+</header>
+
+  <!-- Hero -->
+  <section class="max-w-4xl mx-auto px-4 py-20 text-center">
+    <h2 class="text-4xl font-extrabold mb-4">Effortless Attendance for Every Kind of Educator</h2>
+    <p class="text-lg text-gray-600 mb-8">
+      Whether you're a university instructor or a nonprofit trainer, Adsum! helps you track presence, manage rosters, and keep learners engaged — zero fuss, zero apps, zero data retention.
+    </p>
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="/academics.html" class="bg-primary text-white px-6 py-3 rounded text-lg font-semibold hover:bg-red-800 transition">
+        For Universities
+      </a>
+      <a href="/organizations.html" class="bg-white border border-primary text-primary px-6 py-3 rounded text-lg font-semibold hover:bg-gray-100 transition">
+        For Organizations
+      </a>
+    </div>
+  </section>
+</main>
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+  
+</body>
+</html>

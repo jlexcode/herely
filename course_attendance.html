@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Attendance | Attendance System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+  <style>
+th, td {
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.sticky-header {
+  position: sticky;
+  background-color: #f3f4f6; 
+  z-index: 20;
+  box-shadow: inset -1px 0 #ccc;
+}
+.sticky-cell {
+  position: sticky;
+  z-index: 10;
+  background-color: white; 
+  box-shadow: inset -1px 0 #ccc;
+}
+
+tr:hover .sticky-cell {
+  background-color: #f9fafb !important;
+}
+
+td {
+  height: 32px;
+  padding: 0;
+}
+td.bg-green-200,
+td.bg-red-200,
+td.bg-orange-200,
+
+tr:hover td:not(.sticky-cell) {
+  box-shadow: inset 0 0 0 9999px rgba(249, 250, 251, 0.2); /* gray-50 with 70% opacity */
+}
+
+td.meeting-cell {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 0.75rem;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #d1d5db; 
+  border-radius: 6px;                 
+  box-shadow: 0 0 0 1px #e5e7eb inset; 
+}
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Navigation bar -->
+  <div class="w-full bg-white shadow-sm mb-6">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-primary">Adsum!</h1>
+      <div class="flex gap-4">      
+        <button onclick="window.location.href='/Admin.html'"
+          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-xl font-semibold text-primary mb-4">Attendance Summary</h2>
+
+    <!-- CSV export button moved outside scroll container -->
+
+    <div class="mb-4 text-sm text-gray-700">
+      <span class="inline-block w-4 h-4 bg-green-200 mr-1 align-middle"></span> Present
+      <span class="inline-block w-4 h-4 bg-red-200 ml-4 mr-1 align-middle"></span> Absent
+      <span class="inline-block w-4 h-4 bg-orange-200 ml-4 mr-1 align-middle"></span> Suspicious
+      <span class="inline-block w-4 h-4 bg-gray-100 ml-4 mr-1 border border-gray-300 align-middle"></span> Not enrolled / excused
+    </div>    
+
+
+    <div class="flex justify-end mb-2">
+      <button id="export-csv" class="px-3 py-1 bg-white text-primary border border-primary rounded hover:bg-gray-100 text-xs">
+        📄 Export CSV
+      </button>
+      <button id="open-meeting-manager" class="px-3 py-1 bg-white text-primary border border-primary rounded hover:bg-gray-100 text-xs">
+    🛠️ Edit Meetings
+    </button>
+    </div>
+
+
+
+    <div class="overflow-x-auto border rounded bg-white min-w-[1000px]">
+      <table class="min-w-full table-fixed border border-gray-300 text-sm">
+        <thead class="bg-gray-100 text-gray-700 sticky top-0 z-10">
+          <tr id="header-row">
+            <!-- Headers will be inserted dynamically -->
+          </tr>
+        </thead>
+        <tbody id="attendance-body">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+
+      <div id="override-panel" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded shadow max-w-md w-full relative">
+          <button id="close-override-panel" class="absolute top-2 right-2 text-gray-500 hover:text-black">✖</button>
+          <h3 class="text-lg font-semibold text-primary mb-4">Edit Attendance</h3>
+          <p id="override-target" class="text-sm text-gray-600 mb-2"></p>
+          <form id="override-form" class="space-y-3">
+            <select id="override-meeting" class="w-full p-2 border border-gray-300 rounded"></select>
+            <select id="override-value" class="w-full p-2 border border-gray-300 rounded">
+              <option value="true">✅ Present</option>
+              <option value="false">❌ Absent</option>
+              <option value="excused">🟤 Excused</option>
+            </select>
+            <div class="flex gap-2">
+              <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-red-700">Submit</button>
+              <button type="button" id="cancel-override" class="text-sm text-gray-500 hover:underline">Cancel</button>
+            </div>
+          </form>
+          <p id="override-status" class="text-sm mt-2 text-gray-600"></p>
+        </div>
+      </div>
+
+  <div id="meeting-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded shadow max-w-md w-full relative">
+      <button id="close-meeting-modal" class="absolute top-2 right-2 text-gray-500 hover:text-black">✖</button>
+  
+      <h3 class="text-lg font-semibold text-primary mb-4">Edit Meetings</h3>
+  
+      <form id="edit-meeting-form" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Select meeting:</label>
+          <select id="edit-meeting-id" class="w-full p-2 border border-gray-300 rounded mb-2"></select>
+          <p id="current-meeting-info" class="text-sm text-gray-700"></p>        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1 mt-2">Edit date/time:</label>
+          <input type="date" id="edit-meeting-date" class="w-full p-2 border border-gray-300 rounded mb-2">
+          <input type="time" id="edit-meeting-time" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+  
+        <div>
+          <label class="inline-flex items-center mt-2">
+            <input type="checkbox" id="edit-is-remote" class="form-checkbox h-4 w-4 text-primary rounded">
+            <span class="ml-2 text-sm text-gray-700">This is a remote/hybrid meeting</span>
+          </label>
+        </div>
+
+        <div class="flex gap-4">
+          <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-red-700">Update meeting</button>
+          <button type="button" id="delete-meeting" class="bg-white text-red-600 border border-red-500 px-4 py-2 rounded hover:bg-red-100">Delete meeting</button>
+        </div>
+        <p id="edit-meeting-status" class="text-sm mt-2 text-gray-600"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- (Keep the HTML <head> and layout sections unchanged as before) -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    const supabaseUrl = 'https://hmnpqnzmtanepowfoodn.supabase.co'; 
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI';    
+    const supabase = createClient(supabaseUrl, supabaseKey);
+  
+    const params = new URLSearchParams(window.location.search);
+    const courseId = params.get("course_id");
+    if (!courseId) alert("Missing course_id. Please return to dashboard.");
+    const { data: { user } } = await supabase.auth.getUser();
+  
+    const headerRow = document.getElementById("header-row");
+    const tbody = document.getElementById("attendance-body");
+    const overridePanel = document.getElementById("override-panel");
+    const overrideTarget = document.getElementById("override-target");
+    const overrideMeetingSelect = document.getElementById("override-meeting");
+    const overrideValue = document.getElementById("override-value");
+    const overrideStatus = document.getElementById("override-status");
+  
+    async function showSignatureModal(att, fullName, sid, meetingDateTime) {
+  const modal = document.getElementById("suspicious-modal");
+  const body = document.getElementById("suspicious-modal-body");
+  const modalTitle = modal.querySelector("h2");
+
+  const isSuspicious =
+    att.distance_from_meeting > 150 ||
+    (att.signature_similarity !== null && att.signature_similarity < 0.85);
+
+  modalTitle.textContent = isSuspicious ? "Suspicious Record" : "Verified Attendance";
+
+  let submittedUrl = null;
+  if (att.signature_image_url) {
+    const { data, error } = await supabase
+      .storage
+      .from("signatures")
+      .createSignedUrl(att.signature_image_url, 60);
+    if (!error) submittedUrl = data?.signedUrl;
+  }
+
+  const { data: refRows, error: refError } = await supabase
+    .from("signature_reference")
+    .select("signature_image_url")
+    .eq("course_id", courseId)
+    .eq("participant_id", sid)
+    .limit(1);
+
+  let referenceUrl = null;
+  if (!refError && refRows?.length > 0 && refRows[0].signature_image_url) {
+    const { data: refSigned, error: refSignError } = await supabase
+      .storage
+      .from("signatures")
+      .createSignedUrl(refRows[0].signature_image_url, 60);
+    if (!refSignError) referenceUrl = refSigned.signedUrl;
+  }
+
+  body.innerHTML = `
+    <p><strong>Student:</strong> ${fullName}</p>
+    <p><strong>Meeting:</strong> ${meetingDateTime.toLocaleString()}</p>
+    <p><strong>Distance:</strong> ${att.distance_from_meeting ? Math.round(att.distance_from_meeting) + ' meters' : 'N/A'}</p>
+    <p><strong>Signature Match:</strong> ${att.signature_similarity !== null ? (att.signature_similarity * 100).toFixed(1) + '%' : 'N/A'}</p>
+
+    <div class="flex flex-col sm:flex-row gap-4 mt-4">
+      <div class="flex-1">
+        <p class="text-xs text-gray-500 mb-1">Submitted Signature</p>
+        ${submittedUrl ? `<img src="${submittedUrl}" class="border rounded max-w-full" alt="Submitted Signature" />` : '<p>No submitted signature.</p>'}
+      </div>
+      <div class="flex-1">
+        <p class="text-xs text-gray-500 mb-1">Reference Signature</p>
+        ${referenceUrl ? `<img src="${referenceUrl}" class="border rounded max-w-full" alt="Reference Signature" />` : '<p>No reference signature found.</p>'}
+      </div>
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+}
+
+
+    let currentOverrideStudent = null;
+    let sortedMeetings = [];
+    let meetingKeys = [];
+  
+    function showOverrideForm(studentId, fullName) {
+      currentOverrideStudent = studentId;
+      overrideTarget.textContent = `Editing attendance for ${fullName}`;
+      overrideMeetingSelect.innerHTML = '';
+      sortedMeetings.forEach(meeting => {
+        const meetingDate = new Date(`${meeting.meeting_date}T${meeting.start_time}`);
+        const label = `${meetingDate.toLocaleDateString('en-US')} ${meetingDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+        const option = document.createElement("option");
+        option.value = meeting.id;
+        option.textContent = label;
+        overrideMeetingSelect.appendChild(option);
+      });
+      overridePanel.classList.remove("hidden");
+      overrideStatus.textContent = '';
+    }
+  
+document.getElementById("cancel-override").onclick =
+document.getElementById("close-override-panel").onclick = () => {
+  document.getElementById("override-panel").classList.add("hidden");
+};
+
+    document.getElementById("override-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const meetingId = overrideMeetingSelect.value;
+  const val = overrideValue.value;
+  let present = null;
+  if (val === "true") present = true;
+  else if (val === "false") present = false;
+  else if (val === "excused") present = null;
+
+  const { error: upsertError } = await supabase.from('attendance').upsert({
+    course_id: courseId,
+    entered_participant_id: currentOverrideStudent,
+    attestation: present,
+    meeting_id: meetingId
+  }, {
+    onConflict: ['entered_participant_id', 'meeting_id']
+  });
+
+  const { error: logError } = await supabase.from('attendance_log').insert([{
+    course_id: courseId,
+    entered_participant_id: currentOverrideStudent,
+    attestation: present,
+    meeting_id: meetingId,
+    modified_by: user.id 
+  }]);
+
+  if (upsertError || logError) {
+    overrideStatus.textContent = "Error overriding attendance.";
+    return;
+  }
+
+  overrideStatus.textContent = "Attendance updated.";
+  overridePanel.classList.add("hidden");
+  await loadAttendance();
+});
+
+  async function loadAttendance(sortKey = null, sortAsc = true) {
+        const [{ data: roster }, { data: meetings }, { data: attendance }] = await Promise.all([
+        supabase.from('roster').select('*').eq('course_id', courseId).eq('dropped', false),
+        supabase
+          .from('meetings')
+          .select('id, meeting_date, start_time, remote')
+          .eq('course_id', courseId)
+          .eq('deleted', false),
+        supabase.from('attendance').select('*').eq('course_id', courseId)
+      ]);
+  
+      sortedMeetings = [...meetings].sort((a, b) =>
+        `${a.meeting_date}T${a.start_time}`.localeCompare(`${b.meeting_date}T${b.start_time}`)
+      );
+
+      populateMeetingDropdown(sortedMeetings);
+      
+      document.getElementById("edit-meeting-id").addEventListener("change", function () {
+  const selectedId = this.value;
+  const meeting = sortedMeetings.find(m => m.id === selectedId);
+  if (meeting) {
+    document.getElementById("current-meeting-info").textContent = ''; // Removed "Selected date:"
+    document.getElementById("edit-meeting-date").value = meeting.meeting_date;
+    const [hour, minute] = meeting.start_time.split(':');
+    document.getElementById("edit-meeting-time").value = `${hour}:${minute}`;
+    document.getElementById("edit-is-remote").checked = meeting.remote === true;
+  } else {
+    document.getElementById("edit-meeting-date").value = '';
+    document.getElementById("edit-meeting-time").value = '';
+  }
+});
+
+      document.getElementById("edit-meeting-id").dispatchEvent(new Event("change"));
+
+      headerRow.innerHTML = `
+<th class="p-2 border-r text-left sticky-header" style="left:0px; width:144px">Student</th>
+<th class="p-2 border-r text-left" style="width:112px">Student ID</th>
+<th class="p-2 border-r text-center" style="width:80px">Attended</th>
+<th class="p-2 border-r text-center" style="width:80px">Missed</th>
+<th class="p-2 border-r text-center" style="width:80px">% Absent</th>
+`;
+
+meetingKeys = [];
+      for (const m of sortedMeetings) {
+        const datePart = new Date(`${m.meeting_date}T00:00:00`).toLocaleDateString(undefined, {
+          month: 'numeric', day: 'numeric'
+        });
+        const timePart = new Date(`1970-01-01T${m.start_time}`).toLocaleTimeString(undefined, {
+          hour: 'numeric', minute: '2-digit'
+        });
+  
+        const th = document.createElement('th');
+        th.textContent = datePart;
+        th.className = "meeting-cell bg-gray-100 sticky top-0 z-10";
+        headerRow.appendChild(th);
+        meetingKeys.push(m.id);
+      }
+  
+      const editTh = document.createElement('th');
+      editTh.className = "p-2 border-r text-center";
+      editTh.textContent = "✏️";
+      editTh.style.width = "100px";
+      headerRow.appendChild(editTh);
+      attachSortHandlers();
+  
+      // 🔁 Use attestation value (true/false), not just presence
+      const attendanceMap = {};
+      for (const entry of attendance) {
+        const key = `${entry.entered_participant_id}_${entry.meeting_id}`;
+        attendanceMap[key] = entry;  
+      }
+  
+      tbody.innerHTML = "";
+
+      const studentData = roster.map(student => {
+  let attended = 0, missed = 0;
+  for (const meeting of sortedMeetings) {
+    const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time}`);
+    const joinedDateTime = new Date(student.joined_at);
+    if (meetingDateTime < joinedDateTime) continue;
+
+    const key = `${student.participant_id}_${meeting.id}`;
+    const att = attendanceMap[key];
+
+    if (att?.attestation === null) continue;
+
+    if (att?.attestation === true) {
+  attended++;
+} else if (att?.attestation === false||!att) {
+  missed++;
+} 
+}
+
+  const percentAbsent = attended + missed > 0 ? missed / (attended + missed) : null;
+  return { student, attended, missed, percentAbsent };
+});
+
+// Sort studentData array
+if (sortKey) {
+  studentData.sort((a, b) => {
+    let valA = sortKey === "percentAbsent" ? a.percentAbsent : a.student[sortKey];
+    let valB = sortKey === "percentAbsent" ? b.percentAbsent : b.student[sortKey];
+
+    if (valA === null) return 1;
+    if (valB === null) return -1;
+
+    return (valA > valB ? 1 : -1) * (sortAsc ? 1 : -1);
+  });
+}
+
+
+for (const { student, attended, missed, percentAbsent } of studentData) {
+  const sid = student.participant_id;
+  const fullName = student.full_name;
+
+  const tr = document.createElement("tr");
+tr.className = "hover:bg-gray-50 hover:shadow-sm transition-shadow";
+
+// First column - Student name
+const tdName = document.createElement("td");
+tdName.className = "p-2 font-medium border-r sticky-cell";
+tdName.style.left = "0px";
+tdName.style.width = "144px";
+tdName.textContent = fullName;
+tr.appendChild(tdName);
+
+// Student ID
+const tdId = document.createElement("td");
+tdId.className = "p-2 border-r text-gray-600 text-sm";
+tdId.style.width = "112px";
+tdId.textContent = sid;
+tr.appendChild(tdId);
+
+// Attended / Missed / % Absent
+[
+  { value: attended, class: "text-green-600" },
+  { value: missed, class: "text-red-600" },
+  { value: percentAbsent !== null ? Math.round(percentAbsent * 100) + "%" : "–", class: "text-black" }
+].forEach(({ value, class: colorClass }) => {
+  const td = document.createElement("td");
+  td.className = "meeting-cell";
+  td.style.width = "80px";
+  td.textContent = value;
+  tr.appendChild(td);
+});
+
+// Per-meeting cells
+for (const meeting of sortedMeetings) {
+  const td = document.createElement("td");
+td.className = "meeting-cell";
+
+const inner = document.createElement("div");
+inner.className = "w-full h-full rounded-md flex items-center justify-center text-xs";
+
+const key = `${sid}_${meeting.id}`;
+const att = attendanceMap[key];
+const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time}`);
+const joinedDateTime = new Date(student.joined_at);
+
+// Treat as not enrolled or excused
+if (meetingDateTime < joinedDateTime || (att && att.attestation === null)) {
+  inner.classList.add("bg-gray-100", "text-gray-400");
+  inner.textContent = "–";
+  inner.title = meetingDateTime < joinedDateTime ? "Not enrolled" : "Excused";
+} else if (!att) {
+  // No check-in = Absent
+  inner.classList.add("bg-red-200");
+  inner.title = "Absent";
+} else if (att.attestation === false) {
+  // Explicitly marked absent
+  inner.classList.add("bg-red-200");
+  inner.title = "Absent";
+} else {
+  // Present (possibly suspicious)
+  const isRemote = meeting.remote === true;
+  const tooFar = att.distance_from_meeting > 150;
+  const lowMatch = att.signature_similarity !== null && att.signature_similarity < 0.85;
+
+  inner.classList.add("bg-green-200", "cursor-pointer");
+  inner.title = "Present";
+  inner.onclick = () => showSignatureModal(att, fullName, sid, meetingDateTime);
+
+  const flagDistance = !isRemote && tooFar;
+  const flagSignature = lowMatch;
+
+  if (flagDistance || flagSignature) {
+    inner.classList.remove("bg-green-200");
+    inner.classList.add("bg-orange-200");
+    inner.title = `Suspicious: ${
+      flagDistance ? `distance ${Math.round(att.distance_from_meeting)}m` : ""
+    }${flagDistance && flagSignature ? " | " : ""}${
+      flagSignature ? `match ${(att.signature_similarity * 100).toFixed(1)}%` : ""
+    }`.trim();
+  }
+}
+
+td.appendChild(inner);
+tr.appendChild(td);
+}
+
+
+// Edit button
+const overrideBtn = document.createElement("button");
+overrideBtn.textContent = "Edit student's attendance";
+overrideBtn.className = "px-2 py-1 text-xs bg-white border border-gray-400 rounded hover:bg-gray-100";
+overrideBtn.onclick = () => showOverrideForm(sid, fullName);
+
+const overrideCell = document.createElement("td");
+overrideCell.className = "p-2 border-r text-center";
+overrideCell.style.width = "100px";
+overrideCell.appendChild(overrideBtn);
+tr.appendChild(overrideCell);
+tbody.appendChild(tr);
+}
+}
+
+  
+    let currentSortKey = null;
+let currentSortAsc = true;
+
+function attachSortHandlers() {
+  const headers = document.querySelectorAll("#header-row th");
+  headers.forEach((th, i) => {
+    if (i < 5) {
+      th.style.cursor = "pointer";
+      th.addEventListener("click", () => {
+        let key;
+        if (i === 0) key = "last_name";
+        else if (i === 1) key = "participant_id";
+        else if (i === 2) key = "attended";
+        else if (i === 3) key = "missed";
+        else if (i === 4) key = "percentAbsent";
+        else return;
+
+        if (currentSortKey === key) {
+          currentSortAsc = !currentSortAsc;
+        } else {
+          currentSortKey = key;
+          currentSortAsc = true;
+        }
+
+        loadAttendance(currentSortKey, currentSortAsc);
+      });
+    }
+  });
+}
+
+
+loadAttendance();
+
+    function populateMeetingDropdown(meetings) {
+  const select = document.getElementById("edit-meeting-id");
+  select.innerHTML = '';
+  meetings.forEach(m => {
+    const date = new Date(`${m.meeting_date}T${m.start_time}`);
+    const dateStr = date.toLocaleDateString('en-US'); // e.g., 4/1/2010
+    const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); // e.g., 2:00 PM
+    const opt = document.createElement("option");
+    opt.value = m.id;
+    opt.textContent = `${dateStr} ${timeStr}`;
+    select.appendChild(opt);
+  });
+}
+ 
+  
+
+
+document.getElementById("edit-meeting-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const meetingId = document.getElementById("edit-meeting-id").value;
+  const newDate = document.getElementById("edit-meeting-date").value;
+  const newTime = document.getElementById("edit-meeting-time").value;
+  const statusEl = document.getElementById("edit-meeting-status");
+  const isRemote = document.getElementById("edit-is-remote").checked;
+
+  const { error } = await supabase
+    .from('meetings')
+    .update({ meeting_date: newDate, start_time: newTime, remote: isRemote })
+    .eq('id', meetingId);
+
+  if (error) {
+    statusEl.textContent = "Error updating meeting.";
+  } else {
+    statusEl.textContent = "Meeting updated.";
+    await loadAttendance();
+  }
+});
+
+
+
+document.getElementById("delete-meeting").addEventListener("click", async () => {
+  const meetingId = document.getElementById("edit-meeting-id").value;
+  const statusEl = document.getElementById("edit-meeting-status");
+
+  if (!confirm("Are you sure you want to delete this meeting? This cannot be undone.")) return;
+
+  const { error } = await supabase
+    .from('meetings')
+    .update({ deleted: true }) 
+    .eq('id', meetingId);
+
+  if (error) {
+    statusEl.textContent = "Error deleting meeting.";
+  } else {
+    statusEl.textContent = "Meeting deleted.";
+    await loadAttendance();
+  }
+});
+
+document.getElementById("open-meeting-manager").onclick = () => {
+  document.getElementById("meeting-modal").classList.remove("hidden");
+};
+document.getElementById("close-meeting-modal").onclick = () => {
+  document.getElementById("meeting-modal").classList.add("hidden");
+};
+
+
+document.getElementById("export-csv").addEventListener("click", () => {
+  let csv = [];
+
+  // Grab headers
+  let headerCells = document.querySelectorAll("thead tr th");
+  let headerRow = [];
+  headerCells.forEach((th, i) => {
+    let text = th.innerText.replace(/"/g, '""');
+    if (i === 2) text = "Attended";
+    else if (i === 3) text = "Missed";
+    else if (i === 4) text = "% Absent";
+    else if (i >= 5 && i < 5 + sortedMeetings.length) {
+      const meeting = sortedMeetings[i - 5];
+      text = `${meeting.meeting_date} ${meeting.start_time?.slice(0, 5)}`;
+    } else if (text.includes('✏️')) {
+      text = "Edit";
+    }
+    headerRow.push(`"${text}"`);
+  });
+  csv.push(headerRow.join(","));
+
+  // Grab body rows
+  const rows = document.querySelectorAll("tbody tr");
+  rows.forEach(row => {
+    const cols = row.querySelectorAll("td");
+    const rowData = [];
+
+    cols.forEach((col, index) => {
+      // For the attendance grid cells (starting at index 5), inspect inner div's class and title
+      if (index >= 5 && index < headerCells.length - 1) {
+        const div = col.querySelector("div");
+        if (!div) {
+          rowData.push('""');
+          return;
+        }
+
+        const cls = div.className;
+        const title = div.title;
+
+        let val;
+        if (cls.includes("bg-green-200")) val = 1;
+        else if (cls.includes("bg-red-200")) val = 0;
+        else if (cls.includes("bg-orange-200")) val = 1;
+        else if (cls.includes("bg-gray-100")) val = null;
+        else val = "";
+
+        rowData.push(`"${val}"`);
+      } else {
+        // Non-grid columns: export as plain text
+        let text = col.innerText.trim().replace(/"/g, '""');
+        rowData.push(`"${text}"`);
+      }
+    });
+
+    csv.push(rowData.join(","));
+  });
+
+  const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "attendance_export.csv";
+  a.click();
+  window.URL.revokeObjectURL(url);
+});
+
+</script>
+
+<div id="suspicious-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded shadow-lg max-w-md w-full relative">
+    <button onclick="document.getElementById('suspicious-modal').classList.add('hidden')" 
+            class="absolute top-2 right-2 text-gray-600 hover:text-black">✖</button>
+    <h2 class="text-lg font-bold text-primary mb-4">Suspicious Record</h2>
+    <div id="suspicious-modal-body" class="text-sm text-gray-700 space-y-2">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+</body>
+</html>

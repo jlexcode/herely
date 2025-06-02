@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Herely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { primary: '#B31B1B' }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen text-gray-800">
+  <!-- Header -->
+  <div class="w-full bg-white shadow-sm mb-6">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="block">
+        <img src="/assets/logo_herely_hand_left_curve.png"
+             alt="Herely logo"
+             class="h-10 sm:h-20 w-auto" />
+      </a>
+      <div class="flex gap-2">
+        <button onclick="window.location.href='/admin.html'"
+          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Container -->
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow-sm">
+    <h2 class="text-xl font-bold text-primary mb-4">My Profile</h2>
+
+    <form id="profile-form" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+        <input type="text" id="name" name="name" class="mt-1 block w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <div>
+        <label for="institution" class="block text-sm font-medium text-gray-700">Institution / Organization</label>
+        <input type="text" id="institution" name="institution" class="mt-1 block w-full p-2 border border-gray-300 rounded" />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email (read-only)</label>
+        <input type="email" id="email" name="email" class="mt-1 block w-full p-2 border border-gray-200 bg-gray-50 rounded" disabled />
+        <p class="text-xs text-gray-500 mt-1">To change your email, please <a href="mailto:support@herely.com" class="underline">contact support</a>.</p>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-red-800">
+          Save Changes
+        </button>
+      </div>
+    </form>
+
+<!-- Credit Request Section -->
+<div class="mt-10 pt-6 border-t border-gray-200">
+  <h3 class="text-xl font-semibold text-primary mb-4">Credits</h3>
+  <p class="text-sm mb-4 text-gray-600">
+    During the beta period, credits are free. If you need more, let us know.
+  </p>
+  <button onclick="window.location.href='mailto:support@herely.com?subject=Request for More Credits'" class="bg-white border border-primary text-primary px-4 py-2 rounded hover:bg-gray-100 w-full sm:w-auto">
+    Request More Credits
+  </button>
+</div>
+
+
+    <!-- Account Deletion Section -->
+    <div class="mt-10 border border-red-300 p-4 rounded bg-red-50">
+      <h3 class="text-lg font-semibold text-red-700 mb-4">Danger Zone</h3>
+      <p class="text-sm text-red-600 mb-2">This will permanently delete your account and all related data, including course data.</p>
+      <label for="confirm-delete" id="confirm-label" class="block text-sm text-gray-700 mb-1">
+        To confirm, type: <code>sudo I want to delete my account</code>
+      </label>
+      <input type="text" id="confirm-delete" placeholder="Type confirmation exactly" class="w-full p-2 border border-gray-300 rounded mb-4" />
+      <button id="delete-btn" disabled class="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 disabled:opacity-50">
+        Delete Account
+      </button>
+    </div>
+</div>
+
+
+  
+  <script type="module">
+
+
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+  'https://hmnpqnzmtanepowfoodn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+);
+
+import { requireAuth } from '/js/authUtils.js';
+const user = await requireAuth(supabase);
+
+    const nameInput = document.getElementById("name");
+    const institutionInput = document.getElementById("institution");
+    const emailInput = document.getElementById("email");
+
+    const { data: profile, error } = await supabase
+      .from('users')
+      .select('name, institution')
+      .eq('id', user.id)
+      .single();
+
+    if (error) {
+      console.error("Error loading profile:", error);
+    } else {
+      nameInput.value = profile?.name || "";
+      institutionInput.value = profile?.institution || "";
+      emailInput.value = user.email;
+    }
+
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const updates = {
+        name: nameInput.value,
+        institution: institutionInput.value,
+      };
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update(updates)
+        .eq('id', user.id);
+
+      if (updateError) {
+        alert("Failed to update profile.");
+        console.error(updateError);
+      } else {
+        alert("Profile updated.");
+      }
+    });
+
+
+const deleteBtn = document.getElementById('delete-btn');
+const confirmInput = document.getElementById('confirm-delete');
+
+confirmInput.addEventListener('input', () => {
+  deleteBtn.disabled = confirmInput.value !== "sudo I want to delete my account";
+});
+
+deleteBtn.addEventListener('click', async () => {
+  const confirmed = confirm("This will permanently delete your account. Are you sure?");
+  if (!confirmed) return;
+
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
+
+  const res = await fetch('https://hmnpqnzmtanepowfoodn.functions.supabase.co/delete-account',
+
+  {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      apikey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+    }
+  });
+
+  if (res.ok) {
+    alert("Your account has been deleted.");
+    window.location.href = "/goodbye.html";
+  } else {
+    alert("Failed to delete account.");
+    console.error(await res.text());
+  }
+});
+  </script>
+
+  <!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+</body>
+</html>
