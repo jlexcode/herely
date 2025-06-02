@@ -147,15 +147,13 @@ const { data: u } = await supabase
 
   let billing_type = 'free';
 
-if ((u.paid_courses_remaining ?? 0) > 0) {
+  if ((u.paid_courses_remaining ?? 0) > 0) {
   billing_type = 'one_off';
-  await supabase.from('users')
-    .update({ paid_courses_remaining: u.paid_courses_remaining - 1 })
-    .eq('id', userId);
 } else {
   alert("Please add course credits to create a new course. Redirecting to profile...");
   window.location.href = "/profile.html";
 }
+
 
 //prepare form and submit
     document.getElementById('shimmer').remove();
@@ -203,6 +201,13 @@ if ((u.paid_courses_remaining ?? 0) > 0) {
           window.location.href = '/admin.html';
         }, 2000);
       }
+
+      if (billing_type === 'one_off') {
+    await supabase
+    .from('users')
+    .update({ paid_courses_remaining: u.paid_courses_remaining - 1 })
+    .eq('id', userId);
+    }
     });
 
     heading.classList.remove('hidden');
