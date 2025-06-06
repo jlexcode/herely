@@ -114,16 +114,20 @@
         return;
       }
 
-      const { data, error } = await supabase.auth.signInWithOtp({ email });
+const { data, error } = await supabase.auth.signInWithOtp({
+  email,
+  options: {
+    emailRedirectTo: 'https://herely.io/admin.html'
+  }
+});
 
-      if (error) {
-        console.error('Magic link error:', error);
-        status.textContent = 'Failed to send magic link. Please try again.';
-      } else {
-        console.log('Magic link sent:', data);
-        status.textContent = 'Magic link sent! Check your email to complete login.';
-      }
-    });
+if (error) {
+  console.error('Magic link error:', error);
+  status.textContent = 'Failed to send magic link. Please try again.';
+} else {
+  console.log('Magic link sent:', data);
+  status.textContent = 'Magic link sent! Check your email to complete login.';
+}
 
     const forgotPasswordButton = document.getElementById('forgot-password');
 
