@@ -5,16 +5,16 @@ th, td {
 
 .sticky-header {
   position: sticky;
-  background-color: #f3f4f6;
+  background-color: #f9fafb;
   z-index: 20;
-  box-shadow: inset -1px 0 #ccc;
+  box-shadow: inset -1px 0 #e5e7eb;
 }
 
 .sticky-cell {
   position: sticky;
   z-index: 10;
   background-color: white;
-  box-shadow: inset -1px 0 #ccc;
+  box-shadow: inset -1px 0 #e5e7eb;
 }
 
 .fixed-col-width {
@@ -39,8 +39,8 @@ td.meeting-cell {
   text-align: center;
   vertical-align: middle;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
-  box-shadow: 0 0 0 1px #e5e7eb inset;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px #f3f4f6 inset;
 }
 
 tr:hover .sticky-cell {

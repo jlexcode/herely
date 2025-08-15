@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <!-- Primary Meta Tags -->
-  <title>Herely | Effortless Attendance Tracking for Educators</title>
-  <meta name="title" content="Herely | Effortless Attendance Tracking for Educators" />
+  <title>Herely | Simple Attendance Tracking for Educators</title>
+  <meta name="title" content="Herely | Simple Attendance Tracking for Educators" />
   <meta name="description" content="Simple, secure attendance tracking for universities and organizations. No apps, no fuss, zero data retention. Track presence with initials and manage rosters effortlessly." />
   <meta name="keywords" content="attendance tracking, university attendance, course management, student attendance, educational technology, roster management, attendance system" />
   <meta name="author" content="Herely" />
@@ -20,7 +20,7 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://herely.io/" />
-  <meta property="og:title" content="Herely | Effortless Attendance Tracking for Educators" />
+  <meta property="og:title" content="Herely | Simple Attendance Tracking for Educators" />
   <meta property="og:description" content="Simple, secure attendance tracking for universities and organizations. No apps, no fuss, zero data retention. Track presence with initials and manage rosters effortlessly." />
   <meta property="og:image" content="https://herely.io/assets/logo_herely_hand_left_curve.png" />
   <meta property="og:image:width" content="1200" />
@@ -30,25 +30,46 @@
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://herely.io/" />
-  <meta property="twitter:title" content="Herely | Effortless Attendance Tracking for Educators" />
+  <meta property="twitter:title" content="Herely | Simple Attendance Tracking for Educators" />
   <meta property="twitter:description" content="Simple, secure attendance tracking for universities and organizations. No apps, no fuss, zero data retention." />
   <meta property="twitter:image" content="https://herely.io/assets/logo_herely_hand_left_curve.png" />
   
   <!-- Additional SEO -->
-  <meta name="theme-color" content="#B31B1B" />
-  <meta name="msapplication-TileColor" content="#B31B1B" />
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
   <link rel="canonical" href="https://herely.io/" />
   
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
   
   <!-- PostHog Analytics -->
   <script>
@@ -56,43 +77,116 @@
     posthog.init('phc_Qa2wRziSLXIwqCw5pTwyugEmuJRE4YS23b4JJ3urOOB', {api_host: 'https://app.posthog.com'})
   </script>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col font-sans">
+<body class="bg-white text-gray-800">
 
-    <main class="flex-grow">
-  
 <!-- =========  HEADER  ========= -->
-<header class="bg-white shadow mb-2">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-    <a href="/" class="block">
-      <img src="/assets/logo_herely_hand_left_curve.png" alt="Herely logo"
-           class="h-10 sm:h-20 w-auto"/>
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
     </a>
+
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button id="auth-button"
+              class="px-4 py-2 border border-primary text-primary bg-white rounded-sm hover:bg-gray-50 transition-colors">
+        Login
+      </button>
+      <button onclick="window.location.href='/signup_step1.html'"
+              class="px-4 py-2 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors">
+        Create Free Account
+      </button>
+    </div>
   </div>
 </header>
 
-  <!-- Hero -->
-  <section class="max-w-4xl mx-auto px-4 py-20 text-center">
-    <h2 class="text-4xl font-extrabold mb-4">Effortless Attendance for Every Kind of Educator</h2>
-    <p class="text-lg text-gray-600 mb-8">
-      Whether you're a university instructor or a nonprofit trainer, Herely helps you track presence, manage rosters, and keep learners engaged — zero fuss, zero apps, zero data retention.
+<!-- =========  HERO  ========= -->
+<section class="bg-white py-20">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h1 class="text-4xl font-bold text-primary mb-6">
+      Simple Attendance Tracking for Educators
+    </h1>
+    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+      Whether you're a university instructor or a nonprofit trainer, Herely helps you track presence and keep learners engaged — zero fuss, zero apps, zero data retention.
     </p>
 
-    <!-- CTA Buttons -->
     <div class="flex flex-col sm:flex-row justify-center gap-4">
-      <a href="/academics.html" class="bg-primary text-white px-6 py-3 rounded text-lg font-semibold hover:bg-red-800 transition">
+      <a href="/academics.html" 
+         class="px-8 py-4 bg-primary text-white rounded-sm text-lg font-medium hover:bg-blue-800 transition-colors">
         For Universities
       </a>
-      <a href="/organizations.html" class="bg-white border border-primary text-primary px-6 py-3 rounded text-lg font-semibold hover:bg-gray-100 transition">
+      <a href="/organizations.html"
+         class="px-8 py-4 border border-primary text-primary rounded-sm text-lg font-medium hover:bg-gray-50 transition-colors">
         For Organizations
       </a>
     </div>
-  </section>
-</main>
+  </div>
+</section>
+
 <!-- FOOTER (async load) -->
 <div id="footer-placeholder"></div>
 <script>
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
 </script>
-  
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient(
+    'https://hmnpqnzmtanepowfoodn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+  );
+
+  // Check authentication status and update button
+  async function updateAuthButton() {
+    const { data: { session } } = await supabase.auth.getSession();
+    const authButton = document.getElementById('auth-button');
+    
+    if (session?.user) {
+      // User is logged in
+      authButton.textContent = 'Dashboard';
+      authButton.onclick = () => window.location.href = '/admin.html';
+    } else {
+      // User is not logged in
+      authButton.textContent = 'Login';
+      authButton.onclick = () => window.location.href = '/login.html';
+    }
+  }
+
+  // Update button on page load
+  updateAuthButton();
+
+  // Listen for auth state changes
+  supabase.auth.onAuthStateChange((event, session) => {
+    updateAuthButton();
+  });
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
+</script>
+
 </body>
 </html>

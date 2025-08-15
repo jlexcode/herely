@@ -3,22 +3,56 @@
 <head>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professor Dashboard | Attendance System</title>
-  <!-- TODO: Replace with proper Tailwind build for production -->
+  
+  <!-- Primary Meta Tags -->
+  <title>Dashboard | Herely</title>
+  <meta name="title" content="Dashboard | Herely" />
+  <meta name="description" content="Manage your courses and attendance tracking with Herely." />
+  <meta name="keywords" content="dashboard, course management, attendance tracking, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: {
-            primary: '#B31B1B',
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
           }
         }
       }
     }
   </script>
   <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+    
     @keyframes shimmer {
       100% {
         transform: translateX(100%);
@@ -41,60 +75,60 @@
     }
 
     .pulse-highlight {
-    background-color: #ecfdf5; /* Tailwind emerald-50 */
-    border-left: 4px solid #10b981; /* Tailwind emerald-500 */
-    animation: pulse-fade 2s infinite ease-in-out;
-    padding-left: 0.5rem;
-  }
+      background-color: #f0f9ff; /* Tailwind blue-50 */
+      border-left: 4px solid #2C5282; /* Primary blue */
+      animation: pulse-fade 2s infinite ease-in-out;
+      padding-left: 0.5rem;
+    }
 
-  @keyframes pulse-fade {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-    </style>
+    @keyframes pulse-fade {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body class="bg-white text-gray-800">
 
-  <main class="flex-grow">
-
-<!-- Navigation bar -->
-<div class="w-full bg-white shadow mb-6">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-    <a href="/" class="block">
-      <img src="/assets/logo_herely_hand_left_curve.png"
-           alt="Herely logo"
-           class="h-10 sm:h-20 w-auto" />
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
     </a>
+    
     <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
       <button id="guide-button" onclick="window.location.href='/instructor_guide.html'"
-      class="invisible px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100 w-full sm:w-auto">
-      Instructor Guide
-    </button>
-    <button id="create-course-button" onclick="window.location.href='/create_course.html'"
-    class="invisible px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100 w-full sm:w-auto">
-    ➕ Add New
-  </button>
-    <button id="logout"
-        class="px-4 py-2 bg-white text-gray-600 border border-gray-300 rounded hover:bg-gray-100 w-full sm:w-auto">
+              class="invisible px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors w-full sm:w-auto">
+        Instructor Guide
+      </button>
+      <button id="create-course-button" onclick="window.location.href='/create_course.html'"
+              class="invisible px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors w-full sm:w-auto">
+        ➕ Add New
+      </button>
+      <button id="logout"
+              class="px-4 py-2 bg-white text-gray-600 border border-gray-300 rounded-sm hover:bg-gray-50 transition-colors w-full sm:w-auto">
         Logout
       </button>
       <button onclick="window.location.href='/profile.html'"
-      title="Profile"
-      class="p-2 bg-white text-gray-600 border border-gray-300 rounded hover:bg-gray-100 flex items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M5.121 17.804A9.953 9.953 0 0112 15c2.21 0 4.243.72 5.879 1.938M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    </button>
+              title="Profile"
+              class="p-2 bg-white text-gray-600 border border-gray-300 rounded-sm hover:bg-gray-50 transition-colors flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5.121 17.804A9.953 9.953 0 0112 15c2.21 0 4.243.72 5.879 1.938M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </button>
     </div>
   </div>
-</div>
-  
-<div class="max-w-6xl mx-auto px-4 py-8">
-  <!-- Course cards -->
-  <div id="courses" class="space-y-6"></div>
-</div>
+</header>
+
+<!-- =========  DASHBOARD CONTENT  ========= -->
+<section class="bg-white py-8">
+  <div class="max-w-6xl mx-auto px-4">
+    <!-- Course cards -->
+    <div id="courses" class="space-y-6"></div>
+  </div>
+</section>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
@@ -117,7 +151,7 @@
       coursesDiv.innerHTML = '';
       for (let i = 0; i < 3; i++) {
         const placeholder = document.createElement("div");
-        placeholder.className = "bg-white p-6 rounded shadow border border-gray-200 space-y-4 animate-pulse";
+        placeholder.className = "bg-white p-6 rounded-sm shadow-sm border border-gray-200 space-y-4 animate-pulse";
         placeholder.innerHTML = `
           <div class="h-6 w-1/2 skeleton rounded"></div>
           <div class="h-4 w-1/3 skeleton rounded"></div>
@@ -152,181 +186,176 @@
       const btn_guide = document.getElementById('guide-button');
       btn_guide.classList.remove('invisible');
 
+      const { data: courses } = await supabase
+        .from('courses')
+        .select('*')
+        .eq('professor_id', professorId);
 
+      if (!courses || courses.length === 0) {
+        coursesDiv.innerHTML = '<p class="text-center text-gray-500">No courses found.</p>';
+        return;
+      }
 
-  const { data: courses } = await supabase
-    .from('courses')
-    .select('*')
-    .eq('professor_id', professorId);
+      coursesDiv.innerHTML = '';
 
-  if (!courses || courses.length === 0) {
-    coursesDiv.innerHTML = '<p class="text-center text-gray-500">No courses found.</p>';
-    return;
-  }
+      const courseIds = courses.map(c => c.id);
 
-  coursesDiv.innerHTML = '';
+      const [{ data: allMeetings }, { data: allAttendance }, { data: allRoster }] = await Promise.all([
+        supabase.from('meetings').select('*').in('course_id', courseIds).eq('deleted', false),
+        supabase.from('attendance').select('*').in('course_id', courseIds),
+        supabase.from('roster').select('*').in('course_id', courseIds)
+      ]);
 
-  const courseIds = courses.map(c => c.id);
+      // Group data by course_id
+      const groupByCourse = (data, key = 'course_id') => {
+        const grouped = {};
+        data.forEach(item => {
+          const cid = item[key];
+          if (!grouped[cid]) grouped[cid] = [];
+          grouped[cid].push(item);
+        });
+        return grouped;
+      };
 
-  const [{ data: allMeetings }, { data: allAttendance }, { data: allRoster }] = await Promise.all([
-    supabase.from('meetings').select('*').in('course_id', courseIds).eq('deleted', false),
-    supabase.from('attendance').select('*').in('course_id', courseIds),
-    supabase.from('roster').select('*').in('course_id', courseIds)
-  ]);
+      const meetingsByCourse = groupByCourse(allMeetings);
+      const attendanceByCourse = groupByCourse(allAttendance);
+      const rosterByCourse = groupByCourse(allRoster);
 
-  // Group data by course_id
-  const groupByCourse = (data, key = 'course_id') => {
-    const grouped = {};
-    data.forEach(item => {
-      const cid = item[key];
-      if (!grouped[cid]) grouped[cid] = [];
-      grouped[cid].push(item);
-    });
-    return grouped;
-  };
+      for (const course of courses) {
+        const meetings = meetingsByCourse[course.id] || [];
+        const attendance = attendanceByCourse[course.id] || [];
+        const roster = rosterByCourse[course.id] || [];
 
-  const meetingsByCourse = groupByCourse(allMeetings);
-  const attendanceByCourse = groupByCourse(allAttendance);
-  const rosterByCourse = groupByCourse(allRoster);
+        const currentTime = new Date();
+        // Filter to only include meetings that have already occurred
+        const pastMeetings = meetings.filter(meeting => {
+          const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time || '00:00'}`);
+          return meetingDateTime < currentTime;
+        });
 
-  for (const course of courses) {
-    const meetings = meetingsByCourse[course.id] || [];
-    const attendance = attendanceByCourse[course.id] || [];
-    const roster = rosterByCourse[course.id] || [];
+        const totalClasses = pastMeetings.length;
+        const enrollment = roster.filter(r => !r.dropped).length;
 
-    const currentTime = new Date();
-    // Filter to only include meetings that have already occurred
-    const pastMeetings = meetings.filter(meeting => {
-      const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time || '00:00'}`);
-      return meetingDateTime < currentTime;
-    });
+        let totalEligibleSessions = 0;
+        let actualAttendances = 0;
 
-    const totalClasses = pastMeetings.length;
-    const enrollment = roster.filter(r => !r.dropped).length;
+        for (const student of roster) {
+          const joinedAt = new Date(student.joined_at);
+          const dropDate = student.dropped && student.drop_date ? new Date(student.drop_date) : null;
 
-    let totalEligibleSessions = 0;
-    let actualAttendances = 0;
-
-    for (const student of roster) {
-      const joinedAt = new Date(student.joined_at);
-      const dropDate = student.dropped && student.drop_date ? new Date(student.drop_date) : null;
-
-      for (const meeting of pastMeetings) {
-        const meetingDate = new Date(`${meeting.meeting_date}T${meeting.start_time || '00:00'}`);
-        if (meetingDate >= joinedAt && (!dropDate || meetingDate < dropDate)) {
-          totalEligibleSessions++;
-          const wasPresent = attendance.some(a =>
-            a.entered_participant_id === student.participant_id &&
-            a.meeting_id === meeting.id &&
-            a.attestation === true
-          );
-          if (wasPresent) actualAttendances++;
+          for (const meeting of pastMeetings) {
+            const meetingDate = new Date(`${meeting.meeting_date}T${meeting.start_time || '00:00'}`);
+            if (meetingDate >= joinedAt && (!dropDate || meetingDate < dropDate)) {
+              totalEligibleSessions++;
+              const wasPresent = attendance.some(a =>
+                a.entered_participant_id === student.participant_id &&
+                a.meeting_id === meeting.id &&
+                a.attestation === true
+              );
+              if (wasPresent) actualAttendances++;
+            }
+          }
         }
+
+        const averagePercent = totalEligibleSessions > 0
+          ? Math.round((actualAttendances / totalEligibleSessions) * 100)
+          : 0;
+
+        const courseCard = document.createElement('div');
+        courseCard.className = "bg-white p-6 rounded-sm shadow-sm border border-gray-200";
+        courseCard.innerHTML = `
+          <h2 class="text-xl font-semibold text-primary mb-2">${course.title}</h2>
+          <p class="text-gray-600 mb-2">Classes Held: ${totalClasses}</p>
+          <p class="text-gray-600 mb-2">Enrollment: ${enrollment}</p>
+          <p class="text-gray-600 mb-2">Average Attendance: ${averagePercent}%</p>
+          <p class="text-gray-600 mt-2"><span class="font-medium">Meeting Status:</span> <span id="meeting-status-${course.id}">Checking...</span></p>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            <!-- Existing buttons -->
+            <button onclick="window.location.href='/attendance?course_id=${course.id}'" 
+              class="px-4 py-2 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors">
+              View Attendance Records
+            </button>
+            <button onclick="window.location.href='/manage_course.html?course_id=${course.id}'" 
+              class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
+              Manage ${labelForCourse}
+            </button>
+            <button onclick="startMeetingNow('${course.id}')" 
+              class="px-4 py-2 bg-white text-primary border-2 border-primary rounded-sm hover:bg-blue-50 transition-colors inline-flex items-center gap-2"
+              title="Start a meeting instantly with default settings">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              Start Meeting
+            </button>
+            <button onclick="window.location.href='/prepare_signin.html?course_id=${course.id}'" 
+              class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
+              Schedule Meeting
+            </button>
+          </div>
+
+          <div class="mt-4 flex items-center gap-2 text-sm text-primary">
+            <span class="font-semibold">Sign In</span>
+            <button onclick="copyLink('${course.id}')" title="Copy Sign-In Link">🔗</button>
+            <button onclick="downloadQR('${course.id}')" title="Download QR Code" class="cursor-pointer" aria-label="Download QR Code">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary hover:text-blue-700 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M3 3h6v6H3V3zM15 3h6v6h-6V3zM3 15h6v6H3v-6zM15 15h3v3h-3v-3zM18 18h3v3h-3v-3zM12 15h3v3h-3v-3zM12 18h3v3h-3v-3z" />
+              </svg>
+            </button>
+            <canvas id="qr-${course.id}" class="hidden"></canvas>
+          </div>
+          <p class="text-xs text-gray-400 mt-4">Course ID: ${course.id}</p>
+        `;
+
+        coursesDiv.appendChild(courseCard);
+
+        const now = new Date();
+        const upcoming = meetings.find(m => new Date(`${m.meeting_date}T${m.start_time}`) > now && !m.deleted);
+        const live = meetings.find(m => {
+          const start = new Date(`${m.meeting_date}T${m.start_time}`);
+          const end = new Date(m.expires_at);
+          return !m.deleted && start <= now && end >= now;
+        });
+
+        const statusEl = document.getElementById(`meeting-status-${course.id}`);
+        if (live) {
+          const statusEl = document.getElementById(`meeting-status-${course.id}`);
+          const endTime = new Date(live.expires_at);
+
+          const updateCountdown = () => {
+            const now = new Date();
+            const minutesLeft = Math.max(0, Math.ceil((endTime - now) / 60000));
+
+            if (minutesLeft > 0) {
+              statusEl.textContent = `Sign-in live for next ${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`;
+            } else {
+              statusEl.textContent = "No scheduled meetings.";
+              statusEl.classList.remove("pulse-highlight");
+              statusEl.classList.add("text-gray-500");
+              clearInterval(intervalId);
+            }
+          };
+          updateCountdown();
+          const intervalId = setInterval(updateCountdown, 10000);
+          statusEl.classList.add("pulse-highlight");
+        } else if (upcoming) {
+          const startTime = new Date(`${upcoming.meeting_date}T${upcoming.start_time}`);
+          statusEl.textContent = `Next meeting scheduled for ${startTime.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}`;
+        } else {
+          statusEl.textContent = "No scheduled meetings.";
+          statusEl.classList.add("text-gray-500");
+        }
+
+        QRCode.toCanvas(
+          document.getElementById(`qr-${course.id}`),
+          `${window.location.origin}/signin.html?course_id=${course.id}`,
+          { width: 128 },
+          error => {
+            if (error) console.error('QR code generation error:', error);
+          }
+        );
       }
-    }
-
-    const averagePercent = totalEligibleSessions > 0
-      ? Math.round((actualAttendances / totalEligibleSessions) * 100)
-      : 0;
-
-
-    const courseCard = document.createElement('div');
-    courseCard.className = "bg-white p-6 rounded shadow border border-gray-200";
-    courseCard.innerHTML = `
-      <h2 class="text-xl font-semibold text-primary mb-2">${course.title}</h2>
-      <p class="text-gray-700 mb-2">Classes Held: ${totalClasses}</p>
-      <p class="text-gray-700 mb-2">Enrollment: ${enrollment}</p>
-      <p class="text-gray-700 mb-2">Average Attendance: ${averagePercent}%</p>
-      <p class="text-gray-700 mt-2"><span class="font-medium">Meeting Status:</span> <span id="meeting-status-${course.id}">Checking...</span></p>
-
-<div class="mt-4 flex flex-wrap gap-2">
-  <!-- Existing buttons -->
-  <button onclick="window.location.href='/attendance?course_id=${course.id}'" 
-    class="px-4 py-2 bg-primary text-white rounded hover:bg-red-700">
-    View Attendance Records
-  </button>
-  <button onclick="window.location.href='/manage_course.html?course_id=${course.id}'" 
-    class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-    Manage ${labelForCourse}
-  </button>
-<button onclick="startMeetingNow('${course.id}')" 
-  class="px-4 py-2 bg-white text-primary border-2 border-primary border-bold rounded hover:bg-red-100 inline-flex items-center gap-2"
-  title="Start a meeting instantly with default settings">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-</svg>
-  Start Meeting
-</button>
-  <button onclick="window.location.href='/prepare_signin.html?course_id=${course.id}'" 
-    class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-    Schedule Meeting
-    </button>
-</div>
-
-<div class="mt-4 flex items-center gap-2 text-sm text-primary">
-  <span class="font-semibold">Sign In</span>
-  <button onclick="copyLink('${course.id}')" title="Copy Sign-In Link">🔗</button>
-<button onclick="downloadQR('${course.id}')" title="Download QR Code" class="cursor-pointer" aria-label="Download QR Code">
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary hover:text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-      d="M3 3h6v6H3V3zM15 3h6v6h-6V3zM3 15h6v6H3v-6zM15 15h3v3h-3v-3zM18 18h3v3h-3v-3zM12 15h3v3h-3v-3zM12 18h3v3h-3v-3z" />
-  </svg>
-</button>
-  <canvas id="qr-${course.id}" class="hidden"></canvas>
-</div>
-      <p class="text-xs text-gray-400 mt-4">Course ID: ${course.id}</p>
-    `;
-
-    coursesDiv.appendChild(courseCard);
-
-    const now = new Date();
-const upcoming = meetings.find(m => new Date(`${m.meeting_date}T${m.start_time}`) > now && !m.deleted);
-const live = meetings.find(m => {
-  const start = new Date(`${m.meeting_date}T${m.start_time}`);
-  const end = new Date(m.expires_at);
-  return !m.deleted && start <= now && end >= now;
-});
-
-const statusEl = document.getElementById(`meeting-status-${course.id}`);
-if (live) {
-  const statusEl = document.getElementById(`meeting-status-${course.id}`);
-  const endTime = new Date(live.expires_at);
-
-  const updateCountdown = () => {
-    const now = new Date();
-    const minutesLeft = Math.max(0, Math.ceil((endTime - now) / 60000));
-
-    if (minutesLeft > 0) {
-      statusEl.textContent = `Sign-in live for next ${minutesLeft} minute${minutesLeft === 1 ? '' : 's'}`;
-    } else {
-      statusEl.textContent = "No scheduled meetings.";
-      statusEl.classList.remove("pulse-highlight");
-      statusEl.classList.add("text-gray-500");
-      clearInterval(intervalId);
-    }
-  };
-  updateCountdown();
-  const intervalId = setInterval(updateCountdown, 10000);
-  statusEl.classList.add("pulse-highlight");
-}
- else if (upcoming) {
-  const startTime = new Date(`${upcoming.meeting_date}T${upcoming.start_time}`);
-  statusEl.textContent = `Next meeting scheduled for ${startTime.toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}`;
-} else {
-  statusEl.textContent = "No scheduled meetings.";
-  statusEl.classList.add("text-gray-500");
-}
-
-
-    QRCode.toCanvas(
-      document.getElementById(`qr-${course.id}`),
-      `${window.location.origin}/signin.html?course_id=${course.id}`,
-      { width: 128 },
-      error => {
-        if (error) console.error('QR code generation error:', error);
-      }
-    );
-  }
     } catch (error) {
       console.error('Error loading dashboard:', error);
       coursesDiv.innerHTML = '<p class="text-center text-red-600">Error loading dashboard. Please refresh the page.</p>';
@@ -340,41 +369,34 @@ if (live) {
     window.location.href = '/login.html';
   });
 
-
   window.copyLink = function(courseId) {
-  const url = `${window.location.origin}/signin.html?course_id=${courseId}`;
-  navigator.clipboard.writeText(url)
-    .then(() => notifications.success("Sign-in link copied to clipboard!", 3000))
-    .catch(err => {
-      console.error("Failed to copy link:", err);
-      notifications.error("Failed to copy link. Please try again.", 5000);
-    });
-};
+    const url = `${window.location.origin}/signin.html?course_id=${courseId}`;
+    navigator.clipboard.writeText(url)
+      .then(() => notifications.success("Sign-in link copied to clipboard!", 3000))
+      .catch(err => {
+        console.error("Failed to copy link:", err);
+        notifications.error("Failed to copy link. Please try again.", 5000);
+      });
+  };
 
-window.downloadQR = function(courseId) {
-  const canvas = document.getElementById(`qr-${courseId}`);
-  if (!canvas) return;
-  const link = document.createElement("a");
-  link.download = `sign-in-${courseId}.png`;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-};
+  window.downloadQR = function(courseId) {
+    const canvas = document.getElementById(`qr-${courseId}`);
+    if (!canvas) return;
+    const link = document.createElement("a");
+    link.download = `sign-in-${courseId}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
 
+  window.startMeetingNow = async function(courseId) {
+    const now = new Date();
+    const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const timeString = now.toTimeString().split(' ')[0].slice(0, 5); // HH:MM
+    const expiresAt = new Date(now.getTime() + 10 * 60000).toISOString(); // +10 mins
+    const token = crypto.randomUUID();
 
-
-window.startMeetingNow = async function(courseId) {
-  const now = new Date();
-  const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
-  const timeString = now.toTimeString().split(' ')[0].slice(0, 5); // HH:MM
-  const expiresAt = new Date(now.getTime() + 10 * 60000).toISOString(); // +10 mins
-  const token = crypto.randomUUID();
-
-//   navigator.geolocation.getCurrentPosition(async position => {
-//   const latitude = position.coords.latitude;
-//   const longitude = position.coords.longitude;
-   const latitude = null;
-   const longitude = null;
-
+    const latitude = null;
+    const longitude = null;
 
     const { error } = await supabase.from('meetings').insert([{
       access_token: token,
@@ -394,24 +416,41 @@ window.startMeetingNow = async function(courseId) {
     }
 
     window.location.href = `/admin.html?course_id=${courseId}`;
-  //}, error => {
-  //  console.warn("Geolocation error:", error);
-  //  alert("We couldn't get your location. Please check your browser permissions or try preparing a meeting manually.");
-    // Optionally redirect to manual prep:
-    // window.location.href = `/prepare_signin.html?course_id=${courseId}`;
-  ///});
-};
+  };
 
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
 </script>
-
-</main>
 
 <!-- FOOTER (async load) -->
 <div id="footer-placeholder"></div>
 <script>
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
 </script>
-
 
 </body>
 </html>

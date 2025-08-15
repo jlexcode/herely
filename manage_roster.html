@@ -3,39 +3,76 @@
 <head>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Roster | Attendance System</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Manage Roster | Herely</title>
+  <meta name="title" content="Manage Roster | Herely" />
+  <meta name="description" content="Manage your course roster with CSV upload and manual student addition." />
+  <meta name="keywords" content="roster management, student list, CSV upload, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-white text-gray-800">
 
-  <!-- Navigation bar -->
-  <div class="w-full bg-white shadow-sm mb-6">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="block">
-        <img src="/assets/logo_herely_hand_left_curve.png"
-             alt="Herely logo"
-             class="h-10 sm:h-20 w-auto" />
-      </a>
-      <div class="flex gap-4">
-        <button onclick="window.location.href='/admin.html'"
-          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-          Dashboard
-        </button>
-      </div>
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
+    </a>
+    
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button onclick="window.location.href='/admin.html'"
+        class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
+        Dashboard
+      </button>
     </div>
   </div>
+</header>
 
-  <!-- Shimmer Placeholder -->
-<div id="shimmer" class="animate-pulse space-y-4 max-w-4xl mx-auto bg-white p-6 rounded shadow mb-8">
+<!-- =========  SHIMMER PLACEHOLDER  ========= -->
+<div id="shimmer" class="animate-pulse space-y-4 max-w-4xl mx-auto bg-white p-6 rounded-sm shadow-sm border border-gray-200 mb-8">
   <div class="h-6 bg-gray-300 rounded w-2/3"></div>
   <div class="h-4 bg-gray-300 rounded w-full"></div>
   <div class="h-4 bg-gray-300 rounded w-5/6"></div>
@@ -43,109 +80,128 @@
   <div class="h-4 bg-gray-300 rounded w-1/2"></div>
 </div>
 
+<!-- =========  MAIN CONTENT  ========= -->
+<section class="bg-white py-8">
   <div id="content-wrapper" class="max-w-4xl mx-auto px-4 hidden">
+    <div class="max-w-4xl mx-auto">
+      
+      <h2 class="text-xl font-semibold text-primary mb-6">
+        <span id="roster-label">Manage Course Roster</span>
+        <span id="course-title"></span>
+      </h2>
 
-  <div class="max-w-4xl mx-auto px-4">
-    
-    <h2 class="text-xl font-semibold text-primary mb-4">
-      <span id="roster-label">Manage Course Roster</span>
-      <span id="course-title"></span>
-    </h2>
-
-    <!-- CSV Upload Section -->
-    <div class="bg-white p-6 rounded shadow space-y-4 mb-8">
-      <h3 id="upload-heading" class="text-lg font-semibold text-gray-800">Upload CSV</h3>
-      <p class="text-sm text-gray-600">
-        The CSV file must have <strong>no header</strong> and use the column order:
-        <code>Full Name, Email</code>. Example:
-        <br>
-        <code>Jane Doe,jd123@university.edu</code>
-      </p>
-      <input type="file" id="csv-upload" accept=".csv" class="block w-full border border-gray-300 p-2 rounded">
-      <button id="csv-submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-red-700">Upload CSV</button>
-      <p id="csv-status" class="text-sm text-gray-600 mt-2"></p>
-      <p class="text-sm text-red-600 mt-1">Uploading a CSV will replace the existing roster for this course.</p>
-    </div>
-
-    <!-- Manual Add Form -->
-    <form id="add-student-form" class="bg-white p-6 rounded shadow space-y-4 mb-8">
-      <h3 id="manual-heading" class="text-lg font-semibold text-gray-800">Add Student Manually</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <input type="text" id="full_name" placeholder="Full Name" required class="p-2 border border-gray-300 rounded">
-        <input type="text" id="email" placeholder="Email" required class="p-2 border border-gray-300 rounded">
+      <!-- =========  CSV UPLOAD SECTION  ========= -->
+      <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 space-y-4 mb-8">
+        <h3 id="upload-heading" class="text-lg font-semibold text-gray-800">Upload CSV</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          The CSV file must have <strong>no header</strong> and use the column order:
+          <code class="bg-gray-100 px-2 py-1 rounded text-sm">Full Name, Email</code>. Example:
+          <br>
+          <code class="bg-gray-100 px-2 py-1 rounded text-sm">Jane Doe,jd123@university.edu</code>
+        </p>
+        <input type="file" id="csv-upload" accept=".csv" 
+               class="block w-full border border-gray-300 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        <button id="csv-submit" 
+                class="px-6 py-3 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
+          Upload CSV
+        </button>
+        <p id="csv-status" class="text-sm text-gray-600 mt-2"></p>
+        <p class="text-sm text-red-600 mt-1">Uploading a CSV will replace the existing roster for this course.</p>
       </div>
-      <button id="add-student-btn" type="submit" class="mt-2 px-4 py-2 bg-primary text-white rounded hover:bg-red-700">Add Student</button>
-      <p id="manual-status" class="text-sm text-gray-600 mt-2"></p>
-    </form>
 
-    <!-- Roster Table -->
-    <div class="mt-10 bg-white p-6 rounded shadow">
-      <h3 id="table-heading" class="text-lg font-semibold text-gray-800 mb-4">Current Roster</h3>
-      <table class="w-full table-fixed border text-sm">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="p-2 border text-left">Full Name</th>
-            <th id="id-label" class="p-2 border text-left">Student ID</th>
-            <th class="p-2 border text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="roster-body"></tbody>
-      </table>
+      <!-- =========  MANUAL ADD FORM  ========= -->
+      <form id="add-student-form" class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 space-y-4 mb-8">
+        <h3 id="manual-heading" class="text-lg font-semibold text-gray-800">Add Student Manually</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input type="text" id="full_name" placeholder="Full Name" required 
+                 class="p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+          <input type="text" id="email" placeholder="Email" required 
+                 class="p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+        <button id="add-student-btn" type="submit" 
+                class="mt-2 px-6 py-3 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
+          Add Student
+        </button>
+        <p id="manual-status" class="text-sm text-gray-600 mt-2"></p>
+      </form>
+
+      <!-- =========  ROSTER TABLE  ========= -->
+      <div class="mt-10 bg-white p-8 rounded-sm shadow-sm border border-gray-200">
+        <h3 id="table-heading" class="text-lg font-semibold text-gray-800 mb-6">Current Roster</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full table-fixed border border-gray-200 text-sm">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="p-3 border border-gray-200 text-left font-medium text-gray-700">Full Name</th>
+                <th id="id-label" class="p-3 border border-gray-200 text-left font-medium text-gray-700">Student ID</th>
+                <th class="p-3 border border-gray-200 text-center font-medium text-gray-700">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="roster-body"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-  </div>
+</section>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-    import { requireAuth } from '/js/authUtils.js';
-    import notifications from '/js/notifications.js';
+<!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
 
-    const supabase = createClient(
-      'https://hmnpqnzmtanepowfoodn.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
-    );
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  import { requireAuth } from '/js/authUtils.js';
+  import notifications from '/js/notifications.js';
 
-    // Get authenticated user
-    const user = await requireAuth(supabase);
+  const supabase = createClient(
+    'https://hmnpqnzmtanepowfoodn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+  );
 
-    const statusManual = document.getElementById('manual-status');
-    const statusCSV = document.getElementById('csv-status');
-    const rosterBody = document.getElementById('roster-body');
-    const selectedCourseId = new URLSearchParams(window.location.search).get("course_id");
-    if (!selectedCourseId) {
-      notifications.error("No course selected. Please return to dashboard.", 5000);
-      setTimeout(() => window.location.href = '/admin.html', 2000);
-    }
+  // Get authenticated user
+  const user = await requireAuth(supabase);
 
-    let audienceType = 'academic';
+  const statusManual = document.getElementById('manual-status');
+  const statusCSV = document.getElementById('csv-status');
+  const rosterBody = document.getElementById('roster-body');
+  const selectedCourseId = new URLSearchParams(window.location.search).get("course_id");
+  if (!selectedCourseId) {
+    notifications.error("No course selected. Please return to dashboard.", 5000);
+    setTimeout(() => window.location.href = '/admin.html', 2000);
+  }
 
-    const { data: userDetails } = await supabase
-      .from('users')
-      .select('audience_type')
-      .eq('id', user.id)
-      .single();
+  let audienceType = 'academic';
 
-    if (userDetails?.audience_type === 'org') {
-      audienceType = 'org';
-    }
+  const { data: userDetails } = await supabase
+    .from('users')
+    .select('audience_type')
+    .eq('id', user.id)
+    .single();
 
-    let maxRoster = 500;
+  if (userDetails?.audience_type === 'org') {
+    audienceType = 'org';
+  }
+
+  let maxRoster = 500;
 
   const { data: courseLimits, error: courseError } = await supabase
-  .from('courses')
-  .select('max_roster')
-  .eq('id', selectedCourseId)
-  .single();
+    .from('courses')
+    .select('max_roster')
+    .eq('id', selectedCourseId)
+    .single();
 
   if (courseLimits) {
     maxRoster = courseLimits.max_roster ?? maxRoster;
   }
 
-    /* ----------  PAGE INITIALISATION ---------- */
+  /* ----------  PAGE INITIALISATION ---------- */
 
-    initPage();
+  initPage();
 
-    async function initPage() {
+  async function initPage() {
     await Promise.all([loadRoster(), setCourseTitle()]);
     
     if (audienceType === 'org') {
@@ -157,196 +213,211 @@
       document.getElementById('id-label').textContent = 'Participant ID';
     }
     showContent();
-}
-
-
-
-    document.getElementById('add-student-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const full_name = document.getElementById('full_name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const netid = audienceType === 'academic' && email.includes('@') ? email.split('@')[0] : null;
-  //const participant_id = netid || email;
-  const participant_id = email;
-
-  const { data: limitsCheck } = await supabase
-  .from('roster')
-  .select('id, dropped')
-  .eq('course_id', selectedCourseId);
-
-  const activeCount = limitsCheck.filter(s => !s.dropped).length;
-  const droppedCount = limitsCheck.filter(s => s.dropped).length;
-
-  if (activeCount + 1 > maxRoster) {
-  statusManual.textContent = `Cannot add student. Max roster size of ${maxRoster} reached. Please contact support for help.`;
-  return;
   }
 
-  const { error } = await supabase.from('roster').insert([{ 
-    course_id: selectedCourseId, 
-    full_name,
-    email,
-    participant_id,
-    dropped: false
-  }]);
+  document.getElementById('add-student-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  if (!error) {
-    await updateDropoutRatio();
-  }
+    const full_name = document.getElementById('full_name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const netid = audienceType === 'academic' && email.includes('@') ? email.split('@')[0] : null;
+    const participant_id = email;
 
-  statusManual.textContent = error ? "Error adding student." : "Student added successfully.";
-  loadRoster();
-});
-
-    document.getElementById('csv-submit').addEventListener('click', async () => {
-      const file = document.getElementById('csv-upload').files[0];
-      if (!file) {
-        statusCSV.textContent = 'Please choose a file.';
-        return;
-      }
-
-      const text = await file.text();
-      const lines = text.trim().split('\n');
-      const students = lines.map(line => {
-        const [full_name, email] = line.split(',').map(x => x.trim());
-        const netid = audienceType === 'academic' && email.includes('@') ? email.split('@')[0] : null;
-        return {
-          course_id: selectedCourseId,
-          full_name,
-          email,
-          participant_id: email,
-          dropped: false
-        };
-      });
-
-      const { data: limitsCheck } = await supabase
+    const { data: limitsCheck } = await supabase
       .from('roster')
       .select('id, dropped')
       .eq('course_id', selectedCourseId);
 
-  const droppedCount = limitsCheck.filter(s => s.dropped).length;
+    const activeCount = limitsCheck.filter(s => !s.dropped).length;
+    const droppedCount = limitsCheck.filter(s => s.dropped).length;
 
-  const projectedActive = new Set(students.map(s => s.participant_id)).size;
-  if (projectedActive > maxRoster) {
-  statusCSV.textContent = `CSV exceeds max roster size of ${maxRoster}. Please contact support for help.`;
-  return;
-  }
+    if (activeCount + 1 > maxRoster) {
+      statusManual.textContent = `Cannot add student. Max roster size of ${maxRoster} reached. Please contact support for help.`;
+      return;
+    }
 
+    const { error } = await supabase.from('roster').insert([{ 
+      course_id: selectedCourseId, 
+      full_name,
+      email,
+      participant_id,
+      dropped: false
+    }]);
 
+    if (!error) {
+      await updateDropoutRatio();
+    }
 
-      const { data: existing } = await supabase
-        .from('roster')
-        .select('id, participant_id')
-        .eq('course_id', selectedCourseId);
+    statusManual.textContent = error ? "Error adding student." : "Student added successfully.";
+    loadRoster();
+  });
 
-      const incomingIds = new Set(students.map(s => s.participant_id));
-      const toMarkDropped = (existing || []).filter(e => !incomingIds.has(e.participant_id));
+  document.getElementById('csv-submit').addEventListener('click', async () => {
+    const file = document.getElementById('csv-upload').files[0];
+    if (!file) {
+      statusCSV.textContent = 'Please choose a file.';
+      return;
+    }
 
-      const { error: upsertError } = await supabase
-        .from('roster')
-        .upsert(students, {
-          onConflict: ['participant_id', 'course_id'],
-          ignoreDuplicates: false
-        });
-
-      if (toMarkDropped.length > 0) {
-        const { error: dropError } = await supabase
-          .from('roster')
-          .update({ dropped: true })
-          .in('id', toMarkDropped.map(s => s.id));
-        if (dropError) {
-          console.error("Drop update error", dropError);
-          notifications.error("Error updating dropped students. Some changes may not have been saved.", 5000);
-        } else {
-          // Update dropout ratio after dropping students
-          await updateDropoutRatio();
-        }
-      }
-
-      if (upsertError) {
-        statusCSV.textContent = "Error uploading CSV.";
-        notifications.error("Failed to upload CSV. Please check the file format and try again.", 5000);
-      } else {
-        statusCSV.textContent = "CSV uploaded successfully.";
-        notifications.success("CSV uploaded successfully!", 3000);
-        await updateDropoutRatio();
-      }
-      loadRoster();
+    const text = await file.text();
+    const lines = text.trim().split('\n');
+    const students = lines.map(line => {
+      const [full_name, email] = line.split(',').map(x => x.trim());
+      const netid = audienceType === 'academic' && email.includes('@') ? email.split('@')[0] : null;
+      return {
+        course_id: selectedCourseId,
+        full_name,
+        email,
+        participant_id: email,
+        dropped: false
+      };
     });
 
-    async function updateDropoutRatio() {
-      const { data: rosterData } = await supabase
-        .from('roster')
-        .select('dropped')
-        .eq('course_id', selectedCourseId);
-      
-      if (rosterData) {
-        const activeCount = rosterData.filter(s => !s.dropped).length;
-        const droppedCount = rosterData.filter(s => s.dropped).length;
-        const dropoutRatio = activeCount > 0 ? (droppedCount / activeCount) : 0;
-        
-        await supabase
-          .from('courses')
-          .update({ dropout_ratio: dropoutRatio })
-          .eq('id', selectedCourseId);
-      }
+    const { data: limitsCheck } = await supabase
+      .from('roster')
+      .select('id, dropped')
+      .eq('course_id', selectedCourseId);
+
+    const droppedCount = limitsCheck.filter(s => s.dropped).length;
+
+    const projectedActive = new Set(students.map(s => s.participant_id)).size;
+    if (projectedActive > maxRoster) {
+      statusCSV.textContent = `CSV exceeds max roster size of ${maxRoster}. Please contact support for help.`;
+      return;
     }
 
-    async function loadRoster() {
-      const { data, error } = await supabase
-        .from('roster')
-        .select('*')
-        .eq('course_id', selectedCourseId)
-        .eq('dropped', false);
-      if (error) return;
+    const { data: existing } = await supabase
+      .from('roster')
+      .select('id, participant_id')
+      .eq('course_id', selectedCourseId);
 
-      rosterBody.innerHTML = '';
-      data.forEach(row => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-2 border">${row.full_name}</td>
-          <td class="p-2 border">${row.participant_id}</td>
-          <td class="p-2 border text-center">
-            <button class="text-sm text-red-600 underline" onclick="deleteStudent('${row.id}')">Remove</button>
-          </td>`;
-        rosterBody.appendChild(tr);
+    const incomingIds = new Set(students.map(s => s.participant_id));
+    const toMarkDropped = (existing || []).filter(e => !incomingIds.has(e.participant_id));
+
+    const { error: upsertError } = await supabase
+      .from('roster')
+      .upsert(students, {
+        onConflict: ['participant_id', 'course_id'],
+        ignoreDuplicates: false
       });
-    }
 
-    window.deleteStudent = async (id) => {
-      await supabase.from('roster').delete().eq('id', id);
-      await updateDropoutRatio();
-      loadRoster();
-    };
-
-    async function setCourseTitle() {
-      const { data } = await supabase
-        .from('courses')
-        .select('title')
-        .eq('id', selectedCourseId)
-        .single();
-      if (data?.title) {
-        document.getElementById('course-title').textContent = ` for ${data.title}`;
+    if (toMarkDropped.length > 0) {
+      const { error: dropError } = await supabase
+        .from('roster')
+        .update({ dropped: true })
+        .in('id', toMarkDropped.map(s => s.id));
+      if (dropError) {
+        console.error("Drop update error", dropError);
+        notifications.error("Error updating dropped students. Some changes may not have been saved.", 5000);
+      } else {
+        // Update dropout ratio after dropping students
+        await updateDropoutRatio();
       }
     }
 
-    function showContent() {
-  const shimmer = document.getElementById('shimmer');
-  const content = document.getElementById('content-wrapper');
-  if (shimmer) {
-    shimmer.classList.add('fade-out');
-    setTimeout(() => shimmer.remove(), 0);
+    if (upsertError) {
+      statusCSV.textContent = "Error uploading CSV.";
+      notifications.error("Failed to upload CSV. Please check the file format and try again.", 5000);
+    } else {
+      statusCSV.textContent = "CSV uploaded successfully.";
+      notifications.success("CSV uploaded successfully!", 3000);
+      await updateDropoutRatio();
+    }
+    loadRoster();
+  });
+
+  async function updateDropoutRatio() {
+    const { data: rosterData } = await supabase
+      .from('roster')
+      .select('dropped')
+      .eq('course_id', selectedCourseId);
+    
+    if (rosterData) {
+      const activeCount = rosterData.filter(s => !s.dropped).length;
+      const droppedCount = rosterData.filter(s => s.dropped).length;
+      const dropoutRatio = activeCount > 0 ? (droppedCount / activeCount) : 0;
+      
+      await supabase
+        .from('courses')
+        .update({ dropout_ratio: dropoutRatio })
+        .eq('id', selectedCourseId);
+    }
   }
-  if (content) content.classList.remove('hidden');
-}
 
-</script>
+  async function loadRoster() {
+    const { data, error } = await supabase
+      .from('roster')
+      .select('*')
+      .eq('course_id', selectedCourseId)
+      .eq('dropped', false);
+    if (error) return;
 
-<!-- FOOTER (async load) -->
-<div id="footer-placeholder"></div>
-<script>
-  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+    rosterBody.innerHTML = '';
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="p-3 border border-gray-200">${row.full_name}</td>
+        <td class="p-3 border border-gray-200">${row.participant_id}</td>
+        <td class="p-3 border border-gray-200 text-center">
+          <button class="text-sm text-red-600 hover:text-red-800 underline transition-colors" onclick="deleteStudent('${row.id}')">Remove</button>
+        </td>`;
+      rosterBody.appendChild(tr);
+    });
+  }
+
+  window.deleteStudent = async (id) => {
+    await supabase.from('roster').delete().eq('id', id);
+    await updateDropoutRatio();
+    loadRoster();
+  };
+
+  async function setCourseTitle() {
+    const { data } = await supabase
+      .from('courses')
+      .select('title')
+      .eq('id', selectedCourseId)
+      .single();
+    if (data?.title) {
+      document.getElementById('course-title').textContent = ` for ${data.title}`;
+    }
+  }
+
+  function showContent() {
+    const shimmer = document.getElementById('shimmer');
+    const content = document.getElementById('content-wrapper');
+    if (shimmer) {
+      shimmer.classList.add('fade-out');
+      setTimeout(() => shimmer.remove(), 0);
+    }
+    if (content) content.classList.remove('hidden');
+  }
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
 </script>
 
 </body>

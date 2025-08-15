@@ -3,26 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <!-- Primary Meta Tags -->
   <title>Goodbye | Herely</title>
+  <meta name="title" content="Goodbye | Herely" />
+  <meta name="description" content="Your Herely account has been successfully deleted." />
+  <meta name="keywords" content="account deletion, goodbye, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: {
-            primary: '#B31B1B',
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
           }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center text-gray-800 text-center px-4">
+<body class="bg-white min-h-screen flex flex-col items-center justify-center text-gray-800 text-center px-4">
 
-  <div class="bg-white p-8 rounded shadow max-w-md">
-    <img src="/assets/logo_herely_hand_left_curve.png" alt="Herely logo" class="h-14 mx-auto mb-4" />
-    <h1 class="text-2xl font-bold text-primary mb-2">Your account has been deleted</h1>
-    <p class="text-sm text-gray-600 mb-6">We're sorry to see you go. If you ever change your mind, you're always welcome back.</p>
+  <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 max-w-md">
+    <div class="text-3xl font-semibold text-primary mb-4">Herely</div>
+    <h1 class="text-2xl font-semibold text-primary mb-2">Your account has been deleted</h1>
+    <p class="text-sm text-gray-600 mb-6 leading-relaxed">We're sorry to see you go. If you ever change your mind, you're always welcome back.</p>
   </div>
 
 </body>

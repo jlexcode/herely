@@ -1,11 +1,29 @@
 <!-- suspiciousModal.html -->
-<div id="suspicious-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-  <div class="bg-white p-6 rounded shadow-lg max-w-md w-full relative">
-    <button onclick="document.getElementById('suspicious-modal').classList.add('hidden')" 
-            class="absolute top-2 right-2 text-gray-600 hover:text-black">✖</button>
-    <h2 class="text-lg font-bold text-primary mb-4">Suspicious Record</h2>
-    <div id="suspicious-modal-body" class="text-sm text-gray-700 space-y-2">
-      <!-- Populated by JS -->
+<div id="suspicious-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 max-w-md w-full relative">
+    <button id="close-suspicious-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors">✖</button>
+
+    <h3 class="text-lg font-semibold text-primary mb-6">Suspicious Sign-in Detected</h3>
+
+    <div class="space-y-4">
+      <p class="text-sm text-gray-700 leading-relaxed">
+        We detected a potential duplicate sign-in for this meeting. This could indicate:
+      </p>
+      
+      <ul class="text-sm text-gray-700 space-y-2 list-disc list-inside">
+        <li>Multiple sign-ins from the same person</li>
+        <li>Sign-in from an unexpected location</li>
+        <li>Unusual timing patterns</li>
+      </ul>
+
+      <p class="text-sm text-gray-700 leading-relaxed">
+        Please review the attendance record and take appropriate action if needed.
+      </p>
+
+      <div class="flex gap-4 mt-6">
+        <button id="acknowledge-suspicious" class="bg-primary text-white px-6 py-3 rounded-sm hover:bg-blue-800 transition-colors font-medium">Acknowledge</button>
+        <button id="dismiss-suspicious" class="bg-white text-gray-600 border border-gray-300 px-6 py-3 rounded-sm hover:bg-gray-50 transition-colors font-medium">Dismiss</button>
+      </div>
     </div>
   </div>
 </div>

@@ -3,306 +3,380 @@
 <head>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
   <title>My Profile | Herely</title>
+  <meta name="title" content="My Profile | Herely" />
+  <meta name="description" content="Manage your profile, credits, and account settings with Herely." />
+  <meta name="keywords" content="profile, account settings, credits, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
+</head>
 
-<body class="bg-gray-100 min-h-screen text-gray-800">
-  <!-- Header -->
-  <div class="w-full bg-white shadow-sm mb-6">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="block">
-        <img src="/assets/logo_herely_hand_left_curve.png"
-             alt="Herely logo"
-             class="h-10 sm:h-20 w-auto" />
-      </a>
-      <div class="flex gap-2">
-        <button onclick="window.location.href='/admin.html'"
-          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-          Dashboard
-        </button>
-      </div>
-    </div>
-  </div>
+<body class="bg-white text-gray-800">
 
-  <!-- Profile Container -->
-  <div class="max-w-3xl mx-auto bg-white p-6 rounded shadow-sm">
-    <h2 class="text-xl font-bold text-primary mb-4">My Profile</h2>
-
-    <form id="profile-form" class="space-y-6">
-      <div>
-        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-        <input type="text" id="name" name="name" class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-      </div>
-
-      <div>
-        <label for="institution" class="block text-sm font-medium text-gray-700">Institution / Organization</label>
-        <input type="text" id="institution" name="institution" class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-      </div>
-
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email (read-only)</label>
-        <input type="email" id="email" name="email" class="mt-1 block w-full p-2 border border-gray-200 bg-gray-50 rounded" disabled />
-        <p class="text-xs text-gray-500 mt-1">To change your email, please <a href="mailto:support@herely.com" class="underline">contact support</a>.</p>
-      </div>
-
-      <div class="flex justify-end">
-        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-red-800">
-          Save Changes
-        </button>
-      </div>
-    </form>
-
-<!-- Credit Request Section -->
-<div class="mt-10 pt-6 border-t border-gray-200">
-  <h3 class="text-xl font-semibold text-primary mb-4">Credits</h3>
-  <div class="bg-gray-50 p-4 rounded mb-4">
-    <p class="text-sm text-gray-600 mb-2">
-      <strong>Remaining Credits:</strong> <span id="credits-display" class="font-semibold text-primary">Loading...</span>
-    </p>
-    <p class="text-xs text-gray-500">
-      Each course creation uses 1 credit. Users may be able to refresh credits for free.
-    </p>
-  </div>
-  <p class="text-sm mb-4 text-gray-600">
-    During the beta period, credits are free. If you need more, let us know.
-  </p>
-  <button id="request-credits-btn" class="bg-white border border-primary text-primary px-4 py-2 rounded hover:bg-gray-100 w-full sm:w-auto">
-    Request More Credits
-  </button>
-</div>
-
-<!-- Credit Request Modal -->
-<div id="credits-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-    <h3 class="text-lg font-semibold text-primary mb-4">Request More Credits</h3>
-    <form id="credits-form">
-      <div class="mb-4">
-        <label for="credit-reason" class="block text-sm font-medium text-gray-700 mb-2">
-          Why do you need more credits? (optional)
-        </label>
-        <textarea 
-          id="credit-reason" 
-          placeholder="Tell us about your course or program..." 
-          class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent" 
-          rows="3"
-        ></textarea>
-      </div>
-      <div class="flex gap-3">
-        <button type="submit" class="flex-1 bg-primary text-white px-4 py-2 rounded hover:bg-red-800 transition-colors">
-          Submit Request
-        </button>
-        <button type="button" id="close-modal" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-    <!-- Account Deletion Section -->
-    <div class="mt-10 border border-red-300 p-4 rounded bg-red-50">
-      <h3 class="text-lg font-semibold text-red-700 mb-4">Danger Zone</h3>
-      <p class="text-sm text-red-600 mb-2">This will permanently delete your account and all related data, including course data.</p>
-      <label for="confirm-delete" id="confirm-label" class="block text-sm text-gray-700 mb-1">
-        To confirm, type: <code>sudo I want to delete my account</code>
-      </label>
-      <input type="text" id="confirm-delete" placeholder="Type confirmation exactly" class="w-full p-2 border border-gray-300 rounded mb-4" />
-      <button id="delete-btn" disabled class="w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 disabled:opacity-50">
-        Delete Account
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
+    </a>
+    
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button onclick="window.location.href='/admin.html'"
+        class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
+        Dashboard
       </button>
     </div>
-</div>
+  </div>
+</header>
 
+<!-- =========  MAIN CONTENT  ========= -->
+<section class="bg-white py-8">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200">
+      <h2 class="text-xl font-semibold text-primary mb-6">My Profile</h2>
 
+      <!-- =========  PROFILE FORM  ========= -->
+      <form id="profile-form" class="space-y-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+          <input type="text" id="name" name="name" 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
 
-  </script>
+        <div>
+          <label for="institution" class="block text-sm font-medium text-gray-700 mb-2">Institution / Organization</label>
+          <input type="text" id="institution" name="institution" 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
 
-  <!-- FOOTER (async load) -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email (read-only)</label>
+          <input type="email" id="email" name="email" 
+                 class="w-full p-3 border border-gray-200 bg-gray-50 rounded-sm focus:outline-none" disabled />
+          <p class="text-xs text-gray-500 mt-2">To change your email, please <a href="mailto:support@herely.com" class="underline hover:text-primary">contact support</a>.</p>
+        </div>
+
+        <div class="flex justify-end">
+          <button type="submit" 
+                  class="px-6 py-3 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
+            Save Changes
+          </button>
+        </div>
+      </form>
+
+      <!-- =========  CREDIT REQUEST SECTION  ========= -->
+      <div class="mt-10 pt-6 border-t border-gray-200">
+        <h3 class="text-xl font-semibold text-primary mb-4">Credits</h3>
+        <div class="bg-gray-50 p-6 rounded-sm mb-4">
+          <p class="text-sm text-gray-600 mb-2">
+            <strong>Remaining Credits:</strong> <span id="credits-display" class="font-semibold text-primary">Loading...</span>
+          </p>
+          <p class="text-xs text-gray-500">
+            Each course creation uses 1 credit. Users may be able to refresh credits for free.
+          </p>
+        </div>
+        <p class="text-sm mb-4 text-gray-600">
+          During the beta period, credits are free. If you need more, let us know.
+        </p>
+        <button id="request-credits-btn" 
+                class="px-6 py-3 bg-white border border-primary text-primary rounded-sm hover:bg-gray-50 transition-colors w-full sm:w-auto">
+          Request More Credits
+        </button>
+      </div>
+
+      <!-- =========  CREDIT REQUEST MODAL  ========= -->
+      <div id="credits-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 max-w-md w-full mx-4">
+          <h3 class="text-lg font-semibold text-primary mb-4">Request More Credits</h3>
+          <form id="credits-form">
+            <div class="mb-4">
+              <label for="credit-reason" class="block text-sm font-medium text-gray-700 mb-2">
+                Why do you need more credits? (optional)
+              </label>
+              <textarea 
+                id="credit-reason" 
+                placeholder="Tell us about your course or program..." 
+                class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="flex gap-3">
+              <button type="submit" 
+                      class="flex-1 px-4 py-3 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
+                Submit Request
+              </button>
+              <button type="button" id="close-modal" 
+                      class="flex-1 px-4 py-3 bg-gray-300 text-gray-700 rounded-sm hover:bg-gray-400 transition-colors font-medium">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- =========  ACCOUNT DELETION SECTION  ========= -->
+      <div class="mt-10 border border-red-300 p-6 rounded-sm bg-red-50">
+        <h3 class="text-lg font-semibold text-red-700 mb-4">Danger Zone</h3>
+        <p class="text-sm text-red-600 mb-3">This will permanently delete your account and all related data, including course data.</p>
+        <label for="confirm-delete" id="confirm-label" class="block text-sm text-gray-700 mb-2">
+          To confirm, type: <code class="bg-gray-100 px-2 py-1 rounded text-sm">sudo I want to delete my account</code>
+        </label>
+        <input type="text" id="confirm-delete" 
+               placeholder="Type confirmation exactly" 
+               class="w-full p-3 border border-gray-300 rounded-sm mb-4 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" />
+        <button id="delete-btn" disabled 
+                class="w-full py-3 px-4 bg-red-600 text-white rounded-sm hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium">
+          Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (async load) -->
 <div id="footer-placeholder"></div>
 <script>
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
 </script>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const supabase = createClient(
-  'https://hmnpqnzmtanepowfoodn.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
-);
+  const supabase = createClient(
+    'https://hmnpqnzmtanepowfoodn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+  );
 
-import { requireAuth } from '/js/authUtils.js';
-import notifications from '/js/notifications.js';
-const user = await requireAuth(supabase);
+  import { requireAuth } from '/js/authUtils.js';
+  import notifications from '/js/notifications.js';
+  const user = await requireAuth(supabase);
 
-    const nameInput = document.getElementById("name");
-    const institutionInput = document.getElementById("institution");
-    const emailInput = document.getElementById("email");
+  const nameInput = document.getElementById("name");
+  const institutionInput = document.getElementById("institution");
+  const emailInput = document.getElementById("email");
 
-    const { data: profile, error } = await supabase
-      .from('users')
-      .select('name, institution, paid_courses_remaining')
-      .eq('id', user.id)
-      .single();
+  const { data: profile, error } = await supabase
+    .from('users')
+    .select('name, institution, paid_courses_remaining')
+    .eq('id', user.id)
+    .single();
 
-    if (error) {
-      console.error("Error loading profile:", error);
+  if (error) {
+    console.error("Error loading profile:", error);
+  } else {
+    nameInput.value = profile?.name || "";
+    institutionInput.value = profile?.institution || "";
+    emailInput.value = user.email;
+    
+    // Display remaining credits
+    const creditsDisplay = document.getElementById('credits-display');
+    const remainingCredits = profile?.paid_courses_remaining || 0;
+    creditsDisplay.textContent = remainingCredits;
+    
+    // Style based on credit amount
+    if (remainingCredits === 0) {
+      creditsDisplay.classList.add('text-red-600');
+    } else if (remainingCredits < 3) {
+      creditsDisplay.classList.add('text-orange-600');
     } else {
-      nameInput.value = profile?.name || "";
-      institutionInput.value = profile?.institution || "";
-      emailInput.value = user.email;
-      
-      // Display remaining credits
-      const creditsDisplay = document.getElementById('credits-display');
-      const remainingCredits = profile?.paid_courses_remaining || 0;
-      creditsDisplay.textContent = remainingCredits;
-      
-      // Style based on credit amount
-      if (remainingCredits === 0) {
-        creditsDisplay.classList.add('text-red-600');
-      } else if (remainingCredits < 3) {
-        creditsDisplay.classList.add('text-orange-600');
-      } else {
-        creditsDisplay.classList.add('text-gray-900');
-      }
+      creditsDisplay.classList.add('text-gray-900');
     }
+  }
 
-    document.getElementById('profile-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  document.getElementById('profile-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      const updates = {
-        name: nameInput.value,
-        institution: institutionInput.value,
-      };
+    const updates = {
+      name: nameInput.value,
+      institution: institutionInput.value,
+    };
 
-      const { error: updateError } = await supabase
-        .from('users')
-        .update(updates)
-        .eq('id', user.id);
+    const { error: updateError } = await supabase
+      .from('users')
+      .update(updates)
+      .eq('id', user.id);
 
-      if (updateError) {
-        notifications.error("Failed to update profile. Please try again.", 5000);
-        console.error(updateError);
-      } else {
-        notifications.success("Profile updated successfully!", 3000);
-      }
-    });
-
-
-const deleteBtn = document.getElementById('delete-btn');
-const confirmInput = document.getElementById('confirm-delete');
-
-confirmInput.addEventListener('input', () => {
-  deleteBtn.disabled = confirmInput.value !== "sudo I want to delete my account";
-});
-
-deleteBtn.addEventListener('click', async () => {
-  const confirmed = confirm("This will permanently delete your account. Are you sure?");
-  if (!confirmed) return;
-
-  const { data: { session } } = await supabase.auth.getSession();
-  const token = session?.access_token;
-
-  const res = await fetch('https://hmnpqnzmtanepowfoodn.functions.supabase.co/delete-account',
-
-  {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      apikey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+    if (updateError) {
+      notifications.error("Failed to update profile. Please try again.", 5000);
+      console.error(updateError);
+    } else {
+      notifications.success("Profile updated successfully!", 3000);
     }
   });
 
-  if (res.ok) {
-    notifications.success("Your account has been deleted.", 2000);
-    setTimeout(() => window.location.href = "/goodbye.html", 2000);
-  } else {
-    notifications.error("Failed to delete account. Please try again.", 5000);
-    console.error(await res.text());
-  }
-});
+  const deleteBtn = document.getElementById('delete-btn');
+  const confirmInput = document.getElementById('confirm-delete');
 
-    // Credit request modal functionality
-    const requestCreditsBtn = document.getElementById('request-credits-btn');
-    const creditsModal = document.getElementById('credits-modal');
-    const closeModalBtn = document.getElementById('close-modal');
-    const creditsForm = document.getElementById('credits-form');
+  confirmInput.addEventListener('input', () => {
+    deleteBtn.disabled = confirmInput.value !== "sudo I want to delete my account";
+  });
 
-    console.log('Modal elements found:', {
-      requestCreditsBtn: !!requestCreditsBtn,
-      creditsModal: !!creditsModal,
-      closeModalBtn: !!closeModalBtn,
-      creditsForm: !!creditsForm
+  deleteBtn.addEventListener('click', async () => {
+    const confirmed = confirm("This will permanently delete your account. Are you sure?");
+    if (!confirmed) return;
+
+    const { data: { session } } = await supabase.auth.getSession();
+    const token = session?.access_token;
+
+    const res = await fetch('https://hmnpqnzmtanepowfoodn.functions.supabase.co/delete-account',
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          apikey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+        }
+      });
+
+    if (res.ok) {
+      notifications.success("Your account has been deleted.", 2000);
+      setTimeout(() => window.location.href = "/goodbye.html", 2000);
+    } else {
+      notifications.error("Failed to delete account. Please try again.", 5000);
+      console.error(await res.text());
+    }
+  });
+
+  // Credit request modal functionality
+  const requestCreditsBtn = document.getElementById('request-credits-btn');
+  const creditsModal = document.getElementById('credits-modal');
+  const closeModalBtn = document.getElementById('close-modal');
+  const creditsForm = document.getElementById('credits-form');
+
+  console.log('Modal elements found:', {
+    requestCreditsBtn: !!requestCreditsBtn,
+    creditsModal: !!creditsModal,
+    closeModalBtn: !!closeModalBtn,
+    creditsForm: !!creditsForm
+  });
+
+  if (requestCreditsBtn && creditsModal && closeModalBtn && creditsForm) {
+    // Open modal
+    requestCreditsBtn.addEventListener('click', () => {
+      console.log('Request credits button clicked!');
+      creditsModal.classList.remove('hidden');
+      console.log('Modal should now be visible');
     });
 
-    if (requestCreditsBtn && creditsModal && closeModalBtn && creditsForm) {
-      // Open modal
-      requestCreditsBtn.addEventListener('click', () => {
-        console.log('Request credits button clicked!');
-        creditsModal.classList.remove('hidden');
-        console.log('Modal should now be visible');
-      });
+    // Close modal
+    closeModalBtn.addEventListener('click', () => {
+      creditsModal.classList.add('hidden');
+    });
 
-      // Close modal
-      closeModalBtn.addEventListener('click', () => {
+    // Close modal when clicking outside
+    creditsModal.addEventListener('click', (e) => {
+      if (e.target === creditsModal) {
         creditsModal.classList.add('hidden');
-      });
+      }
+    });
 
-      // Close modal when clicking outside
-      creditsModal.addEventListener('click', (e) => {
-        if (e.target === creditsModal) {
-          creditsModal.classList.add('hidden');
-        }
-      });
+    // Handle form submission
+    creditsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const reason = document.getElementById('credit-reason').value.trim();
+      
+      // Track the request in PostHog
+      if (window.posthog) {
+        posthog.capture('credit_request_submitted', {
+          user_id: user.id,
+          current_credits: profile?.paid_courses_remaining || 0,
+          reason_provided: reason.length > 0,
+          reason_length: reason.length
+        });
+      }
 
-      // Handle form submission
-      creditsForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const reason = document.getElementById('credit-reason').value.trim();
-        
-        // Track the request in PostHog
-        if (window.posthog) {
-          posthog.capture('credit_request_submitted', {
-            user_id: user.id,
-            current_credits: profile?.paid_courses_remaining || 0,
-            reason_provided: reason.length > 0,
-            reason_length: reason.length
-          });
-        }
+      // Store the request in the database
+      const { error } = await supabase
+        .from('credit_requests')
+        .insert([{
+          user_id: user.id,
+          reason: reason,
+          current_credits: profile?.paid_courses_remaining || 0
+        }]);
 
-        // Store the request in the database
-        const { error } = await supabase
-          .from('credit_requests')
-          .insert([{
-            user_id: user.id,
-            reason: reason,
-            current_credits: profile?.paid_courses_remaining || 0
-          }]);
+      if (error) {
+        console.error('Error submitting credit request:', error);
+        notifications.error('Failed to submit request. Please try again.', 5000);
+      } else {
+        notifications.success('Credit request submitted! We\'ll review and get back to you soon.', 5000);
+      }
+      
+      // Close modal and reset form
+      creditsModal.classList.add('hidden');
+      creditsForm.reset();
+    });
+  }
 
-        if (error) {
-          console.error('Error submitting credit request:', error);
-          notifications.error('Failed to submit request. Please try again.', 5000);
-        } else {
-          notifications.success('Credit request submitted! We\'ll review and get back to you soon.', 5000);
-        }
-        
-        // Close modal and reset form
-        creditsModal.classList.add('hidden');
-        creditsForm.reset();
-      });
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
     }
-  </script>
+  });
+</script>
 
 </body>
 </html>

@@ -3,105 +3,164 @@
 <head>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Attendance | Attendance System</title>
   
-  <!-- Tailwind CSS -->
+  <!-- Primary Meta Tags -->
+  <title>Course Attendance | Herely</title>
+  <meta name="title" content="Course Attendance | Herely" />
+  <meta name="description" content="View and manage attendance records for your course." />
+  <meta name="keywords" content="attendance, course management, herely, student tracking" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
-
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
+  
   <!-- Custom Styles -->
   <link rel="stylesheet" href="styles/main.css">
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-white min-h-screen">
 
-  <!-- Navigation bar -->
-  <div class="w-full bg-white shadow-sm mb-6">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="block">
-        <img src="/assets/logo_herely_hand_left_curve.png"
-             alt="Herely logo"
-             class="h-10 sm:h-20 w-auto" />
+  <!-- =========  HEADER  ========= -->
+  <header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <a href="/" class="text-3xl font-semibold text-primary">
+        Herely
       </a>
-      <div class="flex gap-4">
+      
+      <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
         <button onclick="window.location.href='/admin.html'"
-          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+          class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
           Dashboard
         </button>
       </div>
     </div>
-  </div>
+  </header>
 
   <!-- Shimmer Placeholder -->
-<div id="shimmer" class="animate-pulse space-y-4 max-w-6xl mx-auto bg-white p-6 rounded shadow mb-8">
-  <div class="h-6 bg-gray-300 rounded w-2/3"></div>
-  <div class="h-4 bg-gray-300 rounded w-full"></div>
-  <div class="h-4 bg-gray-300 rounded w-5/6"></div>
-  <div class="h-4 bg-gray-300 rounded w-full"></div>
-  <div class="h-4 bg-gray-300 rounded w-1/2"></div>
-</div>
-
+  <div id="shimmer" class="animate-pulse space-y-4 max-w-6xl mx-auto bg-white p-8 rounded-sm shadow-sm border border-gray-200 mb-8">
+    <div class="h-6 bg-gray-300 rounded w-2/3"></div>
+    <div class="h-4 bg-gray-300 rounded w-full"></div>
+    <div class="h-4 bg-gray-300 rounded w-5/6"></div>
+    <div class="h-4 bg-gray-300 rounded w-full"></div>
+    <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+  </div>
 
   <!-- Main content -->
   <div id="content-wrapper" class="hidden">
 
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-xl font-semibold text-primary mb-4">Attendance Summary</h2>
 
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-xl font-semibold text-primary mb-4">Attendance Summary</h2>
+      <div class="mb-4 text-sm text-gray-700">
+        <span class="inline-block w-4 h-4 bg-green-200 mr-1 align-middle rounded-sm"></span> Present
+        <span class="inline-block w-4 h-4 bg-red-200 ml-4 mr-1 align-middle rounded-sm"></span> Absent
+        <span class="inline-block w-4 h-4 bg-gray-100 ml-4 mr-1 border border-gray-300 align-middle rounded-sm"></span> Not enrolled / excused
+      </div>
 
-    <div class="mb-4 text-sm text-gray-700">
-      <span class="inline-block w-4 h-4 bg-green-200 mr-1 align-middle"></span> Present
-      <span class="inline-block w-4 h-4 bg-red-200 ml-4 mr-1 align-middle"></span> Absent
-      <!--<span class="inline-block w-4 h-4 bg-orange-200 ml-4 mr-1 align-middle"></span> Examine-->
-      <span class="inline-block w-4 h-4 bg-gray-100 ml-4 mr-1 border border-gray-300 align-middle"></span> Not enrolled / excused
+      <div class="flex justify-end mb-2 gap-2">
+        <button id="export-csv" class="px-3 py-1 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors text-xs">
+          📄 Export CSV
+        </button>
+        <button id="open-meeting-manager" class="px-3 py-1 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors text-xs">
+          🛠️ Edit Meetings
+        </button>
+      </div>
+
+      <div class="overflow-x-auto border border-gray-200 rounded-sm bg-white min-w-[1000px] shadow-sm">
+        <table class="min-w-full table-fixed border border-gray-200 text-sm">
+          <thead class="bg-gray-50 text-gray-700 sticky top-0 z-10">
+            <tr id="header-row">
+              <!-- Headers inserted via JS -->
+            </tr>
+          </thead>
+          <tbody id="attendance-body">
+            <!-- Body inserted via JS -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="flex justify-end mb-2">
-      <button id="export-csv" class="px-3 py-1 bg-white text-primary border border-primary rounded hover:bg-gray-100 text-xs">
-        📄 Export CSV
-      </button>
-      <button id="open-meeting-manager" class="px-3 py-1 bg-white text-primary border border-primary rounded hover:bg-gray-100 text-xs">
-        🛠️ Edit Meetings
-      </button>
-    </div>
-
-    <div class="overflow-x-auto border rounded bg-white min-w-[1000px]">
-      <table class="min-w-full table-fixed border border-gray-300 text-sm">
-        <thead class="bg-gray-100 text-gray-700 sticky top-0 z-10">
-          <tr id="header-row">
-            <!-- Headers inserted via JS -->
-          </tr>
-        </thead>
-        <tbody id="attendance-body">
-          <!-- Body inserted via JS -->
-        </tbody>
-      </table>
-    </div>
   </div>
-
-</div>
+  
   <!-- Modals loaded dynamically -->
   <div id="modals-container"></div>
-
-</div>
 
   <!-- Scripts -->
   <script type="module" src="js/main.js"></script>
 
   <!-- FOOTER (async load) -->
-<div id="footer-placeholder"></div>
-<script>
-  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
-</script>
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+  </script>
 
+  <script>
+    // Header scroll effect - subtle fade with academic style
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      const scrollY = window.scrollY;
+      
+      if (scrollY > 20) {
+        // Calculate opacity based on scroll position
+        // Start at 100% opacity, fade to 70% by 200px scroll
+        const maxScroll = 200;
+        const minOpacity = 0.7;
+        const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+        
+        header.classList.add('shadow-sm');
+        header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+        header.style.backdropFilter = 'blur(8px)';
+        header.classList.remove('border-gray-200');
+        header.classList.add('border-gray-100');
+      } else {
+        // Return to normal state
+        header.classList.remove('shadow-sm');
+        header.style.backgroundColor = 'rgb(255, 255, 255)';
+        header.style.backdropFilter = 'none';
+        header.classList.remove('border-gray-100');
+        header.classList.add('border-gray-200');
+      }
+    });
+  </script>
 
 </body>
 </html>

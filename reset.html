@@ -3,43 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reset Password | Attendance System</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Reset Password | Herely</title>
+  <meta name="title" content="Reset Password | Herely" />
+  <meta name="description" content="Reset your Herely account password securely." />
+  <meta name="keywords" content="password reset, herely, account security" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen pt-20">
+<body class="bg-white min-h-screen">
 
-  <!-- Fixed Navigation -->
-  <header class="bg-white shadow-sm fixed top-0 w-full z-50">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-3xl font-bold tracking-wide text-primary">Adsum!</h1>
+  <!-- =========  HEADER  ========= -->
+  <header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <a href="/" class="text-3xl font-semibold text-primary">
+        Herely
+      </a>
     </div>
   </header>
 
-  <div class="flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
-      <h1 class="text-2xl font-bold text-center text-primary mb-6">Reset Your Password</h1>
+  <!-- =========  MAIN CONTENT  ========= -->
+  <div class="flex items-center justify-center min-h-screen py-8">
+    <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 w-full max-w-sm">
+      <h1 class="text-2xl font-semibold text-center text-primary mb-6">Reset Your Password</h1>
 
       <form id="reset-form" class="space-y-6">
         <div>
-          <label for="new-password" class="block text-sm font-medium text-gray-700">New Password</label>
-          <input type="password" id="new-password" required class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="Enter new password">
+          <label for="new-password" class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+          <input type="password" id="new-password" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                 placeholder="Enter new password">
         </div>
 
         <div>
-            <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-            <input type="password" id="confirm-password" required class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="Confirm password">
-          </div>
+          <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+          <input type="password" id="confirm-password" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                 placeholder="Confirm password">
+        </div>
 
-        <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700">
+        <button type="submit" class="w-full py-3 px-4 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
           Update Password
         </button>
 
@@ -76,6 +121,8 @@
       const { data: userSession } = await supabase.auth.getSession();
       if (!userSession?.session) {
         status.textContent = "Session invalid or expired. Please try the reset link again.";
+        status.classList.remove('text-gray-600');
+        status.classList.add('text-red-600');
         return;
       }
   
@@ -84,21 +131,51 @@
       if (error) {
         console.error('Password update error:', error);
         status.textContent = 'Failed to update password. Try again.';
+        status.classList.remove('text-gray-600');
         status.classList.add('text-red-600');
       } else {
         status.textContent = 'Password updated! Redirecting...';
         status.classList.remove('text-red-600');
-        status.classList.add('text-gray-600');
+        status.classList.add('text-green-600');
         setTimeout(() => window.location.href = '/admin.html', 2000);
       }
     });
   </script>
 
-<!-- FOOTER (async load) -->
-<div id="footer-placeholder"></div>
-<script>
-  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
-</script>
+  <!-- FOOTER (async load) -->
+  <div id="footer-placeholder"></div>
+  <script>
+    fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+  </script>
+
+  <script>
+    // Header scroll effect - subtle fade with academic style
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      const scrollY = window.scrollY;
+      
+      if (scrollY > 20) {
+        // Calculate opacity based on scroll position
+        // Start at 100% opacity, fade to 70% by 200px scroll
+        const maxScroll = 200;
+        const minOpacity = 0.7;
+        const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+        
+        header.classList.add('shadow-sm');
+        header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+        header.style.backdropFilter = 'blur(8px)';
+        header.classList.remove('border-gray-200');
+        header.classList.add('border-gray-100');
+      } else {
+        // Return to normal state
+        header.classList.remove('shadow-sm');
+        header.style.backgroundColor = 'rgb(255, 255, 255)';
+        header.style.backdropFilter = 'none';
+        header.classList.remove('border-gray-100');
+        header.classList.add('border-gray-200');
+      }
+    });
+  </script>
 
 </body>
 </html>

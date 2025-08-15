@@ -3,133 +3,175 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary Meta Tags -->
   <title>Privacy Policy | Herely</title>
-  <!-- Tailwind -->
+  <meta name="title" content="Privacy Policy | Herely" />
+  <meta name="description" content="Herely's privacy policy explains how we collect, use, and protect your personal information." />
+  <meta name="keywords" content="privacy policy, data protection, herely, attendance tracking" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { primary: '#B31B1B' } } } }
+    tailwind.config = {
+      theme: {
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
+    }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-white text-gray-800">
 
-<!-- ───────── NAV ──────────────────────────────────────────────────────────── -->
-<header class="bg-white shadow-sm">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-    <a href="/" class="block">
-      <img src="/assets/logo_herely_hand_left_curve.png"
-           alt="Herely logo"
-           class="h-10 sm:h-20 w-auto" />
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
     </a>
-    <div class="flex gap-2 sm:gap-4">
+    
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
       <button onclick="history.back()"
-              class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
+              class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
         ← Back
       </button>
       <button onclick="location.href='/login.html'"
-              class="px-4 py-2 border border-primary text-primary bg-white rounded hover:bg-gray-100">
+              class="px-4 py-2 border border-primary text-primary bg-white rounded-sm hover:bg-gray-50 transition-colors">
         Login
       </button>
-      <button onclick="location.href='/signup.html'"
-              class="px-4 py-2 bg-primary text-white rounded hover:bg-red-800">
+      <button onclick="location.href='/signup_step1.html'"
+              class="px-4 py-2 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors">
         Create Free Account
       </button>
     </div>
   </div>
 </header>
 
-<!-- ───────── MAIN ─────────────────────────────────────────────────────────── -->
-<main class="max-w-3xl mx-auto p-8 space-y-8 bg-white shadow-sm mt-8 rounded">
+<!-- =========  MAIN CONTENT  ========= -->
+<main class="max-w-3xl mx-auto p-8 space-y-8 bg-white shadow-sm border border-gray-200 rounded-sm">
 
-  <h1 class="text-3xl font-bold text-primary text-center">Herely Privacy Policy</h1>
+  <h1 class="text-3xl font-semibold text-primary text-center">Herely Privacy Policy</h1>
   <p class="text-center text-sm text-gray-500">Last updated: 12 May 2025</p>
 
-  <p>
-    Herely (“we,” “our,” or “us”) provides a lightweight attendance-tracking platform that lets
+  <p class="text-gray-700 leading-relaxed">
+    Herely ("we," "our," or "us") provides a lightweight attendance-tracking platform that lets
     instructors launch a live sign-in sheet and lets participants record their presence with a quick
     signature. Protecting the privacy of instructors, students, and other participants is core to our
-    product philosophy.  This Policy explains what personal information we collect, how we use it,
+    product philosophy. This Policy explains what personal information we collect, how we use it,
     and the choices you have.
   </p>
 
   <!-- Key Definitions ------------------------------------------------------- -->
   <h2 class="text-2xl font-semibold text-primary mt-10">Key Definitions</h2>
-  <p class="text-sm leading-relaxed">
-    <strong>“Personal Information”</strong> means any information that identifies or relates to an identifiable individual.<br>
-    <strong>“Check-in Data”</strong> means a participant’s typed initials plus the timestamp and related metadata captured when they sign in.<br>
-    <strong>“Content”</strong> means attendance records, rosters, notes, and any files you upload.<br>
-    <strong>“Services”</strong> means <em>herely.com</em>, its sub-domains, dashboards, APIs, and related features.<br>
-    <strong>“Sub-processor”</strong> means a third-party vendor that processes Personal Information on our behalf.
+  <p class="text-sm leading-relaxed text-gray-700">
+    <strong>"Personal Information"</strong> means any information that identifies or relates to an identifiable individual.<br>
+    <strong>"Check-in Data"</strong> means a participant's typed initials plus the timestamp and related metadata captured when they sign in.<br>
+    <strong>"Content"</strong> means attendance records, rosters, notes, and any files you upload.<br>
+    <strong>"Services"</strong> means <em>herely.com</em>, its sub-domains, dashboards, APIs, and related features.<br>
+    <strong>"Sub-processor"</strong> means a third-party vendor that processes Personal Information on our behalf.
   </p>
   
   <!-- 1 Scope --------------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">1.&nbsp;Scope of this Policy</h2>
-  <ul class="list-disc list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">1. Scope of this Policy</h2>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li>Applies to the <strong>Services</strong> described above.</li>
     <li>Does not cover third-party websites or services that link to or from us.</li>
   </ul>
 
   <!-- 2 Quick Summary ------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">2.&nbsp;Quick Summary</h2>
+  <h2 class="text-2xl font-semibold text-primary mt-10">2. Quick Summary</h2>
   <div class="overflow-x-auto">
-    <table class="min-w-full text-sm border border-gray-300">
+    <table class="min-w-full text-sm border border-gray-200 rounded-sm">
       <thead class="bg-gray-50 text-gray-700">
         <tr>
-          <th class="p-2 border">✍️ What we collect</th>
-          <th class="p-2 border">💡 Why we collect it</th>
-          <th class="p-2 border">⏰ How long we keep it</th>
+          <th class="p-3 border border-gray-200 font-medium">✍️ What we collect</th>
+          <th class="p-3 border border-gray-200 font-medium">💡 Why we collect it</th>
+          <th class="p-3 border border-gray-200 font-medium">⏰ How long we keep it</th>
         </tr>
       </thead>
-      <tbody class="divide-y">
+      <tbody class="divide-y divide-gray-200">
         <tr>
-          <td class="p-2">Instructor account info (name, email, password hash)</td>
-          <td class="p-2">Create & secure your account; provide support</td>
-          <td class="p-2">Until you delete your account or after 24 mo. of inactivity</td>
+          <td class="p-3 border border-gray-200">Instructor account info (name, email, password hash)</td>
+          <td class="p-3 border border-gray-200">Create & secure your account; provide support</td>
+          <td class="p-3 border border-gray-200">Until you delete your account or after 24 mo. of inactivity</td>
         </tr>
         <tr>
-          <td class="p-2">Course metadata (course title, meeting dates)</td>
-          <td class="p-2">Deliver the Service & generate reports</td>
-          <td class="p-2">Until course auto-expires (6 months after creation)</td>
+          <td class="p-3 border border-gray-200">Course metadata (course title, meeting dates)</td>
+          <td class="p-3 border border-gray-200">Deliver the Service & generate reports</td>
+          <td class="p-3 border border-gray-200">Until course auto-expires (6 months after creation)</td>
         </tr>
         <tr>
-          <td class="p-2">Attendance records
+          <td class="p-3 border border-gray-200">Attendance records
               (participant name/ID, typed initials timestamp)</td>
-          <td class="p-2">Display rosters, export CSVs, flag suspicious sign-ins</td>
-          <td class="p-2">Until course auto-expires&nbsp;+ 30 days purge window</td>
+          <td class="p-3 border border-gray-200">Display rosters, export CSVs, flag suspicious sign-ins</td>
+          <td class="p-3 border border-gray-200">Until course auto-expires + 30 days purge window</td>
         </tr>
         <tr>
-          <td class="p-2">Device & log data (IP, browser type, OS)</td>
-          <td class="p-2">Fraud prevention, diagnostics, analytics</td>
-          <td class="p-2">12 months</td>
+          <td class="p-3 border border-gray-200">Device & log data (IP, browser type, OS)</td>
+          <td class="p-3 border border-gray-200">Fraud prevention, diagnostics, analytics</td>
+          <td class="p-3 border border-gray-200">12 months</td>
         </tr>
         <tr>
-          <td class="p-2">Payment data (card last 4, billing address)<br><em>processed by Stripe</em></td>
-          <td class="p-2">Process subscriptions, detect fraud, comply with tax law</td>
-          <td class="p-2">As required by tax & accounting law (≈ 7 yrs)</td>
+          <td class="p-3 border border-gray-200">Payment data (card last 4, billing address)<br><em>processed by Stripe</em></td>
+          <td class="p-3 border border-gray-200">Process subscriptions, detect fraud, comply with tax law</td>
+          <td class="p-3 border border-gray-200">As required by tax & accounting law (≈ 7 yrs)</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <!-- 3 Information We Collect -------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">3.&nbsp;Information We Collect</h2>
-  <h3 class="font-semibold mt-4">3.1 Information you or your organization provide</h3>
-  <ul class="list-disc list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">3. Information We Collect</h2>
+  <h3 class="font-semibold mt-4 text-gray-800">3.1 Information you or your organization provide</h3>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li><strong>Instructor profile</strong> – name, email, organization, hashed password.</li>
     <li><strong>Course & roster details</strong> – course titles, section numbers, and (if imported) participant names, emails, or IDs.</li>
     <li><strong>Attendance inputs</strong> – typed initials and any notes you add.</li>
   </ul>
 
-  <h3 class="font-semibold mt-4">3.2 Information collected automatically</h3>
-  <ul class="list-disc list-inside space-y-1">
+  <h3 class="font-semibold mt-4 text-gray-800">3.2 Information collected automatically</h3>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li><strong>Device & usage data</strong> – IP address, browser type, device identifiers, pages viewed, timestamps.</li>
   </ul>
 
-  <h3 class="font-semibold mt-4">3.3 Payment information</h3>
-  <p>Payments are processed by Stripe; Herely never sees your full card number. Stripe’s <a href="https://stripe.com/privacy" class="text-primary underline" target="_blank" rel="noopener">Privacy Policy</a> governs that data.</p>
+  <h3 class="font-semibold mt-4 text-gray-800">3.3 Payment information</h3>
+  <p class="text-gray-700">Payments are processed by Stripe; Herely never sees your full card number. Stripe's <a href="https://stripe.com/privacy" class="text-primary underline hover:text-blue-800" target="_blank" rel="noopener">Privacy Policy</a> governs that data.</p>
 
   <!-- 4 How We Use --------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">4.&nbsp;How We Use Your Information</h2>
-  <ol class="list-decimal list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">4. How We Use Your Information</h2>
+  <ol class="list-decimal list-inside space-y-1 text-gray-700">
     <li>Deliver & maintain the Service (create meetings, render sign-in canvases, store results).</li>
     <li>Analytics & product improvement (aggregate feature adoption).</li>
     <li>Security & fraud prevention (detect duplicate sign-ins, audit admin actions).</li>
@@ -138,8 +180,8 @@
   </ol>
 
   <!-- 5 Legal Bases -------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">5.&nbsp;Legal Bases for Processing (EEA/UK)</h2>
-  <ul class="list-disc list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">5. Legal Bases for Processing (EEA/UK)</h2>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li><strong>Contract</strong> – to provide the Service you request.</li>
     <li><strong>Legitimate interests</strong> – fraud prevention, product analytics, limited B2B marketing.</li>
     <li><strong>Consent</strong> – optional product updates; you may withdraw at any time.</li>
@@ -147,111 +189,109 @@
   </ul>
 
   <!-- 6 Cookies ------------------------------------------------------------ -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">6.&nbsp;Cookies &amp; Tracking Technologies</h2>
-<p>Herely uses a minimal set of <strong>first-party</strong> cookies:</p>
-<ol class="list-decimal list-inside space-y-1">
-  <li><strong>Session</strong> – keeps you logged in (12&nbsp;h inactivity expiry).</li>
-  <li><strong>CSRF</strong> – prevents cross-site request forgery (expires with session).</li>
-</ol>
-<p class="mt-2">
-  No third-party ad networks or social-media pixels.  We use a privacy-first analytics tool that does not use cookies or track individuals. No ads, no fingerprinting, and no personal data stored.
-</p>
-
+  <h2 class="text-2xl font-semibold text-primary mt-10">6. Cookies & Tracking Technologies</h2>
+  <p class="text-gray-700">Herely uses a minimal set of <strong>first-party</strong> cookies:</p>
+  <ol class="list-decimal list-inside space-y-1 text-gray-700">
+    <li><strong>Session</strong> – keeps you logged in (12 h inactivity expiry).</li>
+    <li><strong>CSRF</strong> – prevents cross-site request forgery (expires with session).</li>
+  </ol>
+  <p class="mt-2 text-gray-700">
+    No third-party ad networks or social-media pixels. We use a privacy-first analytics tool that does not use cookies or track individuals. No ads, no fingerprinting, and no personal data stored.
+  </p>
 
   <!-- 7 Security & Incident Response --------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">7.&nbsp;Security & Incident Response</h2>
-  <p>
+  <h2 class="text-2xl font-semibold text-primary mt-10">7. Security & Incident Response</h2>
+  <p class="text-gray-700 leading-relaxed">
     We employ industry-standard encryption in transit and at rest, network isolation, and strict
-    access controls.  If we learn of a breach affecting Personal Information, we will notify impacted
+    access controls. If we learn of a breach affecting Personal Information, we will notify impacted
     instructors and organizations without undue delay by email — and in any event within 72 hours where
     required by law — along with a description of steps we are taking.
   </p>
 
   <!-- 8 Data Retention ----------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">8.&nbsp;Data Retention & Deletion</h2>
-  <ul class="list-disc list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">8. Data Retention & Deletion</h2>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li>Courses auto-expire six (6) months after creation; all related data is purged within 30 days.</li>
     <li>Instructors can delete a course or their account at any time via <em>Settings → Account</em>.</li>
   </ul>
 
   <!-- 9 Disclosure --------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">9.&nbsp;Disclosure of Information</h2>
-  <p>We <strong>do not sell</strong> Personal Information. We share it only:</p>
-  <ul class="list-disc list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">9. Disclosure of Information</h2>
+  <p class="text-gray-700">We <strong>do not sell</strong> Personal Information. We share it only:</p>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li>With vetted Sub-processors.</li>
     <li>In a corporate transaction (merger, acquisition).</li>
     <li>To comply with law or protect the rights, safety, or property of Herely or others.</li>
   </ul>
 
   <!-- 10 FERPA ------------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">10.&nbsp;FERPA & Student Data</h2>
-  <p>(content unchanged from your draft, but with auto-deletion now matching 6-month window)</p>
+  <h2 class="text-2xl font-semibold text-primary mt-10">10. FERPA & Student Data</h2>
+  <p class="text-gray-700">(content unchanged from your draft, but with auto-deletion now matching 6-month window)</p>
 
   <!-- 11 International Transfers ------------------------------------------ -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">11.&nbsp;International Transfers</h2>
-  <p>
+  <h2 class="text-2xl font-semibold text-primary mt-10">11. International Transfers</h2>
+  <p class="text-gray-700">
     We host data in the United States (AWS us-east-1).
   </p>
 
   <!-- 12 CCPA/CPRA & State Privacy Rights ---------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">12.&nbsp;California & Other US State Privacy Rights</h2>
-  <p>
-    If you are a California resident, you have rights to access, delete, or opt-out of the “sale/share”
-    of Personal Information under the CCPA/CPRA. Herely does not “sell” Personal Information, but you
+  <h2 class="text-2xl font-semibold text-primary mt-10">12. California & Other US State Privacy Rights</h2>
+  <p class="text-gray-700">
+    If you are a California resident, you have rights to access, delete, or opt-out of the "sale/share"
+    of Personal Information under the CCPA/CPRA. Herely does not "sell" Personal Information, but you
     may exercise any of these rights by e-mailing
-    <a href="mailto:privacy@herely.com" class="text-primary underline">privacy@herely.com</a>
-    or calling +1-888-555-0123.  We will verify your request and respond within the timelines
-    required by law.  Similar rights under other state laws (e.g., Colorado, Virginia) are honoured
+    <a href="mailto:privacy@herely.com" class="text-primary underline hover:text-blue-800">privacy@herely.com</a>
+    or calling +1-888-555-0123. We will verify your request and respond within the timelines
+    required by law. Similar rights under other state laws (e.g., Colorado, Virginia) are honoured
     in the same way.
   </p>
 
   <!-- 13 Your Rights ------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">13.&nbsp;Your Rights & Choices</h2>
-  <p><ul class="list-disc list-inside space-y-1">
+  <h2 class="text-2xl font-semibold text-primary mt-10">13. Your Rights & Choices</h2>
+  <ul class="list-disc list-inside space-y-1 text-gray-700">
     <li><strong>Access:</strong> You can request a copy of your Personal Information that we hold.</li>
     <li><strong>Correction:</strong> You may correct or update Personal Information from your <em>Profile</em> or by contacting us.</li>
     <li><strong>Deletion:</strong> Instructors can delete courses or accounts at any time in the Profile panel.</li>
     <li><strong>Portability:</strong> You may request an export of your attendance or roster data in a machine-readable format.</li>
     <li><strong>Withdraw Consent:</strong> If we rely on consent (e.g., for optional emails), you can withdraw it at any time via your account or unsubscribe link.</li>
   </ul>
-  </p>
-  <p class="mt-2">
+  <p class="mt-2 text-gray-700">
     To exercise any of these rights, please contact us at
-    <a href="mailto:support@herely.com" class="text-primary underline">support@herely.com</a>.
+    <a href="mailto:support@herely.com" class="text-primary underline hover:text-blue-800">support@herely.com</a>.
     We will verify your identity and respond within the timeframes required by applicable law.
   </p>
-  <p class="mt-2">You may also lodge a complaint with your local data-protection authority (e.g., FTC).</p>
+  <p class="mt-2 text-gray-700">You may also lodge a complaint with your local data-protection authority (e.g., FTC).</p>
 
   <!-- 14 Children ---------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">14.&nbsp;Children’s Privacy & COPPA</h2>
-  <p>
-    Herely is not directed to children under 13.  Where instructors use the Service with K-12
-    students, they do so as the agent of the school under the “school official” exception of
+  <h2 class="text-2xl font-semibold text-primary mt-10">14. Children's Privacy & COPPA</h2>
+  <p class="text-gray-700 leading-relaxed">
+    Herely is not directed to children under 13. Where instructors use the Service with K-12
+    students, they do so as the agent of the school under the "school official" exception of
     COPPA and FERPA. We rely on the institution to obtain any required parental consent.
   </p>
 
   <!-- 15 Contact / DPO ----------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">15.&nbsp;How to Contact Us</h2>
-  <address class="not-italic leading-normal">
+  <h2 class="text-2xl font-semibold text-primary mt-10">15. How to Contact Us</h2>
+  <address class="not-italic leading-normal text-gray-700">
     <strong>Data Protection Officer</strong><br>
     Herely LLC<br>
     30 N Gould St Ste R<br>
     Sheridan, WY 82801 USA<br>
-    <a href="mailto:privacy@herely.com" class="text-primary underline">privacy@herely.com</a>
+    <a href="mailto:privacy@herely.com" class="text-primary underline hover:text-blue-800">privacy@herely.com</a>
   </address>
-  <p class="text-sm mt-2">
+  <p class="text-sm mt-2 text-gray-600">
     EU representative: <em>TBD Compliance Ltd., Dublin 2, Ireland.</em>
   </p>
 
   <!-- 16 Changes ----------------------------------------------------------- -->
-  <h2 class="text-2xl font-semibold text-primary mt-10">16.&nbsp;Changes to this Policy</h2>
-  <p>
-    We may update this Privacy Policy from time to time.  Material changes will be announced
+  <h2 class="text-2xl font-semibold text-primary mt-10">16. Changes to this Policy</h2>
+  <p class="text-gray-700 leading-relaxed">
+    We may update this Privacy Policy from time to time. Material changes will be announced
     via e-mail to account admins and an in-app banner at least 14 days before the new policy
-    takes effect. The “Last updated” date above will always show the current revision.
+    takes effect. The "Last updated" date above will always show the current revision.
   </p>
 
-  <p class="mt-6 font-medium text-center">
+  <p class="mt-6 font-medium text-center text-gray-700">
     Thank you for trusting Herely with your attendance data.
   </p>
 
@@ -261,6 +301,35 @@
 <div id="footer-placeholder"></div>
 <script>
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+<script>
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
 </script>
 
 </body>

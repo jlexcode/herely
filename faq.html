@@ -3,186 +3,219 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary Meta Tags -->
   <title>FAQ | Herely</title>
+  <meta name="title" content="FAQ | Herely" />
+  <meta name="description" content="Frequently asked questions about Herely attendance tracking for educators and organizations." />
+  <meta name="keywords" content="FAQ, frequently asked questions, attendance tracking, herely, education" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <!-- Navigation -->
-  <header class="bg-white shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="block">
-        <img src="/assets/logo_herely_hand_left_curve.png"
-             alt="Herely logo"
-             class="h-10 sm:h-20 w-auto" 
-        />
-      </a>      <div class="flex gap-2 sm:gap-4">
-        <button onclick="history.back()" class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-          ← Back
-        </button>
-        <button onclick="window.location.href='/login.html'" class="px-4 py-2 border border-primary text-primary bg-white rounded hover:bg-gray-100">
-          Login
-        </button>
-        <button onclick="window.location.href='/signup.html'" class="px-4 py-2 bg-primary text-white rounded hover:bg-red-800">
-          Create Free Account
-        </button>
-      </div>
+<body class="bg-white text-gray-800">
+
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
+    </a>
+
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button onclick="history.back()" 
+              class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
+        ← Back
+      </button>
+      <button id="auth-button"
+              class="px-4 py-2 border border-primary text-primary bg-white rounded-sm hover:bg-gray-50 transition-colors">
+        Login
+      </button>
+      <button onclick="window.location.href='/signup_step1.html'"
+              class="px-4 py-2 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors">
+        Create Free Account
+      </button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-
-    <!-- HOW IT WORKS SECTION -->
-    <section class="bg-gray-50 py-16">
-      <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl font-semibold text-center text-primary mb-10">How It Works</h2>
-        <div class="space-y-8 max-w-3xl mx-auto text-gray-800">
-          <div class="flex gap-4 items-start">
-            <div class="text-primary font-bold text-2xl">1.</div>
-            <div>
-              <p class="font-semibold mb-1">Start a check-in from your dashboard</p>
-              <p>Just click “Start Meeting” to launch a meeting. No setup needed in advance. You can also schedule meetings for the semester in one go.</p>
-            </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <div class="text-primary font-bold text-2xl">2.</div>
-            <div>
-              <p class="font-semibold mb-1">Participants sign their name</p>
-              <p>They type their initials to sign-in.</p>
-            </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <div class="text-primary font-bold text-2xl">3.</div>
-            <div>
-              <p class="font-semibold mb-1">You track and export results</p>
-              <p>See who checked in, flag suspicious records, and download a CSV anytime.</p>
-            </div>
-          </div>
+<!-- =========  HOW IT WORKS  ========= -->
+<section class="bg-white py-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-semibold text-center text-primary mb-10">How It Works</h2>
+    <div class="space-y-8 max-w-3xl mx-auto text-gray-800">
+      <div class="flex gap-4 items-start">
+        <div class="text-primary font-bold text-2xl">1.</div>
+        <div>
+          <p class="font-semibold mb-2">Start a check-in from your dashboard</p>
+          <p class="text-gray-600">Just click "Start Meeting" to launch a meeting. No setup needed in advance. You can also schedule meetings for the semester in one go.</p>
         </div>
       </div>
-    </section>
-  
-    <!-- FAQ SECTION -->
-    <section class="bg-white py-16">
-      <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl font-semibold text-center text-primary mb-6">Frequently Asked Questions</h2>
-        <p class="text-gray-700 text-center max-w-2xl mx-auto mb-10">
-          These are some of the most common questions instructors ask before getting started with Herely.
-        </p>
-  
-        <div class="max-w-3xl mx-auto space-y-2" id="faq">
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-              <span>Wait, so how does this work?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              You launch a meeting when you want to take attendance. Participants then sign in to the meeting by typing their initials on a stable website. That's it! Like an old-fashioned sign-in sheet.
-            </div>
-          </div>
-    
-          <div class="space-y-2" id="faq">
-            <div class="border rounded">
-              <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-                <span>Does this work with remote or hybrid courses?</span>
-                <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div class="px-4 py-2 text-gray-700 hidden">
-                Yes! It works with any snycronous course.
-              </div>
-            </div>
-      
-    
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50 focus:outline-none" onclick="toggleAccordion(this)">
-              <span>Do I need to download an app for this?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              No &mdash; just log in to the webpage &mdash; from your phone, laptop, or any browser.
-            </div>
-          </div>
-    
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
-              <span>Do students or participants need to sign up?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              No. Students and participants never need accounts. They just scan the QR code or visit the link you provide.
-            </div>
-          </div>
-    
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
-              <span>What happens if I forget to schedule a meeting?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              Just launch one from your phone. It will auto-fill with your current time, location, and a default 10-minute window.
-            </div>
-          </div>
-    
-    
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
-              <span>Do you store student or participant data?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              Only to track attendance &mdash; and only during the course. No cookies or tracking outside check-in windows. 
-            </div>
-          </div>
-    
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
-              <span>What’s your data retention policy?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              Courses auto-expire after 6 months. All associated course data is then hard deleted. You can also delete data manually at any time.
-            </div>
-          </div>
-    
-          <div class="border rounded">
-            <button class="w-full flex justify-between items-center px-4 py-2 font-medium hover:bg-gray-50" onclick="toggleAccordion(this)">
-              <span>How do you secure data?</span>
-              <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="px-4 py-2 text-gray-700 hidden">
-              Data is encrpyted at rest and in transit, similar to other education software. 
-            </div>
-          </div>
-            </div>
+      <div class="flex gap-4 items-start">
+        <div class="text-primary font-bold text-2xl">2.</div>
+        <div>
+          <p class="font-semibold mb-2">Participants sign their name</p>
+          <p class="text-gray-600">They type their initials to sign-in.</p>
+        </div>
       </div>
-    </section>
-  
-  </main>
+      <div class="flex gap-4 items-start">
+        <div class="text-primary font-bold text-2xl">3.</div>
+        <div>
+          <p class="font-semibold mb-2">You track and export results</p>
+          <p class="text-gray-600">See who checked in, flag suspicious records, and download a CSV anytime.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- =========  FAQ  ========= -->
+<section class="bg-white py-16">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-semibold text-center text-primary mb-6">Frequently Asked Questions</h2>
+    <p class="text-gray-600 text-center max-w-2xl mx-auto mb-10">
+      These are some of the most common questions instructors ask before getting started with Herely.
+    </p>
+
+    <div class="max-w-3xl mx-auto space-y-4" id="faq">
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>Wait, so how does this work?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          You launch a meeting when you want to take attendance. Participants then sign in to the meeting by typing their initials on a stable website. That's it! Like an old-fashioned sign-in sheet.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>Does this work with remote or hybrid courses?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          Yes! It works with any synchronous course.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>Do I need to download an app for this?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          No — just log in to the webpage — from your phone, laptop, or any browser.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>Do students or participants need to sign up?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          No. Students and participants never need accounts. They just scan the QR code or visit the link you provide.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>What happens if I forget to schedule a meeting?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          Just launch one from your phone. It will auto-fill with your current time, location, and a default 10-minute window.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>Do you store student or participant data?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          Only to track attendance — and only during the course. No cookies or tracking outside check-in windows.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>What's your data retention policy?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          Courses auto-expire after 6 months. All associated course data is then hard deleted. You can also delete data manually at any time.
+        </div>
+      </div>
+
+      <div class="border border-gray-200 rounded-sm">
+        <button class="w-full flex justify-between items-center px-6 py-4 font-medium hover:bg-gray-50 focus:outline-none transition-colors" onclick="toggleAccordion(this)">
+          <span>How do you secure data?</span>
+          <svg class="w-4 h-4 transition-transform duration-200 transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="px-6 py-4 text-gray-600 hidden border-t border-gray-100">
+          Data is encrypted at rest and in transit, similar to other education software.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER (async load) -->
 <div id="footer-placeholder"></div>
@@ -190,13 +223,74 @@
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
 </script>
 
-  <script>
-    function toggleAccordion(button) {
-      const content = button.nextElementSibling;
-      const icon = button.querySelector('svg');
-      content.classList.toggle("hidden");
-      icon.classList.toggle("rotate-180");
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient(
+    'https://hmnpqnzmtanepowfoodn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+  );
+
+  // Check authentication status and update button
+  async function updateAuthButton() {
+    const { data: { session } } = await supabase.auth.getSession();
+    const authButton = document.getElementById('auth-button');
+    
+    if (session?.user) {
+      // User is logged in
+      authButton.textContent = 'Dashboard';
+      authButton.onclick = () => window.location.href = '/admin.html';
+    } else {
+      // User is not logged in
+      authButton.textContent = 'Login';
+      authButton.onclick = () => window.location.href = '/login.html';
     }
-  </script>
+  }
+
+  // Update button on page load
+  updateAuthButton();
+
+  // Listen for auth state changes
+  supabase.auth.onAuthStateChange((event, session) => {
+    updateAuthButton();
+  });
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
+</script>
+
+<script>
+  function toggleAccordion(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('svg');
+    content.classList.toggle("hidden");
+    icon.classList.toggle("rotate-180");
+  }
+</script>
+
 </body>
 </html>

@@ -3,46 +3,84 @@
 <head>
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Course | Attendance System</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Create Course | Herely</title>
+  <meta name="title" content="Create Course | Herely" />
+  <meta name="description" content="Create a new course or program with Herely's attendance tracking system." />
+  <meta name="keywords" content="create course, course management, attendance tracking, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' },
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
-<style>
-  #create-course-form {
-    display: none;
-  }
-</style>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+    
+    #create-course-form {
+      display: none;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-white text-gray-800">
 
-  <!-- Navigation bar -->
-  <div class="w-full bg-white shadow-sm mb-6">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="block">
-        <img src="/assets/logo_herely_hand_left_curve.png"
-             alt="Herely logo"
-             class="h-10 sm:h-20 w-auto" />
-      </a>  
-      <div class="flex gap-4">
-        <button onclick="window.location.href='/admin.html'"
-          class="px-4 py-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-          Dashboard
-        </button>
-      </div>
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
+    </a>
+    
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
+      <button onclick="window.location.href='/admin.html'"
+        class="px-4 py-2 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors">
+        Dashboard
+      </button>
     </div>
   </div>
+</header>
 
-  <!-- Page content -->
-  <div class="max-w-6xl mx-auto px-4 py-8">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-md mx-auto">
+<!-- =========  MAIN CONTENT  ========= -->
+<section class="bg-white py-8">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 w-full max-w-md mx-auto">
 
+      <!-- =========  SHIMMER PLACEHOLDER  ========= -->
       <div id="shimmer" class="animate-pulse space-y-4 max-w-md mx-auto">
         <div class="h-6 bg-gray-300 rounded w-2/3 mx-auto"></div>
         <div class="h-4 bg-gray-300 rounded w-full"></div>
@@ -51,30 +89,35 @@
         <div class="h-4 bg-gray-300 rounded w-1/2 mx-auto"></div>
       </div>
     
-      <h1 id="form-heading" class="text-2xl font-bold text-center text-primary mb-6 hidden">Create a New Course</h1>
+      <h1 id="form-heading" class="text-2xl font-semibold text-center text-primary mb-6 hidden">Create a New Course</h1>
 
+      <!-- =========  CREATE COURSE FORM  ========= -->
       <form id="create-course-form" class="space-y-6">
         <div>
-          <label for="title" id="title-label" class="block text-sm font-medium text-gray-700">Course Title</label>
-          <input type="text" id="title" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
+          <label for="title" id="title-label" class="block text-sm font-medium text-gray-700 mb-2">Course Title</label>
+          <input type="text" id="title" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
         </div>
       
         <div>
-          <label for="section" class="block text-sm font-medium text-gray-700">Section (optional)</label>
-          <input type="text" id="section" class="mt-1 block w-full p-2 border border-gray-300 rounded">
+          <label for="section" class="block text-sm font-medium text-gray-700 mb-2">Section (optional)</label>
+          <input type="text" id="section" 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
         </div>
       
         <div id="term-wrapper">
-          <label class="block text-sm font-medium text-gray-700">Term</label>
-          <div class="flex gap-2">
-            <select id="term-semester" required class="mt-1 p-2 border rounded w-1/2">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Term</label>
+          <div class="flex gap-3">
+            <select id="term-semester" required 
+                    class="flex-1 p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
               <option value="" disabled selected>Select Semester</option>
               <option value="Fall">Fall</option>
               <option value="Spring">Spring</option>
               <option value="Summer">Summer</option>
               <option value="Winter">Winter</option>
             </select>
-            <select id="term-year" required class="mt-1 p-2 border rounded w-1/2">
+            <select id="term-year" required 
+                    class="flex-1 p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
               <option value="" disabled selected>Select Year</option>
               <option value="2025">2025</option>
               <option value="2026">2026</option>
@@ -83,7 +126,8 @@
           </div>
         </div>
       
-        <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700">
+        <button type="submit" 
+                class="w-full py-3 px-4 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
           Create
         </button>
       
@@ -91,143 +135,166 @@
       </form>
     </div>
   </div>
-
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-  
-    const supabase = createClient(
-      'https://hmnpqnzmtanepowfoodn.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
-    );
-
-  import { requireAuth } from '/js/authUtils.js';
-  import notifications from '/js/notifications.js';
-  const user = await requireAuth(supabase);
-
-
-
-    const form = document.getElementById('create-course-form');
-    const status = document.getElementById('status');
-    const heading = document.getElementById('form-heading');
-    const titleLabel = document.getElementById('title-label');
-    const termWrapper = document.getElementById('term-wrapper');
-
-    let audienceType = 'academic';
-
-    const user = await requireAuth(supabase);
-    const userId = user.id;
-
-    // Fetch audience_type from users table
-    const { data: userDetails, error: detailError } = await supabase
-      .from('users')
-      .select('audience_type')
-      .eq('id', userId)
-      .single();
-
-    if (userDetails?.audience_type === 'org') {
-      audienceType = 'org';
-      heading.textContent = 'Create a New Program';
-      titleLabel.textContent = 'Program Title';
-      termWrapper.classList.add('hidden');
-      document.getElementById('term-semester').required = false;
-      document.getElementById('term-year').required = false;
-    }
-
-    // check payment status
-
-const { data: u } = await supabase
-  .from('users')
-  .select('audience_type, subscription_active, paid_courses_remaining')
-  .eq('id', userId)
-  .single();
-
-  let billing_type = 'free';
-
-  if ((u.paid_courses_remaining ?? 0) > 0) {
-  billing_type = 'one_off';
-} else {
-  notifications.warning("Please add course credits to create a new course. Redirecting to profile...", 4000);
-  setTimeout(() => window.location.href = "/profile.html", 2000);
-}
-
-
-//prepare form and submit
-    document.getElementById('shimmer').remove();
-    document.getElementById('create-course-form').style.display = 'block';
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const title = document.getElementById('title').value.trim();
-      const section = document.getElementById('section').value.trim();
-      let term = null;
-
-      if (audienceType === 'academic') {
-        const semester = document.getElementById('term-semester').value;
-        const year = document.getElementById('term-year').value;
-        if (!semester || !year) {
-          status.textContent = 'Please select a semester and year.';
-          return;
-        }
-        term = `${semester} ${year}`;
-      }
-
-      const deleteAt = new Date();
-      deleteAt.setMonth(deleteAt.getMonth() + 6);
-
-      const { data, error } = await supabase.from('courses').insert([
-        {
-          professor_id: userId,
-          title,
-          section: section || null,
-          term,
-          audience_type: audienceType,
-          billing_type,
-          delete_at: deleteAt
-        }
-      ]);
-
-      if (error) {
-        console.error('Error creating course:', error);
-        status.textContent = 'Failed to create course. Please try again.';
-        // Track course creation error
-        if (window.posthog) {
-          posthog.capture('course_creation_error', { 
-            error: error.message,
-            audience_type: audienceType 
-          });
-        }
-      } else {
-        console.log('Course created:', data);
-        status.textContent = 'Created successfully! Redirecting...';
-        // Track successful course creation
-        if (window.posthog) {
-          posthog.capture('course_created', { 
-            course_id: data[0].id,
-            audience_type: audienceType,
-            billing_type: billing_type
-          });
-        }
-        setTimeout(() => {
-          window.location.href = '/admin.html';
-        }, 2000);
-      }
-
-      if (billing_type === 'one_off') {
-    await supabase
-    .from('users')
-    .update({ paid_courses_remaining: u.paid_courses_remaining - 1 })
-    .eq('id', userId);
-    }
-    });
-
-    heading.classList.remove('hidden');
-  </script>
+</section>
 
 <!-- FOOTER (async load) -->
 <div id="footer-placeholder"></div>
 <script>
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient(
+    'https://hmnpqnzmtanepowfoodn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+  );
+
+  import { requireAuth } from '/js/authUtils.js';
+  import notifications from '/js/notifications.js';
+
+  const form = document.getElementById('create-course-form');
+  const status = document.getElementById('status');
+  const heading = document.getElementById('form-heading');
+  const titleLabel = document.getElementById('title-label');
+  const termWrapper = document.getElementById('term-wrapper');
+
+  let audienceType = 'academic';
+
+  const user = await requireAuth(supabase);
+  const userId = user.id;
+
+  // Fetch audience_type from users table
+  const { data: userDetails, error: detailError } = await supabase
+    .from('users')
+    .select('audience_type')
+    .eq('id', userId)
+    .single();
+
+  if (userDetails?.audience_type === 'org') {
+    audienceType = 'org';
+    heading.textContent = 'Create a New Program';
+    titleLabel.textContent = 'Program Title';
+    termWrapper.classList.add('hidden');
+    document.getElementById('term-semester').required = false;
+    document.getElementById('term-year').required = false;
+  }
+
+  // check payment status
+  const { data: u } = await supabase
+    .from('users')
+    .select('audience_type, subscription_active, paid_courses_remaining')
+    .eq('id', userId)
+    .single();
+
+  let billing_type = 'free';
+
+  if ((u.paid_courses_remaining ?? 0) > 0) {
+    billing_type = 'one_off';
+  } else {
+    notifications.warning("Please add course credits to create a new course. Redirecting to profile...", 4000);
+    setTimeout(() => window.location.href = "/profile.html", 2000);
+  }
+
+  //prepare form and submit
+  document.getElementById('shimmer').remove();
+  document.getElementById('create-course-form').style.display = 'block';
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const section = document.getElementById('section').value.trim();
+    let term = null;
+
+    if (audienceType === 'academic') {
+      const semester = document.getElementById('term-semester').value;
+      const year = document.getElementById('term-year').value;
+      if (!semester || !year) {
+        status.textContent = 'Please select a semester and year.';
+        return;
+      }
+      term = `${semester} ${year}`;
+    }
+
+    const deleteAt = new Date();
+    deleteAt.setMonth(deleteAt.getMonth() + 6);
+
+    const { data, error } = await supabase.from('courses').insert([
+      {
+        professor_id: userId,
+        title,
+        section: section || null,
+        term,
+        audience_type: audienceType,
+        billing_type,
+        delete_at: deleteAt
+      }
+    ]);
+
+    if (error) {
+      console.error('Error creating course:', error);
+      status.textContent = 'Failed to create course. Please try again.';
+      // Track course creation error
+      if (window.posthog) {
+        posthog.capture('course_creation_error', { 
+          error: error.message,
+          audience_type: audienceType 
+        });
+      }
+    } else {
+      console.log('Course created:', data);
+      status.textContent = 'Created successfully! Redirecting...';
+      // Track successful course creation
+      if (window.posthog) {
+        posthog.capture('course_created', { 
+          course_id: data[0].id,
+          audience_type: audienceType,
+          billing_type: billing_type
+        });
+      }
+      setTimeout(() => {
+        window.location.href = '/admin.html';
+      }, 2000);
+    }
+
+    if (billing_type === 'one_off') {
+      await supabase
+        .from('users')
+        .update({ paid_courses_remaining: u.paid_courses_remaining - 1 })
+        .eq('id', userId);
+    }
+  });
+
+  heading.classList.remove('hidden');
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
 </script>
 
 </body>

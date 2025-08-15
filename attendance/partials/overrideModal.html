@@ -1,41 +1,46 @@
 <!-- overrideModal.html -->
-<div id="override-panel" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-  <div class="bg-white p-6 rounded shadow max-w-md w-full relative">
-    <button id="close-override-panel" class="absolute top-2 right-2 text-gray-500 hover:text-black">✖</button>
-    <h3 class="text-lg font-semibold text-primary mb-4">Edit Attendance</h3>
-    <p id="override-target" class="text-sm text-gray-600 mb-2"></p>
-    <form id="override-form" class="space-y-3">
-      <select id="override-meeting" class="w-full p-2 border border-gray-300 rounded"></select>
-      <div id="override-color-options" class="flex gap-4 justify-center mt-2">
-        <!-- Present  -->
-        <button type="button"
-                data-value="true"
-                class="w-10 h-10 rounded bg-green-300 border-2 border-transparent
-                       hover:ring-2 hover:ring-green-600 focus:outline-none"
-                title="Present"></button>
-      
-        <!-- Absent -->
-        <button type="button"
-                data-value="false"
-                class="w-10 h-10 rounded bg-red-300 border-2 border-transparent
-                       hover:ring-2 hover:ring-red-600 focus:outline-none"
-                title="Absent"></button>
-      
-        <!-- Excused -->
-        <button type="button"
-                data-value="excused"
-                class="w-10 h-10 rounded bg-gray-300 border-2 border-transparent
-                       hover:ring-2 hover:ring-gray-600 focus:outline-none"
-                title="Excused"></button>
+<div id="override-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 max-w-md w-full relative">
+    <button id="close-override-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors">✖</button>
+
+    <h3 class="text-lg font-semibold text-primary mb-6">Override Attendance</h3>
+
+    <form id="override-form" class="space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Student:</label>
+        <p id="override-student-name" class="text-sm text-gray-600 mb-4"></p>
       </div>
-      
-      <!-- hidden field that actually stores the choice -->
-      <input type="hidden" id="override-value" required />
-            <div class="flex gap-2">
-        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-red-700">Submit</button>
-        <button type="button" id="cancel-override" class="text-sm text-gray-500 hover:underline">Cancel</button>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Meeting:</label>
+        <p id="override-meeting-info" class="text-sm text-gray-600 mb-4"></p>
       </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Current Status:</label>
+        <p id="override-current-status" class="text-sm text-gray-600 mb-4"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">New Status:</label>
+        <select id="override-new-status" class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+          <option value="present">Present</option>
+          <option value="absent">Absent</option>
+          <option value="excused">Excused</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Reason (optional):</label>
+        <textarea id="override-reason" rows="3" class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter reason for override..."></textarea>
+      </div>
+
+      <div class="flex gap-4">
+        <button type="submit" class="bg-primary text-white px-6 py-3 rounded-sm hover:bg-blue-800 transition-colors font-medium">Apply Override</button>
+        <button type="button" id="cancel-override" class="bg-white text-gray-600 border border-gray-300 px-6 py-3 rounded-sm hover:bg-gray-50 transition-colors font-medium">Cancel</button>
+      </div>
+
+      <p id="override-status" class="text-sm mt-2 text-gray-600"></p>
     </form>
-    <p id="override-status" class="text-sm mt-2 text-gray-600"></p>
   </div>
 </div>

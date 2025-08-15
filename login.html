@@ -3,19 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Attendance System</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Login | Herely</title>
+  <meta name="title" content="Login | Herely" />
+  <meta name="description" content="Sign in to your Herely account to manage attendance tracking." />
+  <meta name="keywords" content="login, sign in, attendance tracking, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: {
-            primary: '#B31B1B',
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
           }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
   
   <!-- PostHog Analytics -->
   <script>
@@ -23,170 +59,201 @@
     posthog.init('phc_Qa2wRziSLXIwqCw5pTwyugEmuJRE4YS23b4JJ3urOOB', {api_host: 'https://app.posthog.com'})
   </script>
 </head>
-<body class="bg-gray-100 min-h-screen pt-20">
-  <!-- Fixed Navigation -->
-  <header class="bg-white shadow-sm fixed top-0 w-full z-50">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-      <a href="/" class="block">
-        <img src="/assets/logo_herely_hand_left_curve.png"
-             alt="Herely logo"
-             class="h-10 sm:h-20 w-auto" 
-        />
-      </a>
+<body class="bg-white text-gray-800">
+
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
+    </a>
+  </div>
+</header>
+
+<!-- =========  LOGIN FORM  ========= -->
+<section class="bg-white py-20">
+  <div class="max-w-md mx-auto px-4">
+    <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-100">
+      <h1 class="text-2xl font-bold text-center text-primary mb-6">Sign In</h1>
+
+      <form id="login-form" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" id="email" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password (optional for magic link)</label>
+          <input type="password" id="password" 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                 placeholder="(optional)">
+        </div>
+
+        <button type="submit" 
+                class="w-full py-3 px-4 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
+          Sign In with Password
+        </button>
+
+        <button type="button" id="magic-link" 
+                class="w-full py-3 px-4 bg-white text-primary border border-primary rounded-sm hover:bg-gray-50 transition-colors font-medium">
+          Send Magic Link
+        </button>
+
+        <div class="text-center space-y-4">
+          <p class="text-sm text-gray-600">
+            Don't have an account? <a href="/signup_step1.html" class="text-primary hover:underline">Sign Up</a>
+          </p>
+
+          <p class="text-sm text-gray-600">
+            <button type="button" id="forgot-password" class="text-primary hover:underline">Forgot password?</button>
+          </p>
+        </div>
+
+        <p id="status" class="text-center text-sm text-gray-600"></p>
+      </form>
     </div>
-  </header>
-
-  <div class="flex items-center justify-center min-h-screen">
-
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
-    <h1 class="text-2xl font-bold text-center text-primary mb-6">Instructor Login</h1>
-
-    <form id="login-form" class="space-y-6">
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded">
-      </div>
-
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Password (optional for magic link)</label>
-        <input type="password" id="password" class="mt-1 block w-full p-2 border border-gray-300 rounded" placeholder="(optional)">
-      </div>
-
-      <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700">
-        Login with Password
-      </button>
-
-      <button type="button" id="magic-link" class="w-full py-2 px-4 mt-2 bg-white text-primary border border-primary rounded hover:bg-gray-100">
-        Send Magic Link
-      </button>
-
-      <p class="text-center mt-4 text-sm text-gray-600">
-        Don't have an account? <a href="/signup.html" class="text-primary underline">Sign Up Here</a>
-      </p>
-
-      <p class="text-center text-sm text-gray-600 mt-4">
-        <button type="button" id="forgot-password" class="text-primary underline hover:text-red-700">Forgot password?</button>
-      </p>      
-
-
-      <p id="status" class="text-center mt-4 text-sm text-gray-600"></p>
-    </form>
   </div>
-  </div>
-
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-    const supabaseUrl = 'https://hmnpqnzmtanepowfoodn.supabase.co'; 
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI';
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    const form = document.getElementById('login-form');
-    const status = document.getElementById('status');
-    const magicLinkButton = document.getElementById('magic-link');
-    const signupLink = document.getElementById('signup-link');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if (!email || !password) {
-        status.textContent = 'Please enter both email and password.';
-        return;
-      }
-
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        console.error('Login error:', error);
-        status.classList.remove('text-gray-600');
-        status.classList.add('text-red-600');
-        status.textContent = 'Login failed. Please check your credentials. You may need to verify your email.';
-        // Track login error
-        if (window.posthog) {
-          posthog.capture('login_error', { error: error.message });
-        }
-      } else {
-        console.log('Login success:', data);
-        status.textContent = 'Login successful! Redirecting...';
-        // Track successful login
-        if (window.posthog) {
-          posthog.capture('user_logged_in', { 
-            method: 'email',
-            user_id: data.user.id
-          });
-        }
-        window.location.href = '/admin.html'; // Redirect to Admin Dashboard
-      }
-    });
-
-    magicLinkButton.addEventListener('click', async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById('email').value.trim();
-      if (!email) {
-        status.textContent = 'Please enter your email to receive a magic link.';
-        return;
-      }
-
-const { data, error } = await supabase.auth.signInWithOtp({
-  email,
-  options: {
-    emailRedirectTo: 'https://herely.io/admin.html'
-  }
-});
-
-if (error) {
-  console.error('Magic link error:', error);
-  status.textContent = 'Failed to send magic link. Please try again.';
-} else {
-  console.log('Magic link sent:', data);
-  status.textContent = 'Magic link sent! Check your email to complete login.';
-}
-    });
-
-    const forgotPasswordButton = document.getElementById('forgot-password');
-
-    forgotPasswordButton.addEventListener('click', async () => {
-  const emailInput = document.getElementById('email');
-  const email = emailInput.value.trim();
-
-  if (!email) {
-    emailInput.focus();
-    status.textContent = 'Please enter your email to receive a reset link.';
-    status.classList.remove('text-green-600', 'text-gray-600');
-    status.classList.add('text-red-600');
-    return;
-  }
-
-  status.textContent = 'Sending reset link...';
-  status.classList.remove('text-red-600');
-  status.classList.add('text-gray-600');
-
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/reset.html`
-  });
-
-  if (error) {
-    console.error('Reset password error:', error);
-    status.textContent = 'Failed to send reset email. Please try again.';
-    status.classList.remove('text-gray-600');
-    status.classList.add('text-red-600');
-  } else {
-    status.textContent = 'Password reset link sent! Check your email.';
-    status.classList.remove('text-red-600');
-    status.classList.add('text-gray-600');
-  }
-});
-
-  </script>
+</section>
 
 <!-- FOOTER (async load) -->
 <div id="footer-placeholder"></div>
 <script>
   fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+  const supabaseUrl = 'https://hmnpqnzmtanepowfoodn.supabase.co'; 
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const form = document.getElementById('login-form');
+  const status = document.getElementById('status');
+  const magicLinkButton = document.getElementById('magic-link');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!email || !password) {
+      status.textContent = 'Please enter both email and password.';
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      console.error('Login error:', error);
+      status.classList.remove('text-gray-600');
+      status.classList.add('text-red-600');
+      status.textContent = 'Login failed. Please check your credentials. You may need to verify your email.';
+      // Track login error
+      if (window.posthog) {
+        posthog.capture('login_error', { error: error.message });
+      }
+    } else {
+      console.log('Login success:', data);
+      status.textContent = 'Login successful! Redirecting...';
+      // Track successful login
+      if (window.posthog) {
+        posthog.capture('user_logged_in', { 
+          method: 'email',
+          user_id: data.user.id
+        });
+      }
+      window.location.href = '/admin.html'; // Redirect to Admin Dashboard
+    }
+  });
+
+  magicLinkButton.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+      status.textContent = 'Please enter your email to receive a magic link.';
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: 'https://herely.io/admin.html'
+      }
+    });
+
+    if (error) {
+      console.error('Magic link error:', error);
+      status.textContent = 'Failed to send magic link. Please try again.';
+    } else {
+      console.log('Magic link sent:', data);
+      status.textContent = 'Magic link sent! Check your email to complete login.';
+    }
+  });
+
+  const forgotPasswordButton = document.getElementById('forgot-password');
+
+  forgotPasswordButton.addEventListener('click', async () => {
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      emailInput.focus();
+      status.textContent = 'Please enter your email to receive a reset link.';
+      status.classList.remove('text-green-600', 'text-gray-600');
+      status.classList.add('text-red-600');
+      return;
+    }
+
+    status.textContent = 'Sending reset link...';
+    status.classList.remove('text-red-600');
+    status.classList.add('text-gray-600');
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset.html`
+    });
+
+    if (error) {
+      console.error('Reset password error:', error);
+      status.textContent = 'Failed to send reset email. Please try again.';
+      status.classList.remove('text-gray-600');
+      status.classList.add('text-red-600');
+    } else {
+      status.textContent = 'Password reset link sent! Check your email.';
+      status.classList.remove('text-red-600');
+      status.classList.add('text-gray-600');
+    }
+  });
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
 </script>
 
 </body>

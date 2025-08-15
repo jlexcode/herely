@@ -39,14 +39,37 @@
   <meta name="msapplication-TileColor" content="#B31B1B" />
   <link rel="canonical" href="https://herely.io/academics.html" />
   
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: { colors: { primary: '#B31B1B' } }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
   
   <!-- PostHog Analytics -->
   <script>
@@ -54,24 +77,23 @@
     posthog.init('phc_Qa2wRziSLXIwqCw5pTwyugEmuJRE4YS23b4JJ3urOOB', {api_host: 'https://app.posthog.com'})
   </script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-white text-gray-800">
 
 <!-- =========  HEADER  ========= -->
-<header class="bg-white shadow mb-2">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-    <a href="/" class="block">
-      <img src="/assets/logo_herely_hand_left_curve.png" alt="Herely logo"
-           class="h-10 sm:h-20 w-auto"/>
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
     </a>
 
     <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
       <button id="auth-button"
-              class="px-4 py-2 border border-primary text-primary bg-white rounded hover:bg-gray-100">
+              class="px-4 py-2 border border-primary text-primary bg-white rounded-sm hover:bg-gray-50 transition-colors">
         Login
       </button>
       <!-- ▼ academic audience param -->
       <button onclick="window.location.href='/signup_step1.html?audience=academic'"
-              class="px-4 py-2 bg-primary text-white rounded hover:bg-red-800">
+              class="px-4 py-2 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors">
         Create Free Account
       </button>
     </div>
@@ -79,92 +101,74 @@
 </header>
 
 <!-- =========  HERO  ========= -->
-<section class="bg-white py-16 shadow-inner">
-  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-    <!-- Text -->
-    <div class="md:w-1/2 text-center md:text-left">
-      <h2 class="text-4xl font-bold text-primary mb-4">
-        Easy Attendance&nbsp;<span class="block sm:inline">for Classes</span>
-      </h2>
-      <p class="text-lg text-gray-600 mb-6">
-        No time-consuming roll-calls, no messy online spreadsheets, no intrusive apps. Students sign in with their initials &mdash; you get data for grading, participation, and wellness alerts. It's a modern sign-in sheet.
-      </p>
+<section class="bg-white py-20">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h1 class="text-4xl font-bold text-primary mb-6">
+      Simple Attendance Tracking for Faculty
+    </h1>
+    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+      Students sign in with their initials, you get clean data for grading and participation.
+    </p>
 
-      <div class="flex flex-wrap justify-center md:justify-start gap-6 mb-6">
-        <a href="/principles.html" class="text-lg text-primary font-medium hover:underline inline-flex items-center gap-1">
-          Principles
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </a>
-        <a href="/faq.html" class="text-lg text-primary font-medium hover:underline inline-flex items-center gap-1">
-          Faculty FAQ
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </a>
-      </div>
-
-      <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-        <a href="/signup_step1.html?audience=academic"
-           class="px-6 py-3 bg-primary text-white rounded text-lg font-semibold hover:bg-red-800">
-          Let's start
-        </a>
-        <a href="#features"
-           class="px-6 py-3 border border-primary text-primary rounded text-lg font-semibold hover:bg-gray-100">
-          See Features
-        </a>
-      </div>
+    <div class="flex flex-wrap justify-center gap-6 mb-8">
+      <a href="/principles.html" class="text-lg text-primary font-medium hover:underline">
+        Principles
+      </a>
+      <a href="/faq.html" class="text-lg text-primary font-medium hover:underline">
+        Faculty FAQ
+      </a>
     </div>
 
-    <!-- Illustration -->
-    <div class="md:w-1/2">
-      <img src="assets/hero_image_edu.png"
-           alt="Professor checking attendance dashboard"
-           class="w-full max-w-md mx-auto"/>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="/signup_step1.html?audience=academic"
+         class="px-8 py-4 bg-primary text-white rounded-sm text-lg font-medium hover:bg-blue-800 transition-colors">
+        Get Started
+      </a>
+      <a href="#features"
+         class="px-8 py-4 border border-primary text-primary rounded-sm text-lg font-medium hover:bg-gray-50 transition-colors">
+        See Features
+      </a>
     </div>
   </div>
 </section>
 
 <!-- =========  FEATURES  ========= -->
-<section id="features" class="py-16 bg-gray-50">
+<section id="features" class="py-16 bg-white">
   <div class="max-w-6xl mx-auto px-4">
     <h3 class="text-3xl font-semibold text-center mb-10 text-primary">
-      Built for the Classroom
+      Built for Academic Use
     </h3>
 
     <div class="grid md:grid-cols-3 gap-8 text-center">
-      <div class="bg-white p-6 rounded shadow">
+      <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
         <h4 class="text-xl font-semibold mb-2">Roster-Aware Check-Ins</h4>
         <p class="text-gray-600">
           Import students from CSV. Herely auto-matches sign-ins to roster entries.
         </p>
       </div>
 
-      <div class="bg-white p-6 rounded shadow">
+      <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
         <h4 class="text-xl font-semibold mb-2">Participation Grades</h4>
         <p class="text-gray-600">
           Instant attendance percentages you can drop straight into Canvas, Blackboard, or your gradebook.
         </p>
       </div>
 
-      <div class="bg-white p-6 rounded shadow">
+      <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
         <h4 class="text-xl font-semibold mb-2">Academic Integrity</h4>
         <p class="text-gray-600">
           We trust students not to falsify their names &mdash; but time limits also deter proxy sign-ins without intrusive surveillance.
         </p>
       </div>
 
-      <div class="bg-white p-6 rounded shadow">
+      <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
         <h4 class="text-xl font-semibold mb-2">Early-Alert Signals</h4>
         <p class="text-gray-600">
           Flag students with consecutive absences and export lists to advising in two clicks.
         </p>
       </div>
 
-      <div class="bg-white p-6 rounded shadow">
+      <div class="bg-white p-6 rounded-sm shadow-sm border border-gray-100">
         <h4 class="text-xl font-semibold mb-2">FERPA-Friendly</h4>
         <p class="text-gray-600">
           No cameras. No biometrics. No tracking. Student data stays in your control and can be wiped anytime.
@@ -184,9 +188,9 @@
 <!-- =========  PRICING  ========= -->
 <section class="bg-white py-16">
   <div class="max-w-4xl mx-auto px-4 text-center">
-    <h3 class="text-2xl font-bold mb-4 text-primary">Faculty-Friendly</h3>
+    <h3 class="text-2xl font-bold mb-4 text-primary">Built by Faculty, for Faculty</h3>
     <p class="text-gray-600 mb-6">
-    Started by a professor trying to solve a problem for his own classes, Herely is free for faculty (access restricted to select institutions). 
+    Started by a professor trying to solve a problem for his own classes, Herely is free for faculty (access restricted to select institutions).
     </p>
   </div>
 </section>
@@ -228,6 +232,33 @@
   // Listen for auth state changes
   supabase.auth.onAuthStateChange((event, session) => {
     updateAuthButton();
+  });
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
   });
 </script>
 

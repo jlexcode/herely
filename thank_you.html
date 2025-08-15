@@ -3,23 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thank You | Attendance System</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Thank You | Herely</title>
+  <meta name="title" content="Thank You | Herely" />
+  <meta name="description" content="Your attendance has been successfully recorded." />
+  <meta name="keywords" content="attendance recorded, thank you, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: {
-          colors: { primary: '#B31B1B' }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
         }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-white flex items-center justify-center min-h-screen">
 
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-md text-center">
-    <h1 class="text-2xl font-bold text-primary mb-4">Attendance Recorded!</h1>
-    <p class="text-gray-700 mb-6">Thank you.</p>
+  <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-200 w-full max-w-md text-center">
+    <h1 class="text-2xl font-semibold text-primary mb-4">Attendance Recorded!</h1>
+    <p class="text-gray-700 mb-6 leading-relaxed">Thank you.</p>
   </div>
 
 </body>

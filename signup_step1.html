@@ -3,103 +3,197 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Primary Meta Tags -->
   <title>Step 1: Create Login | Herely</title>
+  <meta name="title" content="Step 1: Create Login | Herely" />
+  <meta name="description" content="Create your Herely account to start tracking attendance." />
+  <meta name="keywords" content="signup, create account, attendance tracking, herely" />
+  <meta name="author" content="Herely" />
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logo_herely_hand_left_curve.png" />
+  <link rel="apple-touch-icon" href="/assets/logo_herely_hand_left_curve.png" />
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2C5282" />
+  <meta name="msapplication-TileColor" content="#2C5282" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
-        extend: { colors: { primary: '#B31B1B' } }
+        extend: { 
+          colors: { 
+            primary: '#2C5282',
+            secondary: '#4A5568',
+            accent: '#E53E3E',
+            text: '#2D3748'
+          },
+          fontFamily: {
+            'sans': ['Inter', 'Source Sans Pro', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
       }
     }
   </script>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #2D3748;
+    }
+    .btn-primary {
+      border-radius: 4px;
+      box-shadow: none;
+      border: 1px solid #2C5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-  <div class="max-w-md mx-auto mt-20 bg-white p-8 rounded shadow">
-    <h1 class="text-2xl font-bold text-primary mb-6 text-center">Step 1 of 3: Create Your Login</h1>
-    <form id="step1-form" class="space-y-6">
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" required class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-      </div>
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="password" required class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-      </div>
-      <div>
-        <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-        <input type="password" id="confirm-password" required class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Who are you signing up as?</label>
-        <div class="flex gap-4">
-          <label class="inline-flex items-center">
-            <input type="radio" name="audience_type" value="academic" class="form-radio text-primary" checked />
-            <span class="ml-2">Academic</span>
-          </label>
-          <label class="inline-flex items-center">
-            <input type="radio" name="audience_type" value="org" class="form-radio text-primary" />
-            <span class="ml-2">Organization</span>
-          </label>
-        </div>
-      </div>
-      <button type="submit" class="w-full py-2 px-4 bg-primary text-white rounded hover:bg-red-700">Next →</button>
-      <p id="status" class="text-center mt-4 text-sm text-gray-600"></p>
-    </form>
+<body class="bg-white text-gray-800">
+
+<!-- =========  HEADER  ========= -->
+<header id="header" class="bg-white mb-8 border-b border-gray-200 transition-all duration-300 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <a href="/" class="text-3xl font-semibold text-primary">
+      Herely
+    </a>
   </div>
+</header>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+<!-- =========  SIGNUP FORM  ========= -->
+<section class="bg-white py-20">
+  <div class="max-w-md mx-auto px-4">
+    <div class="bg-white p-8 rounded-sm shadow-sm border border-gray-100">
+      <h1 class="text-2xl font-bold text-center text-primary mb-6">Step 1 of 3: Create Your Login</h1>
+      
+      <form id="step1-form" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" id="email" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <input type="password" id="password" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        
+        <div>
+          <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+          <input type="password" id="confirm-password" required 
+                 class="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-3">Who are you signing up as?</label>
+          <div class="flex gap-6">
+            <label class="inline-flex items-center">
+              <input type="radio" name="audience_type" value="academic" class="form-radio text-primary" checked />
+              <span class="ml-2">Academic</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="audience_type" value="org" class="form-radio text-primary" />
+              <span class="ml-2">Organization</span>
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit" 
+                class="w-full py-3 px-4 bg-primary text-white rounded-sm hover:bg-blue-800 transition-colors font-medium">
+          Next →
+        </button>
+        
+        <p id="status" class="text-center text-sm text-gray-600"></p>
+      </form>
+    </div>
+  </div>
+</section>
 
-    const supabase = createClient(
-      'https://hmnpqnzmtanepowfoodn.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
-    );
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const form = document.getElementById('step1-form');
-    const status = document.getElementById('status');
+  const supabase = createClient(
+    'https://hmnpqnzmtanepowfoodn.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
+  );
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      status.textContent = '';
-      status.classList.remove('text-red-600');
+  const form = document.getElementById('step1-form');
+  const status = document.getElementById('status');
 
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const confirm = document.getElementById('confirm-password').value.trim();
-      const audienceType = document.querySelector('input[name="audience_type"]:checked')?.value || 'academic';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.textContent = '';
+    status.classList.remove('text-red-600');
 
-      if (password !== confirm) {
-        status.textContent = 'Passwords do not match.';
-        status.classList.add('text-red-600');
-        return;
-      }
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const confirm = document.getElementById('confirm-password').value.trim();
+    const audienceType = document.querySelector('input[name="audience_type"]:checked')?.value || 'academic';
 
-      if (audienceType === 'academic' && !email.endsWith('.edu')) {
-        status.textContent = 'Academic users must use a cornell.edu email address.';
-        status.classList.add('text-red-600');
-        return;
-      }
+    if (password !== confirm) {
+      status.textContent = 'Passwords do not match.';
+      status.classList.add('text-red-600');
+      return;
+    }
 
-      const redirectTo = `${window.location.origin}/signup_step2.html`;
+    if (audienceType === 'academic' && !email.endsWith('.edu')) {
+      status.textContent = 'Academic users must use a cornell.edu email address.';
+      status.classList.add('text-red-600');
+      return;
+    }
 
+    const redirectTo = `${window.location.origin}/signup_step2.html`;
 
-      const { data, error } = await supabase.auth.signUp({ 
-        email, 
-        password,
-        options: {
+    const { data, error } = await supabase.auth.signUp({ 
+      email, 
+      password,
+      options: {
         emailRedirectTo: redirectTo
-        }
-        });
-
-      if (error) {
-        console.error(error);
-        status.textContent = error.message || 'Signup failed';
-        status.classList.add('text-red-600');
-        return;
       }
-
-      window.location.href = `/check_email.html?audience_type=${audienceType}&email=${encodeURIComponent(email)}`;
     });
-  </script>
+
+    if (error) {
+      console.error(error);
+      status.textContent = error.message || 'Signup failed';
+      status.classList.add('text-red-600');
+      return;
+    }
+
+    window.location.href = `/check_email.html?audience_type=${audienceType}&email=${encodeURIComponent(email)}`;
+  });
+
+  // Header scroll effect - subtle fade with academic style
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 20) {
+      // Calculate opacity based on scroll position
+      // Start at 100% opacity, fade to 70% by 200px scroll
+      const maxScroll = 200;
+      const minOpacity = 0.7;
+      const opacity = Math.max(minOpacity, 1 - (scrollY - 20) / maxScroll * (1 - minOpacity));
+      
+      header.classList.add('shadow-sm');
+      header.style.backgroundColor = `rgba(255, 255, 255, ${opacity})`;
+      header.style.backdropFilter = 'blur(8px)';
+      header.classList.remove('border-gray-200');
+      header.classList.add('border-gray-100');
+    } else {
+      // Return to normal state
+      header.classList.remove('shadow-sm');
+      header.style.backgroundColor = 'rgb(255, 255, 255)';
+      header.style.backdropFilter = 'none';
+      header.classList.remove('border-gray-100');
+      header.classList.add('border-gray-200');
+    }
+  });
+</script>
+
 </body>
 </html>
