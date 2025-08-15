@@ -4,6 +4,7 @@
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Professor Dashboard | Attendance System</title>
+  <!-- TODO: Replace with proper Tailwind build for production -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
   <script>
@@ -104,59 +105,52 @@
   );
 
   import { requireAuth } from '/js/authUtils.js';
+  import notifications from '/js/notifications.js';
   const user = await requireAuth(supabase);
 
   const coursesDiv = document.getElementById('courses');
   const logoutButton = document.getElementById('logout');
 
-  
   async function loadDashboard() {
+    try {
+      // Show 3 placeholder skeletons
+      coursesDiv.innerHTML = '';
+      for (let i = 0; i < 3; i++) {
+        const placeholder = document.createElement("div");
+        placeholder.className = "bg-white p-6 rounded shadow border border-gray-200 space-y-4 animate-pulse";
+        placeholder.innerHTML = `
+          <div class="h-6 w-1/2 skeleton rounded"></div>
+          <div class="h-4 w-1/3 skeleton rounded"></div>
+          <div class="h-4 w-1/4 skeleton rounded"></div>
+          <div class="h-4 w-1/2 skeleton rounded"></div>
+          <div class="flex gap-2 mt-4">
+            <div class="h-8 w-32 skeleton rounded"></div>
+            <div class="h-8 w-32 skeleton rounded"></div>
+          </div>
+        `;
+        coursesDiv.appendChild(placeholder);
+      }
 
-    // Show 3 placeholder skeletons
-coursesDiv.innerHTML = '';
-for (let i = 0; i < 3; i++) {
-  const placeholder = document.createElement("div");
-  placeholder.className = "bg-white p-6 rounded shadow border border-gray-200 space-y-4 animate-pulse";
-  placeholder.innerHTML = `
-    <div class="h-6 w-1/2 skeleton rounded"></div>
-    <div class="h-4 w-1/3 skeleton rounded"></div>
-    <div class="h-4 w-1/4 skeleton rounded"></div>
-    <div class="h-4 w-1/2 skeleton rounded"></div>
-    <div class="flex gap-2 mt-4">
-      <div class="h-8 w-32 skeleton rounded"></div>
-      <div class="h-8 w-32 skeleton rounded"></div>
-    </div>
-  `;
-  coursesDiv.appendChild(placeholder);
-}
+      const professorId = user.id;
 
-  const { data: user, error: userError } = await supabase.auth.getUser();
-  if (userError || !user.user) {
-    window.location.href = '/login.html';
-    return;
-  }
+      const { data: users, error: rowError } = await supabase
+        .from('users') 
+        .select('audience_type')
+        .eq('id', user.id)
+        .single();
 
-  const professorId = user.user.id;
+      if (rowError || !users) {
+        console.warn("Could not get audience_type; using default.");
+      }
 
-  const { data: users, error: rowError } = await supabase
-  .from('users') 
-  .select('audience_type')
-  .eq('id', user.user.id)
-  .single();
+      const AudienceType = users?.audience_type || 'academic';
+      const labelForCourse = AudienceType === 'org' ? 'Program' : 'Course';
 
-if (rowError || !users) {
-  console.warn("Could not get audience_type; using default.");
-}
-
-const AudienceType = users?.audience_type || 'academic';
-const labelForCourse = AudienceType === 'org' ? 'Program' : 'Course';
-
-document.getElementById('create-course-button').textContent = `➕ Add New ${labelForCourse}`;
-const btn_createcourse = document.getElementById('create-course-button');
-btn_createcourse.textContent = `➕ Add New ${labelForCourse}`;
-btn_createcourse.classList.remove('invisible');
-const btn_guide = document.getElementById('guide-button');
-btn_guide.classList.remove('invisible');
+      const btn_createcourse = document.getElementById('create-course-button');
+      btn_createcourse.textContent = `➕ Add New ${labelForCourse}`;
+      btn_createcourse.classList.remove('invisible');
+      const btn_guide = document.getElementById('guide-button');
+      btn_guide.classList.remove('invisible');
 
 
 
@@ -200,7 +194,14 @@ btn_guide.classList.remove('invisible');
     const attendance = attendanceByCourse[course.id] || [];
     const roster = rosterByCourse[course.id] || [];
 
-    const totalClasses = meetings.length;
+    const currentTime = new Date();
+    // Filter to only include meetings that have already occurred
+    const pastMeetings = meetings.filter(meeting => {
+      const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time || '00:00'}`);
+      return meetingDateTime < currentTime;
+    });
+
+    const totalClasses = pastMeetings.length;
     const enrollment = roster.filter(r => !r.dropped).length;
 
     let totalEligibleSessions = 0;
@@ -210,7 +211,7 @@ btn_guide.classList.remove('invisible');
       const joinedAt = new Date(student.joined_at);
       const dropDate = student.dropped && student.drop_date ? new Date(student.drop_date) : null;
 
-      for (const meeting of meetings) {
+      for (const meeting of pastMeetings) {
         const meetingDate = new Date(`${meeting.meeting_date}T${meeting.start_time || '00:00'}`);
         if (meetingDate >= joinedAt && (!dropDate || meetingDate < dropDate)) {
           totalEligibleSessions++;
@@ -318,15 +319,19 @@ if (live) {
 
 
     QRCode.toCanvas(
-  document.getElementById(`qr-${course.id}`),
-  `${window.location.origin}/signin.html?course_id=${course.id}`,
-  { width: 128 },
-  error => {
-    if (error) console.error('QR code generation error:', error);
+      document.getElementById(`qr-${course.id}`),
+      `${window.location.origin}/signin.html?course_id=${course.id}`,
+      { width: 128 },
+      error => {
+        if (error) console.error('QR code generation error:', error);
+      }
+    );
   }
-);
+    } catch (error) {
+      console.error('Error loading dashboard:', error);
+      coursesDiv.innerHTML = '<p class="text-center text-red-600">Error loading dashboard. Please refresh the page.</p>';
+    }
   }
-}
 
   loadDashboard();
 
@@ -339,8 +344,11 @@ if (live) {
   window.copyLink = function(courseId) {
   const url = `${window.location.origin}/signin.html?course_id=${courseId}`;
   navigator.clipboard.writeText(url)
-    .then(() => alert("Sign-in link copied to clipboard!"))
-    .catch(err => console.error("Failed to copy link:", err));
+    .then(() => notifications.success("Sign-in link copied to clipboard!", 3000))
+    .catch(err => {
+      console.error("Failed to copy link:", err);
+      notifications.error("Failed to copy link. Please try again.", 5000);
+    });
 };
 
 window.downloadQR = function(courseId) {
@@ -380,7 +388,7 @@ window.startMeetingNow = async function(courseId) {
     }]);
 
     if (error) {
-      alert("Error starting meeting.");
+      notifications.error("Error starting meeting. Please try again.", 5000);
       console.error(error);
       return;
     }

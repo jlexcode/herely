@@ -142,6 +142,7 @@
   );
 
   import { requireAuth } from '/js/authUtils.js';
+  import notifications from '/js/notifications.js';
   const user = await requireAuth(supabase);
 
   const GEO_FEATURES_ENABLED = false;
@@ -150,16 +151,16 @@
   const params = new URLSearchParams(window.location.search);
   const courseId = params.get('course_id');
   if (!courseId) {
-    alert("Missing course_id in URL");
-    window.location.href = '/admin.html';
+    notifications.error("Missing course_id in URL", 5000);
+    setTimeout(() => window.location.href = '/admin.html', 2000);
   }
   
   const userId = user.id;
 
 
   if (!await checkCourseAccess(supabase, userId, courseId)) {
-    alert("This course is not covered under your current plan.");
-    window.location.href = "/profile.html";
+    notifications.warning("This course is not covered under your current plan.", 5000);
+    setTimeout(() => window.location.href = "/profile.html", 2000);
   //return;
 }
 
@@ -170,13 +171,13 @@
     .single();
 
   if (courseError || !course) {
-    alert("Unable to load course");
-    window.location.href = '/admin.html';
+    notifications.error("Unable to load course", 5000);
+    setTimeout(() => window.location.href = '/admin.html', 2000);
   }
 
   if (course.professor_id !== userId) {
-  alert("You do not have permission to manage this course.");
-  window.location.href = '/admin.html';
+    notifications.error("You do not have permission to manage this course.", 5000);
+    setTimeout(() => window.location.href = '/admin.html', 2000);
   }
 
   document.getElementById('course-title').textContent = course.title;
@@ -226,7 +227,7 @@ const isRemote = document.getElementById('remote-toggle').checked;
 if (GEO_FEATURES_ENABLED) {
 
 if (!isRemote && (isNaN(latitude) || isNaN(longitude))) {
-  alert("Please select a location on the map or mark as remote.");
+  notifications.warning("Please select a location on the map or mark as remote.", 5000);
   submitBtn.disabled = false;
   submitBtn.textContent = "Create Meeting";
   return;
@@ -274,14 +275,31 @@ for (let d = new Date(startDateTime); d <= repeatEnd; d.setDate(d.getDate() + 1)
 
 const { error } = await supabase.from('meetings').insert(meetingsToInsert);
 if (error) {
-  alert("Error creating meetings: " + error.message);
+  notifications.error("Error creating meetings: " + error.message, 5000);
   submitBtn.disabled = false;
   submitBtn.textContent = "Create Meeting";
+  // Track meeting creation error
+  if (window.posthog) {
+    posthog.capture('meeting_creation_error', { 
+      error: error.message,
+      course_id: courseId,
+      meeting_count: meetingsToInsert.length
+    });
+  }
   return;
 }
 
-alert("Meetings created successfully!");
-window.location.href = '/admin.html';
+notifications.success("Meetings created successfully!", 3000);
+// Track successful meeting creation
+if (window.posthog) {
+  posthog.capture('meeting_created', { 
+    course_id: courseId,
+    meeting_count: meetingsToInsert.length,
+    is_recurring: enableRepeat,
+    duration: duration
+  });
+}
+setTimeout(() => window.location.href = '/admin.html', 2000);
   });
 
 

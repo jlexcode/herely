@@ -13,7 +13,6 @@ serve(async () => {
     .lt('delete_at', now);
 
   if (fetchError || !expiredCourses) {
-    console.error("Error fetching courses:", fetchError);
     return new Response("Error fetching courses", { status: 500 });
   }
 
@@ -28,7 +27,6 @@ serve(async () => {
       .list(folderPath, { limit: 1000 });
   
     if (listError) {
-      console.warn(`Could not list files for course ${course.id}`, listError);
       continue; // move to next course
     }
   
@@ -41,7 +39,7 @@ serve(async () => {
         .remove(filePaths);
   
       if (removeError) {
-        console.warn(`Could not delete files for course ${course.id}`, removeError);
+        // Silently continue - file deletion failed but course deletion will proceed
       }
     }
   }
@@ -53,7 +51,6 @@ serve(async () => {
     .lt('delete_at', now);
 
   if (deleteError) {
-    console.error("Deletion error:", deleteError);
     return new Response("Error deleting expired courses", { status: 500 });
   }
 

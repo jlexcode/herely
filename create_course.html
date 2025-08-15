@@ -101,6 +101,7 @@
     );
 
   import { requireAuth } from '/js/authUtils.js';
+  import notifications from '/js/notifications.js';
   const user = await requireAuth(supabase);
 
 
@@ -113,13 +114,8 @@
 
     let audienceType = 'academic';
 
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-    if (userError || !userData?.user) {
-      status.textContent = 'Error: Must be logged in.';
-      throw new Error('Not authenticated');
-    }
-
-    const userId = userData.user.id;
+    const user = await requireAuth(supabase);
+    const userId = user.id;
 
     // Fetch audience_type from users table
     const { data: userDetails, error: detailError } = await supabase
@@ -150,8 +146,8 @@ const { data: u } = await supabase
   if ((u.paid_courses_remaining ?? 0) > 0) {
   billing_type = 'one_off';
 } else {
-  alert("Please add course credits to create a new course. Redirecting to profile...");
-  window.location.href = "/profile.html";
+  notifications.warning("Please add course credits to create a new course. Redirecting to profile...", 4000);
+  setTimeout(() => window.location.href = "/profile.html", 2000);
 }
 
 
@@ -194,9 +190,24 @@ const { data: u } = await supabase
       if (error) {
         console.error('Error creating course:', error);
         status.textContent = 'Failed to create course. Please try again.';
+        // Track course creation error
+        if (window.posthog) {
+          posthog.capture('course_creation_error', { 
+            error: error.message,
+            audience_type: audienceType 
+          });
+        }
       } else {
         console.log('Course created:', data);
         status.textContent = 'Created successfully! Redirecting...';
+        // Track successful course creation
+        if (window.posthog) {
+          posthog.capture('course_created', { 
+            course_id: data[0].id,
+            audience_type: audienceType,
+            billing_type: billing_type
+          });
+        }
         setTimeout(() => {
           window.location.href = '/admin.html';
         }, 2000);

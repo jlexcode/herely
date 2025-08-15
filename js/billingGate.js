@@ -17,7 +17,14 @@ export async function checkCourseAccess(supabase, userId, courseId, opts = {}) {
   if (ue || ce || !u || !c) {
     const msg = "Unable to verify billing permissions.";
     if (asThrow) throw new Error(msg);
-    alert(msg);
+    
+    // Use notification if available, otherwise fall back to alert
+    if (window.notifications) {
+      window.notifications.error(msg, 5000);
+    } else {
+      alert(msg);
+    }
+    
     (onDeny || (() => (window.location.href = '/profile.html')))();
     return false;
   }
@@ -31,7 +38,14 @@ export async function checkCourseAccess(supabase, userId, courseId, opts = {}) {
   if (!allowed) {
     const msg = "Your plan or credit does not cover this action.";
     if (asThrow) throw new Error(msg);
-    alert(msg);
+    
+    // Use notification if available, otherwise fall back to alert
+    if (window.notifications) {
+      window.notifications.warning(msg, 5000);
+    } else {
+      alert(msg);
+    }
+    
     (onDeny || (() => (window.location.href = '/profile.html')))();
     return false;
   }

@@ -97,26 +97,27 @@
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+    import { requireAuth } from '/js/authUtils.js';
+    import notifications from '/js/notifications.js';
 
     const supabase = createClient(
       'https://hmnpqnzmtanepowfoodn.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtbnBxbnptdGFuZXBvd2Zvb2RuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTExNTUsImV4cCI6MjA2MTUyNzE1NX0.2J6U3Cfuif2im5lZqdDdFTcCS2Zpf6YRWDkxnCaQzTI'
     );
 
+    // Get authenticated user
+    const user = await requireAuth(supabase);
+
     const statusManual = document.getElementById('manual-status');
     const statusCSV = document.getElementById('csv-status');
     const rosterBody = document.getElementById('roster-body');
     const selectedCourseId = new URLSearchParams(window.location.search).get("course_id");
-    if (!selectedCourseId) alert("No course selected.");
+    if (!selectedCourseId) {
+      notifications.error("No course selected. Please return to dashboard.", 5000);
+      setTimeout(() => window.location.href = '/admin.html', 2000);
+    }
 
     let audienceType = 'academic';
-
-    const sessionResponse = await supabase.auth.getSession();
-    const user = sessionResponse?.data?.session?.user;
-    if (!user) {
-      alert("You must be logged in.");
-      window.location.href = '/login.html';
-    }
 
     const { data: userDetails } = await supabase
       .from('users')
@@ -128,19 +129,17 @@
       audienceType = 'org';
     }
 
-  let maxRoster = 500;
-  let maxDroppedRatio = 2.0;
+    let maxRoster = 500;
 
   const { data: courseLimits, error: courseError } = await supabase
   .from('courses')
-  .select('max_roster, max_dropped_ratio')
+  .select('max_roster')
   .eq('id', selectedCourseId)
   .single();
 
-if (courseLimits) {
-  maxRoster = courseLimits.max_roster ?? maxRoster;
-  maxDroppedRatio = courseLimits.max_dropped_ratio ?? maxDroppedRatio;
-}
+  if (courseLimits) {
+    maxRoster = courseLimits.max_roster ?? maxRoster;
+  }
 
     /* ----------  PAGE INITIALISATION ---------- */
 
@@ -184,11 +183,6 @@ if (courseLimits) {
   return;
   }
 
-  if ((droppedCount / (activeCount + 1)) > maxDroppedRatio) {
-  statusManual.textContent = `Cannot add student. Too many dropped participants. Please contact support for help.`;
-  return;
-  }
-  
   const { error } = await supabase.from('roster').insert([{ 
     course_id: selectedCourseId, 
     full_name,
@@ -196,6 +190,10 @@ if (courseLimits) {
     participant_id,
     dropped: false
   }]);
+
+  if (!error) {
+    await updateDropoutRatio();
+  }
 
   statusManual.textContent = error ? "Error adding student." : "Student added successfully.";
   loadRoster();
@@ -235,10 +233,7 @@ if (courseLimits) {
   return;
   }
 
-if ((droppedCount / projectedActive) > maxDroppedRatio) {
-  statusCSV.textContent = `Too many dropped participants to allow this CSV upload. Please contact support for help.`;
-  return;
-}
+
 
       const { data: existing } = await supabase
         .from('roster')
@@ -260,12 +255,43 @@ if ((droppedCount / projectedActive) > maxDroppedRatio) {
           .from('roster')
           .update({ dropped: true })
           .in('id', toMarkDropped.map(s => s.id));
-        if (dropError) console.error("Drop update error", dropError);
+        if (dropError) {
+          console.error("Drop update error", dropError);
+          notifications.error("Error updating dropped students. Some changes may not have been saved.", 5000);
+        } else {
+          // Update dropout ratio after dropping students
+          await updateDropoutRatio();
+        }
       }
 
-      statusCSV.textContent = upsertError ? "Error uploading CSV." : "CSV uploaded successfully.";
+      if (upsertError) {
+        statusCSV.textContent = "Error uploading CSV.";
+        notifications.error("Failed to upload CSV. Please check the file format and try again.", 5000);
+      } else {
+        statusCSV.textContent = "CSV uploaded successfully.";
+        notifications.success("CSV uploaded successfully!", 3000);
+        await updateDropoutRatio();
+      }
       loadRoster();
     });
+
+    async function updateDropoutRatio() {
+      const { data: rosterData } = await supabase
+        .from('roster')
+        .select('dropped')
+        .eq('course_id', selectedCourseId);
+      
+      if (rosterData) {
+        const activeCount = rosterData.filter(s => !s.dropped).length;
+        const droppedCount = rosterData.filter(s => s.dropped).length;
+        const dropoutRatio = activeCount > 0 ? (droppedCount / activeCount) : 0;
+        
+        await supabase
+          .from('courses')
+          .update({ dropout_ratio: dropoutRatio })
+          .eq('id', selectedCourseId);
+      }
+    }
 
     async function loadRoster() {
       const { data, error } = await supabase
@@ -290,6 +316,7 @@ if ((droppedCount / projectedActive) > maxDroppedRatio) {
 
     window.deleteStudent = async (id) => {
       await supabase.from('roster').delete().eq('id', id);
+      await updateDropoutRatio();
       loadRoster();
     };
 

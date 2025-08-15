@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": "https://herely.io", // Restrict to your domain
   "Access-Control-Allow-Headers": "Authorization, content-type, apikey",
   "Access-Control-Allow-Methods": "POST, OPTIONS, DELETE",
 };

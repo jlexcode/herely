@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://herely.io/sitemap.xml
+
+# Disallow admin and private pages
+Disallow: /admin.html
+Disallow: /attendance/
+Disallow: /manage_*
+Disallow: /create_*
+Disallow: /prepare_*
+Disallow: /profile.html
+Disallow: /login.html
+Disallow: /signup_*
+Disallow: /reset.html
+Disallow: /check_email.html
+Disallow: /thank_you.html
+Disallow: /goodbye.html

@@ -14,7 +14,6 @@
       }
     }
   </script>
-</head>
 
 <body class="bg-gray-100 min-h-screen text-gray-800">
   <!-- Header -->
@@ -65,12 +64,48 @@
 <!-- Credit Request Section -->
 <div class="mt-10 pt-6 border-t border-gray-200">
   <h3 class="text-xl font-semibold text-primary mb-4">Credits</h3>
+  <div class="bg-gray-50 p-4 rounded mb-4">
+    <p class="text-sm text-gray-600 mb-2">
+      <strong>Remaining Credits:</strong> <span id="credits-display" class="font-semibold text-primary">Loading...</span>
+    </p>
+    <p class="text-xs text-gray-500">
+      Each course creation uses 1 credit. Users may be able to refresh credits for free.
+    </p>
+  </div>
   <p class="text-sm mb-4 text-gray-600">
     During the beta period, credits are free. If you need more, let us know.
   </p>
-  <button onclick="window.location.href='mailto:support@herely.com?subject=Request for More Credits'" class="bg-white border border-primary text-primary px-4 py-2 rounded hover:bg-gray-100 w-full sm:w-auto">
+  <button id="request-credits-btn" class="bg-white border border-primary text-primary px-4 py-2 rounded hover:bg-gray-100 w-full sm:w-auto">
     Request More Credits
   </button>
+</div>
+
+<!-- Credit Request Modal -->
+<div id="credits-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+    <h3 class="text-lg font-semibold text-primary mb-4">Request More Credits</h3>
+    <form id="credits-form">
+      <div class="mb-4">
+        <label for="credit-reason" class="block text-sm font-medium text-gray-700 mb-2">
+          Why do you need more credits? (optional)
+        </label>
+        <textarea 
+          id="credit-reason" 
+          placeholder="Tell us about your course or program..." 
+          class="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-transparent" 
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="flex gap-3">
+        <button type="submit" class="flex-1 bg-primary text-white px-4 py-2 rounded hover:bg-red-800 transition-colors">
+          Submit Request
+        </button>
+        <button type="button" id="close-modal" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition-colors">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 
@@ -89,10 +124,16 @@
 </div>
 
 
-  
+
+  </script>
+
+  <!-- FOOTER (async load) -->
+<div id="footer-placeholder"></div>
+<script>
+  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
+</script>
+
   <script type="module">
-
-
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
     const supabase = createClient(
@@ -101,6 +142,7 @@
 );
 
 import { requireAuth } from '/js/authUtils.js';
+import notifications from '/js/notifications.js';
 const user = await requireAuth(supabase);
 
     const nameInput = document.getElementById("name");
@@ -109,7 +151,7 @@ const user = await requireAuth(supabase);
 
     const { data: profile, error } = await supabase
       .from('users')
-      .select('name, institution')
+      .select('name, institution, paid_courses_remaining')
       .eq('id', user.id)
       .single();
 
@@ -119,6 +161,20 @@ const user = await requireAuth(supabase);
       nameInput.value = profile?.name || "";
       institutionInput.value = profile?.institution || "";
       emailInput.value = user.email;
+      
+      // Display remaining credits
+      const creditsDisplay = document.getElementById('credits-display');
+      const remainingCredits = profile?.paid_courses_remaining || 0;
+      creditsDisplay.textContent = remainingCredits;
+      
+      // Style based on credit amount
+      if (remainingCredits === 0) {
+        creditsDisplay.classList.add('text-red-600');
+      } else if (remainingCredits < 3) {
+        creditsDisplay.classList.add('text-orange-600');
+      } else {
+        creditsDisplay.classList.add('text-gray-900');
+      }
     }
 
     document.getElementById('profile-form').addEventListener('submit', async (e) => {
@@ -135,10 +191,10 @@ const user = await requireAuth(supabase);
         .eq('id', user.id);
 
       if (updateError) {
-        alert("Failed to update profile.");
+        notifications.error("Failed to update profile. Please try again.", 5000);
         console.error(updateError);
       } else {
-        alert("Profile updated.");
+        notifications.success("Profile updated successfully!", 3000);
       }
     });
 
@@ -168,20 +224,85 @@ deleteBtn.addEventListener('click', async () => {
   });
 
   if (res.ok) {
-    alert("Your account has been deleted.");
-    window.location.href = "/goodbye.html";
+    notifications.success("Your account has been deleted.", 2000);
+    setTimeout(() => window.location.href = "/goodbye.html", 2000);
   } else {
-    alert("Failed to delete account.");
+    notifications.error("Failed to delete account. Please try again.", 5000);
     console.error(await res.text());
   }
 });
-  </script>
 
-  <!-- FOOTER (async load) -->
-<div id="footer-placeholder"></div>
-<script>
-  fetch('/partials/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').innerHTML=h});
-</script>
+    // Credit request modal functionality
+    const requestCreditsBtn = document.getElementById('request-credits-btn');
+    const creditsModal = document.getElementById('credits-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const creditsForm = document.getElementById('credits-form');
+
+    console.log('Modal elements found:', {
+      requestCreditsBtn: !!requestCreditsBtn,
+      creditsModal: !!creditsModal,
+      closeModalBtn: !!closeModalBtn,
+      creditsForm: !!creditsForm
+    });
+
+    if (requestCreditsBtn && creditsModal && closeModalBtn && creditsForm) {
+      // Open modal
+      requestCreditsBtn.addEventListener('click', () => {
+        console.log('Request credits button clicked!');
+        creditsModal.classList.remove('hidden');
+        console.log('Modal should now be visible');
+      });
+
+      // Close modal
+      closeModalBtn.addEventListener('click', () => {
+        creditsModal.classList.add('hidden');
+      });
+
+      // Close modal when clicking outside
+      creditsModal.addEventListener('click', (e) => {
+        if (e.target === creditsModal) {
+          creditsModal.classList.add('hidden');
+        }
+      });
+
+      // Handle form submission
+      creditsForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const reason = document.getElementById('credit-reason').value.trim();
+        
+        // Track the request in PostHog
+        if (window.posthog) {
+          posthog.capture('credit_request_submitted', {
+            user_id: user.id,
+            current_credits: profile?.paid_courses_remaining || 0,
+            reason_provided: reason.length > 0,
+            reason_length: reason.length
+          });
+        }
+
+        // Store the request in the database
+        const { error } = await supabase
+          .from('credit_requests')
+          .insert([{
+            user_id: user.id,
+            reason: reason,
+            current_credits: profile?.paid_courses_remaining || 0
+          }]);
+
+        if (error) {
+          console.error('Error submitting credit request:', error);
+          notifications.error('Failed to submit request. Please try again.', 5000);
+        } else {
+          notifications.success('Credit request submitted! We\'ll review and get back to you soon.', 5000);
+        }
+        
+        // Close modal and reset form
+        creditsModal.classList.add('hidden');
+        creditsForm.reset();
+      });
+    }
+  </script>
 
 </body>
 </html>

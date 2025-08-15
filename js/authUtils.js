@@ -8,7 +8,14 @@ export async function requireAuth(supabase, opts = {}) {
   if (!user) {
     const msg = "Please log in.";
     if (shouldThrow) throw new Error(msg);
-    alert(msg);
+    
+    // Use notification if available, otherwise fall back to alert
+    if (window.notifications) {
+      window.notifications.warning(msg, 3000);
+    } else {
+      alert(msg);
+    }
+    
     (onDeny || (() => (window.location.href = "/login.html")))();
     return null;
   }

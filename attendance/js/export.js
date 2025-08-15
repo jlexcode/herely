@@ -27,7 +27,7 @@ export function setupExport(sortedMeetings) {
       const rowData = [];
 
       cols.forEach((col, index) => {
-        if (index >= 5 && index < headerCells.length - 1) {
+        if (index >= 5 && index < headerCells.length) {
           const div = col.querySelector("div");
           if (!div) {
             rowData.push('""');
@@ -40,7 +40,8 @@ export function setupExport(sortedMeetings) {
           if (cls.includes("bg-green-200")) val = 1;
           else if (cls.includes("bg-red-200")) val = 0;
           else if (cls.includes("bg-orange-200")) val = 1;
-          else if (cls.includes("bg-gray-100")) val = null;
+          else if (cls.includes("bg-gray-100") || cls.includes("bg-gray-200")) val = "N/A";
+          else if (cls.includes("bg-gray-50")) val = "Future";
           else val = "";
 
           rowData.push(`"${val}"`);
@@ -60,5 +61,14 @@ export function setupExport(sortedMeetings) {
     a.download = "attendance_export.csv";
     a.click();
     window.URL.revokeObjectURL(url);
+    
+    // Track CSV export
+    if (window.posthog) {
+      posthog.capture('attendance_exported', { 
+        course_id: window.courseId,
+        export_format: 'csv',
+        meeting_count: sortedMeetings.length
+      });
+    }
   });
 }

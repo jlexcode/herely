@@ -103,13 +103,14 @@
     );
 
     import { requireAuth } from '/js/authUtils.js';
+    import notifications from '/js/notifications.js';
 
 
     const params = new URLSearchParams(window.location.search);
     const courseId = params.get('course_id');
     if (!courseId) {
-      alert("Missing course_id in URL");
-      window.location.href = '/admin.html';
+      notifications.error("Missing course_id in URL", 5000);
+      setTimeout(() => window.location.href = '/admin.html', 2000);
     }
 
     const form = document.getElementById('edit-form');
@@ -127,8 +128,8 @@
       window.location.href = `/manage_roster.html?course_id=${courseId}`;
     });
 
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-    const userId = userData?.user?.id;
+    const user = await requireAuth(supabase);
+    const userId = user.id;
 
     const { data: userDetails } = await supabase
       .from('users')
@@ -145,8 +146,8 @@
       .single();
 
     if (courseError || !course) {
-      alert("Error loading course");
-      window.location.href = '/admin.html';
+      notifications.error("Error loading course", 5000);
+      setTimeout(() => window.location.href = '/admin.html', 2000);
     }
 
     titleInput.value = course.title;
@@ -173,9 +174,9 @@
         .eq('id', courseId);
 
       if (updateError) {
-        alert("Failed to update course");
+        notifications.error("Failed to update course", 5000);
       } else {
-        alert("Course updated");
+        notifications.success("Course updated successfully!", 3000);
       }
     });
 
@@ -196,10 +197,10 @@
         .eq('id', courseId);
 
       if (deleteError) {
-        alert("Failed to delete course");
+        notifications.error("Failed to delete course", 5000);
       } else {
-        alert("Course deleted");
-        window.location.href = '/admin.html';
+        notifications.success("Course deleted successfully!", 3000);
+        setTimeout(() => window.location.href = '/admin.html', 2000);
       }
     });
 

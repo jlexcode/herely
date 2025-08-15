@@ -4,6 +4,7 @@ import { setupMeetingModal } from './meetings.js';
 import { setupExport } from './export.js';
 import { loadModals } from './modals.js';
 import { supabase } from './supabaseClient.js';
+import notifications from '/js/notifications.js';
 
 // Get current user
 import { requireAuth } from '/js/authUtils.js';
@@ -18,7 +19,8 @@ const userId = user.id;
 const params = new URLSearchParams(window.location.search);
 const courseId = params.get("course_id");
 if (!courseId) {
-  alert("Missing course_id. Please return to dashboard.");
+  notifications.error("Missing course_id. Please return to dashboard.", 5000);
+  setTimeout(() => window.location.href = '/admin.html', 2000);
   throw new Error("Missing course_id");
 }
 window.courseId = courseId;
@@ -31,13 +33,14 @@ const { data: course, error } = await supabase
   .single();
 
 if (error || !course) {
-  alert("Could not load course info.");
+  notifications.error("Could not load course info.", 5000);
+  setTimeout(() => window.location.href = '/admin.html', 2000);
   throw error || new Error("No course data");
 }
 
 if (course.professor_id !== userId) {
-  alert("You do not have permission to manage this course.");
-  window.location.href = '/admin.html';
+  notifications.error("You do not have permission to manage this course.", 5000);
+  setTimeout(() => window.location.href = '/admin.html', 2000);
   }
 
 
