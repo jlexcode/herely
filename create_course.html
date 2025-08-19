@@ -172,14 +172,15 @@
     .eq('id', userId)
     .single();
 
-  if (userDetails?.audience_type === 'org') {
-    audienceType = 'org';
-    heading.textContent = 'Create a New Program';
-    titleLabel.textContent = 'Program Title';
-    termWrapper.classList.add('hidden');
-    document.getElementById('term-semester').required = false;
-    document.getElementById('term-year').required = false;
-  }
+  // Temporarily disabled organizational features - force academic
+  // if (userDetails?.audience_type === 'org') {
+  //   audienceType = 'org';
+  //   heading.textContent = 'Create a New Program';
+  //   titleLabel.textContent = 'Program Title';
+  //   termWrapper.classList.add('hidden');
+  //   document.getElementById('term-semester').required = false;
+  //   document.getElementById('term-year').required = false;
+  // }
 
   // check payment status
   const { data: u } = await supabase

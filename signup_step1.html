@@ -96,10 +96,12 @@
               <input type="radio" name="audience_type" value="academic" class="form-radio text-primary" checked />
               <span class="ml-2">Academic</span>
             </label>
+            <!-- Temporarily disabled organizational signup
             <label class="inline-flex items-center">
               <input type="radio" name="audience_type" value="org" class="form-radio text-primary" />
               <span class="ml-2">Organization</span>
             </label>
+            -->
           </div>
         </div>
         
@@ -133,7 +135,8 @@
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
     const confirm = document.getElementById('confirm-password').value.trim();
-    const audienceType = document.querySelector('input[name="audience_type"]:checked')?.value || 'academic';
+    // Temporarily disabled organizational signup - force academic
+    const audienceType = 'academic';
 
     if (password !== confirm) {
       status.textContent = 'Passwords do not match.';
@@ -141,7 +144,8 @@
       return;
     }
 
-    if (audienceType === 'academic' && !email.endsWith('.edu')) {
+    // Temporarily disabled organizational signup - only academic allowed
+    if (!email.endsWith('.edu')) {
       status.textContent = 'Academic users must use a cornell.edu email address.';
       status.classList.add('text-red-600');
       return;

@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient.js';
+import { escapeHtml } from '/js/utils.js';
 
 const courseId = window.courseId;
 const user = window.supabaseUser;
@@ -75,16 +76,16 @@ export async function showAttendanceModal(att, fullName, sid, meetingDateTime, m
   modalBody.innerHTML = `
     <div>
       <p class="text-sm text-gray-700 leading-relaxed">
-        <strong>${window.labelForStudent}:</strong> ${fullName}
+        <strong>${escapeHtml(window.labelForStudent)}:</strong> ${escapeHtml(fullName)}
       </p>
       <p class="text-sm text-gray-700 leading-relaxed">
-        <strong>Meeting:</strong> ${meetingDateTime.toLocaleString()}
+        <strong>Meeting:</strong> ${escapeHtml(meetingDateTime.toLocaleString())}
       </p>
     </div>
     
     <div class="border border-gray-200 rounded-sm p-4 bg-gray-50">
       <p class="text-sm text-gray-600 mb-2">Submitted Initials:</p>
-      <div class="text-3xl font-mono tracking-wide text-primary">${initials}</div>
+      <div class="text-3xl font-mono tracking-wide text-primary">${escapeHtml(initials)}</div>
     </div>
     
     <div>
@@ -214,9 +215,9 @@ export function showOverrideModal(student, meetingId, currentStatus) {
   const modal = document.getElementById("override-modal");
   
   // Populate modal with student and meeting info
-  document.getElementById("override-student-name").textContent = student.full_name;
-  document.getElementById("override-meeting-info").textContent = `Meeting ID: ${meetingId}`;
-  document.getElementById("override-current-status").textContent = currentStatus || "Not recorded";
+  document.getElementById("override-student-name").textContent = student.full_name; // Using textContent is safe
+  document.getElementById("override-meeting-info").textContent = `Meeting ID: ${meetingId}`; // Using textContent is safe
+  document.getElementById("override-current-status").textContent = currentStatus || "Not recorded"; // Using textContent is safe
   
   // Set current status as default in dropdown
   const statusSelect = document.getElementById("override-new-status");

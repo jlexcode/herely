@@ -133,7 +133,8 @@
     const userEmail = user.email;
 
     // Infer audience type from email domain
-    let audienceType = userEmail.endsWith('cornell.edu') ? 'academic' : 'org';
+    // Temporarily disabled organizational signup - force academic
+let audienceType = 'academic';
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

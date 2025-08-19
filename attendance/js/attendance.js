@@ -1,5 +1,6 @@
 import { showAttendanceModal } from './modals.js';
 import { populateMeetingDropdown } from './meetings.js';
+import { escapeHtml } from '/js/utils.js';
 
 let currentSortKey = null;
 let currentSortAsc = true;
@@ -50,8 +51,8 @@ export async function loadAttendanceTable(supabase, courseId, headerRow, tbody) 
   ;
 
   headerRow.innerHTML = `
-    <th class="p-2 border-r text-left sticky-header" style="left:0px; width:144px">${window.labelForStudent}</th>
-    <th class="p-2 border-r text-left" style="width:112px">${window.labelForStudent} ID</th>
+    <th class="p-2 border-r text-left sticky-header" style="left:0px; width:144px">${escapeHtml(window.labelForStudent)}</th>
+    <th class="p-2 border-r text-left" style="width:112px">${escapeHtml(window.labelForStudent)} ID</th>
     <th class="p-2 border-r text-center fixed-col-width">Attended</th>
     <th class="p-2 border-r text-center fixed-col-width">Missed</th>
     <th class="p-2 border-r text-center fixed-col-width">% Absent</th>
@@ -84,13 +85,14 @@ export async function loadAttendanceTable(supabase, courseId, headerRow, tbody) 
 
     for (const meeting of sortedMeetings) {
       const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time}`);
-      const joinedDateTime = new Date(student.joined_at);
+      const joinedDateTime = student.joined_at ? new Date(student.joined_at) : null;
       const key = `${student.participant_id}_${meeting.id}`;
       const att = attendanceMap[key];
 
       //attendance exclusions
       if (meetingDateTime > now) continue;
-      if (meetingDateTime.getTime() < joinedDateTime.getTime() - 60000 &&!att) continue;
+      // Skip if student joined after meeting and no attendance record exists
+      if (joinedDateTime && meetingDateTime.getTime() < joinedDateTime.getTime() - 60000 && !att) continue;
 
       if (att?.attestation === null) continue;
       if (att?.attestation === true) attended++;
@@ -124,13 +126,13 @@ export async function loadAttendanceTable(supabase, courseId, headerRow, tbody) 
     tdName.style.textOverflow = "ellipsis";
     tdName.style.left = "0px";
     tdName.style.width = "144px";
-    tdName.textContent = fullName;
+    tdName.textContent = fullName; // Using textContent is safe for user data
     tr.appendChild(tdName);
 
     const tdId = document.createElement("td");
     tdId.className = "p-2 border-r text-gray-600 text-sm";
     tdId.style.width = "112px";
-    tdId.textContent = sid;
+    tdId.textContent = sid; // Using textContent is safe for user data
     tr.appendChild(tdId);
 
     [
@@ -140,7 +142,7 @@ export async function loadAttendanceTable(supabase, courseId, headerRow, tbody) 
     ].forEach(({ value }) => {
       const td = document.createElement("td");
       td.className = "meeting-cell fixed-col-width text-center";
-      td.textContent = value;
+      td.textContent = value; // Using textContent is safe for calculated values
       tr.appendChild(td);
     });
 
@@ -152,7 +154,7 @@ export async function loadAttendanceTable(supabase, courseId, headerRow, tbody) 
       const key = `${sid}_${meeting.id}`;
       const att = attendanceMap[key];
       const meetingDateTime = new Date(`${meeting.meeting_date}T${meeting.start_time}`);
-      const joinedDateTime = new Date(student.joined_at);
+      const joinedDateTime = student.joined_at ? new Date(student.joined_at) : null;
 
       const now = new Date();
 
@@ -160,10 +162,10 @@ export async function loadAttendanceTable(supabase, courseId, headerRow, tbody) 
         inner.classList.add("bg-gray-50");
         inner.textContent = "";
         inner.title = "Class has not occurred yet";
-      } else if ((meetingDateTime.getTime() < joinedDateTime.getTime() - 60000 && !att) || (att && att.attestation === null)) {
+      } else if ((joinedDateTime && meetingDateTime.getTime() < joinedDateTime.getTime() - 60000 && !att) || (att && att.attestation === null)) {
         inner.classList.add("bg-gray-200", "cursor-pointer");
         inner.textContent = "";
-        inner.title = meetingDateTime.getTime() < joinedDateTime.getTime() - 60000 ? "Not enrolled" : "Excused";
+        inner.title = (joinedDateTime && meetingDateTime.getTime() < joinedDateTime.getTime() - 60000) ? "Not enrolled" : "Excused";
         inner.onclick = () => showAttendanceModal(att, fullName, sid, meetingDateTime, meeting.id);
       }
        else if (!att || att.attestation === false) {

@@ -181,9 +181,10 @@
     .eq('id', user.id)
     .single();
 
-  if (userDetails?.audience_type === 'org') {
-    audienceType = 'org';
-  }
+  // Temporarily disabled organizational features - force academic
+  // if (userDetails?.audience_type === 'org') {
+  //   audienceType = 'org';
+  // }
 
   let maxRoster = 500;
 
@@ -204,14 +205,15 @@
   async function initPage() {
     await Promise.all([loadRoster(), setCourseTitle()]);
     
-    if (audienceType === 'org') {
-      document.getElementById('roster-label').textContent = 'Manage Program Roster';
-      document.getElementById('upload-heading').textContent = 'Upload Participant List';
-      document.getElementById('manual-heading').textContent = 'Add Participant Manually';
-      document.getElementById('add-student-btn').textContent = 'Add Participant';
-      document.getElementById('table-heading').textContent = 'Current Participants';
-      document.getElementById('id-label').textContent = 'Participant ID';
-    }
+    // Temporarily disabled organizational features - force academic
+    // if (audienceType === 'org') {
+    //   document.getElementById('roster-label').textContent = 'Manage Program Roster';
+    //   document.getElementById('upload-heading').textContent = 'Upload Participant List';
+    //   document.getElementById('manual-heading').textContent = 'Add Participant Manually';
+    //   document.getElementById('add-student-btn').textContent = 'Add Participant';
+    //   document.getElementById('table-heading').textContent = 'Current Participants';
+    //   document.getElementById('id-label').textContent = 'Participant ID';
+    // }
     showContent();
   }
 

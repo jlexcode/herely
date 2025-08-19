@@ -7,7 +7,7 @@ export function populateMeetingDropdown(meetings) {
     const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     const opt = document.createElement("option");
     opt.value = m.id;
-    opt.textContent = `${dateStr} ${timeStr}`;
+    opt.textContent = `${dateStr} ${timeStr}`; // Using textContent is safe for date/time strings
     select.appendChild(opt);
   });
 }

@@ -1,5 +1,7 @@
 // notifications.js - Reusable notification system
 
+import { escapeHtml } from './utils.js';
+
 class NotificationManager {
   constructor() {
     this.container = this.createContainer();
@@ -32,7 +34,7 @@ class NotificationManager {
           ${icon}
         </div>
         <div class="flex-1">
-          <p class="text-sm font-medium">${message}</p>
+          <p class="text-sm font-medium">${escapeHtml(message)}</p>
         </div>
         <button class="ml-3 flex-shrink-0 text-gray-400 hover:text-gray-600" onclick="this.parentElement.parentElement.remove()">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -45,7 +45,8 @@ if (course.professor_id !== userId) {
 
 
 const audienceType = course.audience_type;
-const labelForStudent = audienceType === 'org' ? 'Participant' : 'Student';
+// Temporarily disabled organizational features - force academic
+const labelForStudent = 'Student';
 window.labelForStudent = labelForStudent;
 
 

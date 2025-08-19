@@ -209,14 +209,15 @@
   titleInput.value = course.title;
   sectionInput.value = course.section || '';
 
-  if (audienceType === 'org') {
-    titleLabel.innerText = "Program Title";
-    sectionLabel.innerText = "Group (optional)";
-    heading.innerText = "Edit Program Details";
-    confirmLabel.innerHTML = `To confirm, type: <code class="bg-gray-100 px-2 py-1 rounded text-sm">sudo I want to delete my program</code>`;
-    confirmInput.placeholder = "Type confirmation exactly";
-    rosterDescription.innerText = "Update, add, or remove participants from the roster.";
-  }
+  // Temporarily disabled organizational features - force academic
+  // if (audienceType === 'org') {
+  //   titleLabel.innerText = "Program Title";
+  //   sectionLabel.innerText = "Group (optional)";
+  //   heading.innerText = "Edit Program Details";
+  //   confirmLabel.innerHTML = `To confirm, type: <code class="bg-gray-100 px-2 py-1 rounded text-sm">sudo I want to delete my program</code>`;
+  //   confirmInput.placeholder = "Type confirmation exactly";
+  //   rosterDescription.innerText = "Update, add, or remove participants from the roster.";
+  // }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -237,9 +238,8 @@
   });
 
   confirmInput.addEventListener('input', () => {
-    const required = audienceType === 'org'
-      ? "sudo I want to delete my program"
-      : "sudo I want to delete my course";
+    // Temporarily disabled organizational features - force academic
+    const required = "sudo I want to delete my course";
     deleteBtn.disabled = confirmInput.value !== required;
   });
 

@@ -178,7 +178,8 @@
       }
 
       const AudienceType = users?.audience_type || 'academic';
-      const labelForCourse = AudienceType === 'org' ? 'Program' : 'Course';
+      // Temporarily disabled organizational features - force academic
+const labelForCourse = 'Course';
 
       const btn_createcourse = document.getElementById('create-course-button');
       btn_createcourse.textContent = `➕ Add New ${labelForCourse}`;
